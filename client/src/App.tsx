@@ -1,30 +1,18 @@
-import { useEffect } from "react";
-import { Outlet, useLocation } from "react-router";
+import { createTheme, MantineProvider } from "@mantine/core";
+import { Outlet } from "react-router";
+import "@mantine/core/styles.css";
 import "./App.css";
 
-async function loadPreline() {
-	return import("preline/dist/index.js");
-}
+const theme = createTheme({
+	/** Your theme override here */
+});
 
 function App() {
-	const location = useLocation();
-
-	useEffect(() => {
-		const initPreline = async () => {
-			await loadPreline();
-
-			if (
-				window.HSStaticMethods &&
-				typeof window.HSStaticMethods.autoInit === "function"
-			) {
-				window.HSStaticMethods.autoInit();
-			}
-		};
-
-		initPreline();
-	}, [location.pathname]);
-
-	return <Outlet />;
+	return (
+		<MantineProvider theme={theme}>
+			<Outlet />
+		</MantineProvider>
+	);
 }
 
 export default App;

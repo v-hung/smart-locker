@@ -1,8 +1,12 @@
 html,
 body {
-	@apply h-full w-full text-[#333];
+	height: 100%;
+	width: 100%;
+	color: #333;
 }
 
 #root {
-	@apply flex min-h-screen flex-col;
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
 }

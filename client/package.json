@@ -10,12 +10,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.1.11",
-    "preline": "^3.2.3",
+    "@mantine/core": "^8.2.4",
+    "@mantine/dates": "^8.2.4",
+    "@mantine/hooks": "^8.2.4",
+    "@mantine/notifications": "^8.2.4",
+    "dayjs": "^1.11.13",
+    "postcss": "^8.5.6",
+    "postcss-preset-mantine": "^1.18.0",
+    "postcss-simple-vars": "^7.0.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router": "^7.8.0",
-    "tailwindcss": "^4.1.11",
     "zustand": "^5.0.7"
   },
   "devDependencies": {
@@ -24,8 +29,6 @@
     "@iconify-json/ion": "^1.2.4",
     "@svgr/core": "^8.1.0",
     "@svgr/plugin-jsx": "^8.1.0",
-    "@tailwindcss/forms": "^0.5.10",
-    "@tailwindcss/typography": "^0.5.16",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react-swc": "^3.10.2",
@@ -34,7 +37,6 @@
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.3.0",
     "prettier": "^3.6.2",
-    "prettier-plugin-tailwindcss": "^0.6.14",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.35.1",
     "unplugin-auto-import": "^20.0.0",

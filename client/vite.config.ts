@@ -1,6 +1,5 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
-import tailwindcss from "@tailwindcss/vite";
 
 import Icons from "unplugin-icons/vite";
 import AutoImport from "unplugin-auto-import/vite";
@@ -10,7 +9,6 @@ import IconsResolver from "unplugin-icons/resolver";
 export default defineConfig({
 	plugins: [
 		react(),
-		tailwindcss(),
 		AutoImport({
 			dts: "src/types/components.d.ts",
 			resolvers: [

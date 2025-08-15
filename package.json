@@ -1,0 +1,23 @@
+{
+	"name": "smart-locker",
+	"module": "index.ts",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"dev": "bun --watch index.ts",
+		"studio": "npx drizzle-kit studio"
+	},
+	"devDependencies": {
+		"@types/bun": "^1.2.20",
+		"drizzle-kit": "^0.31.4"
+	},
+	"peerDependencies": {
+		"typescript": "^5"
+	},
+	"dependencies": {
+		"@libsql/client": "^0.15.11",
+		"dotenv": "^17.2.1",
+		"drizzle-orm": "^0.44.4",
+		"hono": "^4.9.2"
+	}
+}

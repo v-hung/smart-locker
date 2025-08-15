@@ -1,0 +1,16 @@
+.layout {
+	min-height: 100%;
+	display: flex;
+
+	&.layout-menu-collapsed .menu {
+		width: 20rem;
+	}
+}
+
+.menu {
+	position: sticky;
+	top: 0;
+	height: 100%;
+	width: 4rem;
+	transition: width 0.15s linear;
+}
