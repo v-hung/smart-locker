@@ -1,7 +1,7 @@
 import { relations, sql } from "drizzle-orm";
 import { sqliteTable as table } from "drizzle-orm/sqlite-core";
 import * as t from "drizzle-orm/sqlite-core";
-import { users } from "./users";
+import { users } from "./users.js";
 
 export const lockers = table("lockers", {
   id: t.int().primaryKey({ autoIncrement: true }),
