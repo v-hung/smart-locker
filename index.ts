@@ -1,22 +1,24 @@
 import { Hono } from "hono";
-import { serveStatic } from "@hono/node-server/serve-static";
-import { promises as fs } from "node:fs";
+// import { serveStatic } from "@hono/node-server/serve-static";
+// import { promises as fs } from "node:fs";
 
 const app = new Hono();
 
-app.get("/:full_path{.*}", async (c) => {
-  const full_path = c.req.param("full_path") ?? "";
-  const file_path = "./public/" + full_path;
+app.get("/ping", (c) => c.text("pong"));
 
-  try {
-    const stat = await fs.stat(file_path);
+// app.get("/:full_path{.*}", async (c) => {
+//   const full_path = c.req.param("full_path") ?? "";
+//   const file_path = "./public/" + full_path;
 
-    if (stat.isFile()) {
-      return serveStatic({ path: file_path })(c, async () => {});
-    }
-  } catch {}
+//   try {
+//     const stat = await fs.stat(file_path);
 
-  return serveStatic({ path: "./public/index.html" })(c, async () => {});
-});
+//     if (stat.isFile()) {
+//       return serveStatic({ path: file_path })(c, async () => {});
+//     }
+//   } catch {}
+
+//   return serveStatic({ path: "./public/index.html" })(c, async () => {});
+// });
 
 export default app;
