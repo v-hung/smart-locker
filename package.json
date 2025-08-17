@@ -8,13 +8,15 @@
 		"studio": "npx drizzle-kit studio"
 	},
 	"devDependencies": {
-		"@types/bun": "^1.2.20",
-		"drizzle-kit": "^0.31.4"
+		"@types/node": "^24.3.0",
+		"drizzle-kit": "^0.31.4",
+		"ts-node": "^10.9.2"
 	},
 	"peerDependencies": {
-		"typescript": "^5"
+		"typescript": "^5.9.2"
 	},
 	"dependencies": {
+		"@hono/node-server": "^1.18.2",
 		"@libsql/client": "^0.15.11",
 		"dotenv": "^17.2.1",
 		"drizzle-orm": "^0.44.4",
