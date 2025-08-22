@@ -8,6 +8,7 @@
         "@mantine/dates": "^8.2.4",
         "@mantine/hooks": "^8.2.4",
         "@mantine/notifications": "^8.2.4",
+        "@rive-app/react-canvas": "^4.23.1",
         "dayjs": "^1.11.13",
         "postcss": "^8.5.6",
         "postcss-preset-mantine": "^1.18.0",
@@ -199,6 +200,10 @@
     "@nodelib/fs.stat": ["@nodelib/fs.stat@2.0.5", "", {}, "sha512-RkhPPp2zrqDAQA/2jNhnztcPAlv64XdhIp7a7454A5ovI7Bukxgt7MX7udwAu3zg1DcpPU0rz3VV1SeaqvY4+A=="],
 
     "@nodelib/fs.walk": ["@nodelib/fs.walk@1.2.8", "", { "dependencies": { "@nodelib/fs.scandir": "2.1.5", "fastq": "^1.6.0" } }, "sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg=="],
+
+    "@rive-app/canvas": ["@rive-app/canvas@2.31.2", "", {}, "sha512-luOos9IW14vsS0M//rvBjIg9UIjQS3vwGlqzP2ceCvqa7ms70vgtTpa6cSiibWUVVWAJwnmJMI8WZYgoJ6V5ug=="],
+
+    "@rive-app/react-canvas": ["@rive-app/react-canvas@4.23.1", "", { "dependencies": { "@rive-app/canvas": "2.31.2" }, "peerDependencies": { "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0" } }, "sha512-ApnGXtnUkv3LslO8KloBwDQ9QEzhgjPBx6+jml5Caeeiu3svi5bkgiQaK9oqk8WU548vL+k09yVNIcqUWs1QNA=="],
 
     "@rolldown/pluginutils": ["@rolldown/pluginutils@1.0.0-beta.27", "", {}, "sha512-+d0F4MKMCbeVUJwG96uQ4SgAznZNSq93I3V+9NHA4OpvqG8mRCpGdKmK8l/dl02h2CCDHwW2FqilnTyDcAnqjA=="],
 
