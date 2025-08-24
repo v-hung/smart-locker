@@ -10,6 +10,8 @@ import {
 	ScrollArea,
 } from "@mantine/core";
 
+// https://dribbble.com/shots/18895539-Modern-Admin-Dashboard-UI-Design-for-Flup-Furniture-App-Website
+
 const useMenuStore = create(
 	persist<{ isMenuOpen: boolean }>(
 		(set) => ({
@@ -53,7 +55,10 @@ export function Component() {
 			className={`${styles.layout} ${isMenuOpen ? styles["layout-menu-collapsed"] : ""}`}
 		>
 			<div className={styles.menu}>
-				<div className={styles["menu-logo"]}>Smart Locker</div>
+				<div className={styles["menu-logo"]}>
+					<img src="./logo_min.png" alt="logo" style={{ width: "30px" }} />
+					Smart Locker
+				</div>
 				<ScrollArea className={styles["menu-nav"]}>
 					{menu.map((v) => (
 						<NavLink

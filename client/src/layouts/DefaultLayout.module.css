@@ -2,6 +2,7 @@
 	flex: 1;
 	min-height: 0;
 	display: flex;
+	background-color: #f8f8fa;
 
 	&.layout-menu-collapsed .menu {
 		width: 20rem;
@@ -14,8 +15,8 @@
 	/* height: 100%; */
 	width: 4rem;
 	transition: width 0.15s linear;
-	background-color: var(--mantine-color-myColor-9);
-	color: white;
+	/* background-color: var(--mantine-color-myColor-9); */
+	/* color: white; */
 	display: flex;
 	flex-direction: column;
 	max-height: 100vh;
@@ -26,7 +27,6 @@
 		font-size: 30px;
 		padding: 2.5rem 0;
 		margin: 0 1.5rem;
-		border-bottom: 1px solid var(--mantine-color-myColor-8);
 	}
 
 	.menu-nav {
@@ -50,11 +50,13 @@
 			gap: 1rem;
 			padding: 1rem 1rem;
 			border-radius: 0.5rem;
-			color: var(--mantine-color-myColor-1);
+			color: #738780;
+			font-weight: 600;
 			text-decoration: none;
 
 			&:hover {
 				background-color: var(--mantine-color-myColor-6);
+				color: var(--mantine-color-myColor-9);
 			}
 
 			.menu-item-icon {
@@ -71,7 +73,7 @@
 
 .main {
 	flex: 1;
-	background-color: oklch(98.4% 0.003 247.858);
+	background-color: #fff;
 }
 
 .header {

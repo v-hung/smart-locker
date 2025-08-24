@@ -8,16 +8,16 @@ import "@mantine/core/styles.css";
 import "./App.css";
 
 const myColor: MantineColorsTuple = [
-	"#ecf4ff",
-	"#dce4f5",
-	"#b9c7e2",
-	"#94a8d0",
-	"#748dc0",
-	"#5f7cb7",
-	"#5474b4",
-	"#44639f",
-	"#3a5890",
-	"#2c4b80",
+	"#effbf6",
+	"#dff3ec",
+	"#bae7d6",
+	"#92dcbf",
+	"#71d1ab",
+	"#5dcb9f",
+	"#51c898",
+	"#42b184",
+	"#379d74",
+	"#0e3325",
 ];
 
 const theme = createTheme({
