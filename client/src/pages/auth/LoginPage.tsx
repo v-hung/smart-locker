@@ -14,8 +14,17 @@ import {
 	type FocusEvent,
 	type FormEvent,
 } from "react";
+import { wrapAuthLoader } from "@/utils/loader.utils";
+import { redirect } from "react-router";
+import { notifications } from "@mantine/notifications";
 
-// https://rive.app/marketplace/2244-7248-animated-login-character/
+export const loader = wrapAuthLoader(async ({ request }, user) => {
+	if (user) {
+		const redirectUrl =
+			new URL(request.url).searchParams.get("redirectUrl") || "/";
+		throw redirect(redirectUrl);
+	}
+});
 
 const STATE_MACHINE_LOGIN = "Login Machine";
 
@@ -79,11 +88,12 @@ export function Component() {
 
 		setLoading(true);
 
-		await new Promise((resolve) => setTimeout(resolve, 1500));
-
 		setLoading(false);
 
-		const isSuccess = Math.random() > 0.5;
+		notifications.show({
+			title: "Default notification",
+			message: "Do not forget to star Mantine on GitHub! 🌟",
+		});
 
 		if (isSuccess) {
 			trigSuccess.fire();

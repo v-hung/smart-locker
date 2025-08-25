@@ -4,7 +4,13 @@ import {
 	type MantineColorsTuple,
 } from "@mantine/core";
 import { Outlet } from "react-router";
+import { Notifications } from "@mantine/notifications";
+
+// Mantine styles
 import "@mantine/core/styles.css";
+import "@mantine/notifications/styles.css";
+
+// Your global css
 import "./App.css";
 
 const myColor: MantineColorsTuple = [
@@ -30,6 +36,7 @@ const theme = createTheme({
 function App() {
 	return (
 		<MantineProvider theme={theme}>
+			<Notifications position="top-right" />
 			<Outlet />
 		</MantineProvider>
 	);

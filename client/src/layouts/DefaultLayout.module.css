@@ -1,6 +1,5 @@
 .layout {
-	flex: 1;
-	min-height: 0;
+	height: 100dvh;
 	display: flex;
 	background-color: #f8f8fa;
 
@@ -10,13 +9,9 @@
 }
 
 .menu {
-	position: sticky;
-	top: 0;
-	/* height: 100%; */
 	width: 4rem;
+	height: 100%;
 	transition: width 0.15s linear;
-	/* background-color: var(--mantine-color-myColor-9); */
-	/* color: white; */
 	display: flex;
 	flex-direction: column;
 	max-height: 100vh;
@@ -24,13 +19,42 @@
 
 	.menu-logo {
 		flex: none;
-		font-size: 30px;
-		padding: 2.5rem 0;
-		margin: 0 1.5rem;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		color: var(--mantine-color-myColor-9);
+		font-weight: 600;
+		padding: 2rem 2rem;
+
+		:global(img) {
+			width: 1.5rem;
+			height: 1.5rem;
+		}
+
+		:global(button) {
+			margin-left: auto;
+			color: inherit;
+			background-color: #f5f5f8;
+			border: none;
+			border-radius: 3px;
+			width: 2rem;
+			height: 2rem;
+			padding: 0.5rem;
+
+			svg {
+				width: 1rem;
+				height: 1rem;
+			}
+
+			&:hover {
+				background-color: #eeeeee;
+			}
+		}
 	}
 
 	.menu-nav {
 		flex: 1;
+		min-height: 0;
 		padding: 0 1rem;
 		margin-top: 1rem;
 
@@ -50,8 +74,7 @@
 			gap: 1rem;
 			padding: 1rem 1rem;
 			border-radius: 0.5rem;
-			color: #738780;
-			font-weight: 600;
+			font-weight: 400;
 			text-decoration: none;
 
 			&:hover {
@@ -65,22 +88,14 @@
 			}
 		}
 	}
-
-	.menu-footer {
-		flex: none;
-	}
 }
 
 .main {
 	flex: 1;
+	min-width: 0;
+	height: 100%;
+	overflow-y: auto;
 	background-color: #fff;
-}
-
-.header {
-	display: flex;
-	background-color: white;
-	padding: 0.5rem 1rem;
-	gap: 1rem;
 }
 
 .content {

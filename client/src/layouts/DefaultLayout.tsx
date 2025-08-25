@@ -56,8 +56,18 @@ export function Component() {
 		>
 			<div className={styles.menu}>
 				<div className={styles["menu-logo"]}>
-					<img src="./logo_min.png" alt="logo" style={{ width: "30px" }} />
-					Smart Locker
+					<img src="./logo_min.png" alt="logo" />
+					<span>Smart Locker</span>
+					<button
+						className={"menu-toggle"}
+						onClick={() =>
+							useMenuStore.setState((state) => ({
+								isMenuOpen: !state.isMenuOpen,
+							}))
+						}
+					>
+						{isMenuOpen ? <IIonMenu /> : <IIonClose />}
+					</button>
 				</div>
 				<ScrollArea className={styles["menu-nav"]}>
 					{menu.map((v) => (
@@ -73,31 +83,9 @@ export function Component() {
 						</NavLink>
 					))}
 				</ScrollArea>
-				<div className={styles["menu-footer"]}>
-					<span className={styles["icon"]}></span>
-					<span className={styles["menu-item-label"]}>gdfsg</span>
-					<span className={styles["icon"]}>gdfg</span>
-				</div>
 			</div>
 
 			<div className={styles.main}>
-				<header className={styles.header}>
-					<ActionIcon
-						onClick={() =>
-							useMenuStore.setState((state) => ({
-								isMenuOpen: !state.isMenuOpen,
-							}))
-						}
-					>
-						{isMenuOpen ? <IIonMenu /> : <IIonClose />}
-					</ActionIcon>
-					<Breadcrumbs>
-						<Anchor>fsaf</Anchor>
-						<Anchor>fsaf</Anchor>
-						<Anchor>fsaf</Anchor>
-					</Breadcrumbs>
-				</header>
-
 				<div className={styles.content}>
 					<Outlet />
 				</div>

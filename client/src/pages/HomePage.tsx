@@ -1,8 +1,6 @@
-import { redirect } from "react-router";
+import { wrapProtectedLoader } from "@/utils/loader.utils";
 
-export function loader() {
-	// throw redirect(`/auth/login`);
-}
+export const loader = wrapProtectedLoader();
 
 export function Component() {
 	return "home";

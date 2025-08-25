@@ -4,6 +4,7 @@ import react from "@vitejs/plugin-react-swc";
 import Icons from "unplugin-icons/vite";
 import AutoImport from "unplugin-auto-import/vite";
 import IconsResolver from "unplugin-icons/resolver";
+import { fileURLToPath } from "url";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -28,6 +29,11 @@ export default defineConfig({
 			},
 		}),
 	],
+	resolve: {
+		alias: {
+			"@": fileURLToPath(new URL("./src", import.meta.url)),
+		},
+	},
 	// build: {
 	// 	outDir: "../app/static",
 	// 	emptyOutDir: true,
