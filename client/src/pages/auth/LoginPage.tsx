@@ -1,4 +1,4 @@
-import { Button, Input, PasswordInput } from "@mantine/core";
+import { Button, Input, PasswordInput, TextInput } from "@mantine/core";
 import styles from "./LoginPage.module.css";
 import {
 	Rive,
@@ -15,8 +15,9 @@ import {
 	type FormEvent,
 } from "react";
 import { wrapAuthLoader } from "@/utils/loader.utils";
-import { redirect } from "react-router";
+import { redirect, useNavigate } from "react-router";
 import { notifications } from "@mantine/notifications";
+import { useAuthStore } from "@/stores/auth.store";
 
 export const loader = wrapAuthLoader(async ({ request }, user) => {
 	if (user) {
@@ -81,50 +82,76 @@ export function Component() {
 	};
 
 	// HANDLE LOGIN
+	const auth = useAuthStore();
+	const navigate = useNavigate();
 	const [loading, setLoading] = useState(false);
 
-	const handleSubmit = async (e: FormEvent) => {
+	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
 		setLoading(true);
 
-		setLoading(false);
+		const { email, password } = Object.fromEntries(
+			new FormData(e.currentTarget).entries(),
+		) as any;
+
+		const { data, error } = await auth.login(email, password);
+
+		if (error) {
+			setLoading(false);
+			notifications.show({
+				color: "red",
+				title: "Login failed",
+				message: "Invalid email or password, please try again!",
+			});
+
+			trigFail.fire();
+			return;
+		}
+
+		trigSuccess.fire();
 
 		notifications.show({
-			title: "Default notification",
-			message: "Do not forget to star Mantine on GitHub! 🌟",
+			title: "Login successful",
+			message: "Welcome back 🚀",
 		});
 
-		if (isSuccess) {
-			trigSuccess.fire();
-		} else {
-			trigFail.fire();
-		}
+		setTimeout(() => {
+			const params = new URLSearchParams(location.search);
+			const redirectUrl = params.get("redirectUrl") || "/";
+
+			navigate(redirectUrl);
+		}, 800);
 	};
 
 	return (
 		<div className={styles["page-wrapper"]}>
 			<div className={styles["rive-wrapper"]}>
+				{/* https://www.youtube.com/watch?v=WQac2jSWTTY */}
 				<RiveComponent />
 			</div>
 
 			<form onSubmit={handleSubmit} className={styles["form-container"]}>
-				<Input.Wrapper label="Email">
-					<Input
-						placeholder="Email"
-						value={userValue}
-						onChange={onUsernameChange}
-						onFocus={onUsernameFocus}
-						onBlur={() => (isChecking.value = false)}
-						disabled={loading}
-					/>
-				</Input.Wrapper>
+				<TextInput
+					label="Email"
+					placeholder="Email"
+					name="email"
+					value={userValue}
+					onChange={onUsernameChange}
+					onFocus={onUsernameFocus}
+					onBlur={() => (isChecking.value = false)}
+					disabled={loading}
+					required
+				/>
+
 				<PasswordInput
 					label="Password"
+					name="password"
 					placeholder="Password"
 					onFocus={() => (isHandsUp.value = true)}
 					onBlur={() => (isHandsUp.value = false)}
 					disabled={loading}
+					required
 				/>
 				<Button type="submit" loading={loading}>
 					Submit

@@ -1,8 +1,13 @@
+:root {
+	--text-color-primary: #738780;
+	--text-color-second: #adadad;
+}
+
 html,
 body {
 	height: 100%;
 	width: 100%;
-	color: #738780;
+	color: var(--text-color-primary);
 	font-family: "Inter", sans-serif;
 }
 

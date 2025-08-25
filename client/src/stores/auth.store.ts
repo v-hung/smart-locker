@@ -1,11 +1,17 @@
 import { create } from "zustand";
 import { supabase } from "../lib/supabaseClient";
-import type { Session } from "@supabase/supabase-js";
+import type { AuthTokenResponsePassword, Session } from "@supabase/supabase-js";
+import { sleep } from "@/utils/promise.utils";
 
 type State = {
 	session: Session | null;
 	init: boolean;
 	load: () => Promise<Session | null>;
+	login: (
+		email: string,
+		password: string,
+	) => Promise<AuthTokenResponsePassword>;
+	logout: () => void;
 };
 
 export const useAuthStore = create<State>((set, get) => ({
@@ -23,7 +29,16 @@ export const useAuthStore = create<State>((set, get) => ({
 	},
 
 	login: async (email, password) => {
-		return supabase.auth.signInWithPassword({ email, password });
+		const [{ data, error }] = await Promise.all([
+			supabase.auth.signInWithPassword({ email, password }),
+			sleep(1000),
+		]);
+
+		if (!error) {
+			set({ session: data.session });
+		}
+
+		return { data, error } as AuthTokenResponsePassword;
 	},
 
 	logout: async () => {

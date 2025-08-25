@@ -7,10 +7,23 @@
 export {}
 declare global {
   const IBxLoaderAlt: typeof import('~icons/bx/loader-alt.jsx')['default']
+  const IIonBook: typeof import('~icons/ion/book.jsx')['default']
   const IIonCameraOutline: typeof import('~icons/ion/camera-outline.jsx')['default']
+  const IIonCard: typeof import('~icons/ion/card.jsx')['default']
+  const IIonChevronBack: typeof import('~icons/ion/chevron-back.jsx')['default']
+  const IIonChevronForward: typeof import('~icons/ion/chevron-forward.jsx')['default']
   const IIonClose: typeof import('~icons/ion/close.jsx')['default']
   const IIonCloudUploadOutline: typeof import('~icons/ion/cloud-upload-outline.jsx')['default']
+  const IIonConstruct: typeof import('~icons/ion/construct.jsx')['default']
+  const IIonLockOpen: typeof import('~icons/ion/lock-open.jsx')['default']
   const IIonLogoGoogle: typeof import('~icons/ion/logo-google.jsx')['default']
   const IIonMenu: typeof import('~icons/ion/menu.jsx')['default']
+  const IIonPeople: typeof import('~icons/ion/people.jsx')['default']
+  const IIonPersonOutline: typeof import('~icons/ion/person-outline.jsx')['default']
+  const IIonPricetag: typeof import('~icons/ion/pricetag.jsx')['default']
   const IIonScan: typeof import('~icons/ion/scan.jsx')['default']
+  const IIonServer: typeof import('~icons/ion/server.jsx')['default']
+  const IIonSpeedometer: typeof import('~icons/ion/speedometer.jsx')['default']
+  const IIonStorefront: typeof import('~icons/ion/storefront.jsx')['default']
+  const IIonTrashOutline: typeof import('~icons/ion/trash-outline.jsx')['default']
 }
