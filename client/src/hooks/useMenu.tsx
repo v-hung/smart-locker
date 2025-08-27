@@ -1,8 +1,8 @@
 const MENU = [
 	{
-		key: "/group-main",
+		key: "/manager",
 		type: "group",
-		label: "Locker",
+		label: "Manager",
 	},
 	{
 		key: "/",

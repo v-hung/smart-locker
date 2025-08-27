@@ -39,7 +39,7 @@ export function Component() {
 			<div className={styles.menu}>
 				<div className={styles["menu-logo"]}>
 					<img src="./logo_min.png" alt="logo" />
-					<span>Việt Hùng</span>
+					<span>Smart Locker</span>
 					<button
 						className={"menu-toggle"}
 						onClick={() =>
