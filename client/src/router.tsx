@@ -7,11 +7,15 @@ const router = createBrowserRouter([
 		element: <App />,
 		children: [
 			{
-				lazy: () => import("./layouts/DefaultLayout"),
+				lazy: () => import("./layouts/MainLayout"),
 				children: [
 					{
 						index: true,
-						lazy: () => import("./pages/HomePage"),
+						lazy: () => import("./pages/home/HomePage"),
+					},
+					{
+						path: "lockers",
+						lazy: () => import("./pages/locker/LockerPage"),
 					},
 				],
 			},

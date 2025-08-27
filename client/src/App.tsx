@@ -9,6 +9,7 @@ import { Notifications } from "@mantine/notifications";
 // Mantine styles
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
+import "mantine-datatable/styles.layer.css";
 
 // Your global css
 import "./App.css";

@@ -11,7 +11,7 @@ const MENU = [
 		icon: <IIonSpeedometer />,
 	},
 	{
-		key: "/locker",
+		key: "/lockers",
 		type: "item",
 		label: "Lockers",
 		icon: <IIonLockOpen />,

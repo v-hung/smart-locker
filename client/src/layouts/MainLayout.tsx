@@ -1,7 +1,7 @@
 import { NavLink, Outlet } from "react-router";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import styles from "./DefaultLayout.module.css";
+import styles from "./MainLayout.module.css";
 import {
 	ActionIcon,
 	Anchor,
@@ -101,11 +101,7 @@ export function Component() {
 				</ScrollArea>
 			</div>
 
-			<div className={styles.main}>
-				<div className={styles.content}>
-					<Outlet />
-				</div>
-			</div>
+			<Outlet />
 		</div>
 	);
 }
