@@ -1,7 +1,7 @@
 import { relations, sql } from "drizzle-orm";
 import { sqliteTable as table } from "drizzle-orm/sqlite-core";
 import * as t from "drizzle-orm/sqlite-core";
-import { lockers } from "./lockers.js";
+import { lockers } from "./lockers";
 
 export const users = table(
   "users",

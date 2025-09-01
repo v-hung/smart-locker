@@ -1,23 +1,31 @@
 import MainHeader from "@/layouts/components/MainHeader";
 import { wrapProtectedLoader } from "@/utils/loader.utils";
-import { Anchor, Breadcrumbs, Grid } from "@mantine/core";
+import { Anchor, Breadcrumbs, Button, Grid } from "@mantine/core";
 import MainContent from "@/layouts/components/MainContent";
 import MainBody from "@/layouts/components/MainBody";
 import FormLocker from "@/features/locker/components/FormLocker";
+import { IconCirclePlusFilled } from "@tabler/icons-react";
 
 export const loader = wrapProtectedLoader();
 
 export function Component() {
 	return (
-		<MainContent className="home-page">
-			<MainHeader title="Dashboard" />
+		<MainContent hFull>
+			<MainHeader
+				title="Lockers"
+				subTitle="100 items"
+				description="Track, manager, and optimize your campaings"
+				rightSection={
+					<Button
+						variant="light"
+						leftSection={<IconCirclePlusFilled size={24} />}
+					>
+						Add new item
+					</Button>
+				}
+			/>
 
-			<MainBody>
-				<Breadcrumbs style={{ margin: "0 0 1.5rem" }}>
-					<Anchor>item.title</Anchor>
-					<Anchor>item.title</Anchor>
-					<Anchor>item.title</Anchor>
-				</Breadcrumbs>
+			<MainBody grow>
 				<FormLocker />
 			</MainBody>
 		</MainContent>

@@ -1,23 +1,19 @@
-import type { FC, HTMLAttributes } from "react";
-import { DataTable } from "mantine-datatable";
+import { useState, type FC, type HTMLAttributes } from "react";
 import companies from "./data.json";
+import MainTable from "@/components/data-display/MainTable/MainTable";
+import { COLUMNS } from "./FormLocker.columns";
 
-type State = HTMLAttributes<HTMLDivElement>;
+const FormLocker = () => {
+	const [selectedRecords, setSelectedRecords] = useState<any[]>([]);
 
-const FormLocker: FC<State> = (props) => {
-	const { className = "", ...rest } = props;
 	return (
-		<div {...rest} className={`${className}`}>
-			<DataTable
-				columns={[
-					{ accessor: "name" },
-					{ accessor: "streetAddress" },
-					{ accessor: "city" },
-					{ accessor: "state" },
-				]}
-				records={companies}
-			/>
-		</div>
+		<MainTable
+			columns={COLUMNS}
+			records={companies}
+			selectedRecords={selectedRecords}
+			onSelectedRecordsChange={setSelectedRecords}
+			onRowClick={() => {}}
+		/>
 	);
 };
 

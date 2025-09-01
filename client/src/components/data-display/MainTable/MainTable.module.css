@@ -1,0 +1,50 @@
+.root {
+	color: inherit;
+	height: auto !important;
+}
+
+.table {
+	thead {
+		background-color: #f8f8fa;
+	}
+
+	th,
+	td {
+		padding: 1rem 1.5rem;
+	}
+
+	:global(.mantine-datatable-header-cell-sortable-group) {
+		justify-content: flex-start;
+		position: relative;
+	}
+
+	:global(.mantine-Flex-root) {
+		width: auto !important;
+	}
+
+	:global(.mantine-Flex-root .mantine-datatable-text-align-right) {
+		position: absolute;
+		width: 100%;
+	}
+
+	tbody tr:hover {
+		background-color: var(--mantine-color-myColor-1);
+		position: relative;
+
+		&::after {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: -1px;
+			border: 1px solid var(--mantine-color-myColor-5);
+			pointer-events: none;
+			z-index: 1;
+		}
+	}
+}
+
+.header {
+	color: var(--mantine-color-myColor-9);
+}

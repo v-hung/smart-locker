@@ -12,6 +12,7 @@ import {
 	ScrollArea,
 } from "@mantine/core";
 import { useMenu } from "@/hooks/useMenu";
+import { forwardRef } from "react";
 
 // https://dribbble.com/shots/18895539-Modern-Admin-Dashboard-UI-Design-for-Flup-Furniture-App-Website
 
@@ -74,15 +75,7 @@ export function Component() {
 
 					<Menu shadow="md" width={200} position="top">
 						<Menu.Target>
-							<div className={styles["menu-footer"]}>
-								<Avatar color="cyan" radius="xl">
-									VH
-								</Avatar>
-								<div className="profile">
-									<p className="profile-name">Việt Hùng</p>
-									<p className="profile-role">Admin Manager</p>
-								</div>
-							</div>
+							<MenuAccount />
 						</Menu.Target>
 
 						<Menu.Dropdown>
@@ -105,3 +98,18 @@ export function Component() {
 		</div>
 	);
 }
+
+const MenuAccount = forwardRef<
+	HTMLDivElement,
+	React.ComponentPropsWithoutRef<"div">
+>((props, ref) => (
+	<div ref={ref} {...props} className={styles["menu-footer"]}>
+		<Avatar color="cyan" radius="xl">
+			VH
+		</Avatar>
+		<div className="profile">
+			<p className="profile-name">Việt Hùng</p>
+			<p className="profile-role">Admin Manager</p>
+		</div>
+	</div>
+));

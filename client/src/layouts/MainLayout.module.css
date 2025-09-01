@@ -8,7 +8,7 @@
 		.menu-logo {
 			padding: 2rem 1.5rem 0;
 
-			:global(button) {
+			button {
 				right: 1.5rem;
 			}
 
@@ -19,7 +19,7 @@
 
 		.menu-nav {
 			.menu-group {
-				color: var(--text-color-second);
+				color: var(--color-second);
 
 				&::after {
 					content: none;
@@ -54,6 +54,7 @@
 	flex-direction: column;
 	max-height: 100vh;
 	background-color: #f8f8fa;
+	color: #6d817a;
 	/* padding: 1rem; */
 
 	.menu-logo {
@@ -141,7 +142,7 @@
 				top: 50%;
 				height: 1px;
 				width: 100%;
-				background-color: var(--text-color-second);
+				background-color: var(--color-second);
 			}
 		}
 

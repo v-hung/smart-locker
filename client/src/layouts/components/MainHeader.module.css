@@ -1,0 +1,48 @@
+.mainHeader {
+	padding: 1rem 1.5rem 0.75rem;
+	flex: none;
+}
+
+.headerContainer {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	--mantine-color-anchor: var(--color-primary);
+
+	:global {
+		.mantine-Text-root {
+			font-size: 14px;
+
+			&:last-child {
+				color: var(--mantine-color-myColor-9);
+				pointer-events: none;
+			}
+		}
+	}
+
+	.headerRight {
+		margin-left: auto;
+	}
+}
+
+.headerSecond {
+	margin: 1rem 0 0;
+
+	.headerTitle {
+		font-size: 24px;
+		font-weight: 600;
+		color: var(--mantine-color-myColor-9);
+	}
+
+	.headerSubTitle {
+		font-size: 13px;
+		font-weight: 300;
+		padding-left: 1rem;
+	}
+
+	.headerDescription {
+		color: var(--mantine-color-myColor-9);
+		font-size: 15px;
+		margin: 0.5rem 0 0;
+	}
+}
