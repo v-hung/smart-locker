@@ -1,30 +1,35 @@
-import { Router } from "express";
+import { FastifyInstance } from "fastify";
 import * as lockerController from "../controllers/locker.controller";
+import z from "zod";
+import { lockerInsertSchema, lockerSelectSchema } from "../db/schema";
 
-const router = Router();
+async function routes(app: FastifyInstance) {
+  app.get(
+    "/lockers",
+    {
+      schema: {
+        response: {
+          200: z.array(lockerSelectSchema),
+        },
+      },
+    },
+    lockerController.getAllLockers
+  );
 
-/**
- * @swagger
- * /api/lockers:
- *   get:
- *     summary: Lấy danh sách tủ đồ
- *     tags: [Lockers]
- *     responses:
- *       200:
- *         description: Danh sách tủ đồ
- */
-router.get("/", lockerController.getAllLockers);
+  app.get("/lockers/:id", lockerController.getLockerById);
 
-// GET /api/lockers/:id → lấy chi tiết 1 tủ
-router.get("/:id", lockerController.getLockerById);
+  app.post(
+    "/lockers",
+    {
+      schema: {
+        body: lockerInsertSchema,
+        response: {
+          200: lockerSelectSchema,
+        },
+      },
+    },
+    lockerController.createLocker
+  );
+}
 
-// POST /api/lockers → tạo tủ mới
-router.post("/", lockerController.createLocker);
-
-// PUT /api/lockers/:id → cập nhật tủ
-router.put("/:id", lockerController.updateLocker);
-
-// DELETE /api/lockers/:id → xoá tủ
-router.delete("/:id", lockerController.deleteLocker);
-
-export default router;
+export default routes;

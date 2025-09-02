@@ -10,7 +10,8 @@
 		"forceConsistentCasingInFileNames": true
 	},
 	"include": [
-		"src/**/*.ts"
+		"src/**/*.ts",
+		"src/helper/router"
 	],
 	"exclude": [
 		"node_modules"

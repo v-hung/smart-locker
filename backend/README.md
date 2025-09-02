@@ -1,4 +1,4 @@
-drizzle-kit migrate
-drizzle-kit generate
-drizzle-kit push
-drizzle-kit pull
+npx drizzle-kit generate
+npx drizzle-kit migrate
+npx drizzle-kit push
+npx drizzle-kit pull

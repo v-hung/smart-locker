@@ -1,49 +1,73 @@
-import express from "express";
-import path from "node:path";
-import { fileURLToPath } from "url";
-import apiRoutes from "./routes";
-import swaggerJsdoc from "swagger-jsdoc";
-import swaggerUi from "swagger-ui-express";
+import Fastify from "fastify";
+import swagger from "@fastify/swagger";
+import swaggerUi from "@fastify/swagger-ui";
+import {
+  jsonSchemaTransform,
+  serializerCompiler,
+  validatorCompiler,
+  ZodTypeProvider,
+} from "fastify-type-provider-zod";
+import registerRoutes from "./routes";
+import fastifyStatic from "@fastify/static";
+import { BASE_DIR } from "./config";
+import jwtPlugin from "./plugins/jwt.plugin";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const PORT = +(process.env.PORT || 3000);
 
-const app = express();
-const PORT = process.env.PORT || 3000;
-
-app.use(express.json()); // parse JSON body
-
-// Swagger JSDoc options
-const options = {
-  definition: {
-    openapi: "3.0.0",
-    info: {
-      title: "My Express API",
-      version: "1.0.0",
-      description: "A sample API for demonstration",
-    },
-    servers: [
-      {
-        url: `http://localhost:${PORT}`,
-      },
-    ],
-  },
-  apis: [path.resolve(__dirname, "./routes/*.ts")], // Path to your API route files with JSDoc comments
-};
-
-// Initialize swagger-jsdoc
-const specs = swaggerJsdoc(options);
-
-// Serve Swagger UI at a specific route
-app.use("/docs", swaggerUi.serve, swaggerUi.setup(specs));
-app.use("/api", apiRoutes);
-
-app.use(express.static(path.join(__dirname, "../public")));
-
-app.get("/*splat", (_, res) => {
-  res.sendFile(path.join(__dirname, "../public", "index.html"));
+const app = Fastify({
+  logger: true,
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running at http://localhost:${PORT}`);
+// Add schema validator and serializer
+app.setValidatorCompiler(validatorCompiler);
+app.setSerializerCompiler(serializerCompiler);
+
+app.withTypeProvider<ZodTypeProvider>();
+
+// 📌 Đăng ký Swagger
+app.register(swagger, {
+  openapi: {
+    info: {
+      title: "Smart Locker API",
+      description: "API quản lý tủ đồ",
+      version: "1.0.0",
+    },
+    servers: [],
+    components: {
+      securitySchemes: {
+        // JWT qua Authorization header
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        },
+      },
+    },
+  },
+  transform: jsonSchemaTransform,
+});
+
+app.register(swaggerUi, {
+  routePrefix: "/docs",
+  uiConfig: {
+    docExpansion: "list",
+    deepLinking: false,
+  },
+});
+
+app.register(jwtPlugin);
+
+app.register(fastifyStatic, {
+  root: BASE_DIR + "/public",
+});
+
+app.register(registerRoutes, { prefix: "/api" });
+
+// Run the server!
+app.listen({ port: PORT }, function (err, address) {
+  if (err) {
+    app.log.error(err);
+    process.exit(1);
+  }
+  // Server is now listening on ${address}
 });

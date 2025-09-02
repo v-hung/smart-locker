@@ -3,11 +3,11 @@ import { lockers } from "../db/schema/lockers";
 import { eq } from "drizzle-orm";
 
 export const getAll = async () => {
-  return await db.query.users.findMany();
+  return await db.query.lockers.findMany();
 };
 
 export const getById = async (id: number) => {
-  const [locker] = await db.query.users.findMany({
+  const [locker] = await db.query.lockers.findMany({
     where: eq(lockers.id, id),
   });
   return locker;

@@ -1,8 +1,11 @@
-import { Router } from "express";
+import { FastifyInstance } from "fastify";
+import authRoutes from "./auth.routes";
 import lockerRoutes from "./locker.routes";
+import userRoutes from "./user.routes";
+import { withDocs } from "../utils/router.utils";
 
-const router = Router();
-
-router.use("/lockers", lockerRoutes);
-
-export default router;
+export default async function registerRoutes(app: FastifyInstance) {
+  app.register(withDocs(authRoutes, "auth"), { prefix: "/auth" });
+  app.register(withDocs(lockerRoutes, "locker", true), { prefix: "/lockers" });
+  app.register(withDocs(userRoutes, "user", true), { prefix: "/users" });
+}
