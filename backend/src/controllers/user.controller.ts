@@ -20,3 +20,22 @@ export const createUser = async (
 ) => {
   return userService.create(req.body);
 };
+
+export const updateUser = async (
+  req: FastifyRequest<{
+    Params: { id: number };
+    Body: typeof users.$inferInsert;
+  }>,
+  reply: FastifyReply
+) => {
+  const { id } = req.params;
+  return userService.update(id, req.body);
+};
+
+export const deleteUser = async (
+  req: FastifyRequest<{ Params: { id: number } }>,
+  reply: FastifyReply
+) => {
+  const { id } = req.params;
+  return userService.remove(id);
+};

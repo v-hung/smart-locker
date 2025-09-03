@@ -1,9 +1,11 @@
 import { FastifyInstance } from "fastify";
-import { login } from "../controllers/auth.controller";
+import * as authController from "../controllers/auth.controller";
 import {
   loginBodySchema,
   loginResponseSchema,
 } from "../schemas/auth/login.schema";
+import { userSelectSchema } from "../db/schema";
+import { securitySchema } from "../utils/router.utils";
 
 async function routes(app: FastifyInstance) {
   app.post(
@@ -16,7 +18,20 @@ async function routes(app: FastifyInstance) {
         },
       },
     },
-    login
+    authController.login
+  );
+
+  app.get(
+    "/load",
+    {
+      schema: {
+        security: securitySchema,
+        response: {
+          200: userSelectSchema,
+        },
+      },
+    },
+    authController.load
   );
 }
 

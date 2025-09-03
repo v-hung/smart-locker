@@ -1,15 +1,15 @@
 import { redirect, type LoaderFunction } from "react-router";
 import { useAuthStore } from "@/stores/auth.store";
-import type { Session, User } from "@supabase/supabase-js";
+import type { User } from "@/generate-api";
 
 export function wrapProtectedLoader<T extends LoaderFunction>(
 	originalLoader?: (args: Parameters<T>[0], user: User) => ReturnType<T>,
 ): T {
 	return (async (...args) => {
-		const authData = await useAuthStore.getState().load();
+		const user = await useAuthStore.getState().load();
 		const { request } = args[0];
 
-		if (!authData) {
+		if (!user) {
 			const redirectUrl =
 				request.url != "/auth/login"
 					? "?redirectUrl=" + encodeURIComponent(new URL(request.url).pathname)
@@ -17,9 +17,7 @@ export function wrapProtectedLoader<T extends LoaderFunction>(
 			throw redirect(`/auth/login${redirectUrl}`);
 		}
 
-		return originalLoader
-			? originalLoader(args[0], authData.user || null)
-			: null;
+		return originalLoader ? originalLoader(args[0], user) : null;
 	}) as T;
 }
 
@@ -27,9 +25,7 @@ export function wrapAuthLoader<T extends LoaderFunction>(
 	originalLoader?: (args: Parameters<T>[0], user: User | null) => ReturnType<T>,
 ): T {
 	return (async (...args) => {
-		const authData = await useAuthStore.getState().load();
-		return originalLoader
-			? originalLoader(args[0], authData?.user || null)
-			: null;
+		const user = await useAuthStore.getState().load();
+		return originalLoader ? originalLoader(args[0], user) : null;
 	}) as T;
 }

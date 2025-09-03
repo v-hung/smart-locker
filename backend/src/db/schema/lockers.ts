@@ -2,7 +2,11 @@ import { relations, sql } from "drizzle-orm";
 import { sqliteTable as table } from "drizzle-orm/sqlite-core";
 import * as t from "drizzle-orm/sqlite-core";
 import { users } from "./users";
-import { createInsertSchema, createSelectSchema } from "drizzle-zod";
+import {
+  createInsertSchema,
+  createSelectSchema,
+  createUpdateSchema,
+} from "drizzle-zod";
 import z from "zod";
 
 export const lockers = table("lockers", {
@@ -21,6 +25,11 @@ export const lockerRelations = relations(lockers, ({ one }) => ({
 }));
 
 export const lockerSelectSchema = createSelectSchema(lockers);
-
 export const lockerInsertSchema = createInsertSchema(lockers);
+export const lockerUpdateSchema = createUpdateSchema(lockers);
+
 export type lockerInsertType = z.infer<typeof lockerInsertSchema>;
+
+z.globalRegistry.add(lockerSelectSchema, { id: "Locker" });
+z.globalRegistry.add(lockerInsertSchema, { id: "LockerInsert" });
+z.globalRegistry.add(lockerUpdateSchema, { id: "LockerUpdate" });

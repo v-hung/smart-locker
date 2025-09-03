@@ -40,8 +40,7 @@ export default defineConfig({
 	// },
 	server: {
 		proxy: {
-			"^/api": { target: "http://localhost:8000", secure: false },
-			"^/uploads": { target: "http://localhost:8000", secure: false },
+			"^/api": { target: "http://localhost:3000", secure: false },
 		},
 	},
 });

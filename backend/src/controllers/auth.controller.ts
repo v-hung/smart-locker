@@ -30,3 +30,15 @@ export const login = async (
 
   reply.send({ token, user });
 };
+
+export const load = async (req: FastifyRequest, reply: FastifyReply) => {
+  const { id } = req.user;
+
+  const [user] = await db.select().from(users).where(eq(users.id, id));
+
+  if (!user) {
+    return reply.status(401).send({ message: "Invalid email or password" });
+  }
+
+  reply.send(user);
+};

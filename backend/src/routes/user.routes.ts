@@ -1,7 +1,11 @@
 import { FastifyInstance } from "fastify";
 import * as userController from "../controllers/user.controller";
 import z from "zod";
-import { userInsertSchema, userSelectSchema } from "../db/schema";
+import {
+  userInsertSchema,
+  userSelectSchema,
+  userUpdateSchema,
+} from "../db/schema";
 
 async function routes(app: FastifyInstance) {
   app.get(
@@ -29,6 +33,31 @@ async function routes(app: FastifyInstance) {
       },
     },
     userController.createUser
+  );
+
+  app.put(
+    "/users/:id",
+    {
+      schema: {
+        body: userUpdateSchema,
+        response: {
+          200: userSelectSchema,
+        },
+      },
+    },
+    userController.updateUser
+  );
+
+  app.delete(
+    "/users/:id",
+    {
+      schema: {
+        response: {
+          200: z.boolean(),
+        },
+      },
+    },
+    userController.deleteUser
   );
 }
 

@@ -3,6 +3,7 @@ import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
 import {
   jsonSchemaTransform,
+  jsonSchemaTransformObject,
   serializerCompiler,
   validatorCompiler,
   ZodTypeProvider,
@@ -45,6 +46,7 @@ app.register(swagger, {
     },
   },
   transform: jsonSchemaTransform,
+  transformObject: jsonSchemaTransformObject,
 });
 
 app.register(swaggerUi, {

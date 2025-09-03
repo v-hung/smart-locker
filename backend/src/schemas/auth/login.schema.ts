@@ -12,3 +12,6 @@ export const loginResponseSchema = z.object({
   token: z.string(),
   user: userSelectSchema,
 });
+
+z.globalRegistry.add(loginBodySchema, { id: "LoginBody" });
+z.globalRegistry.add(loginResponseSchema, { id: "LoginResponse" });

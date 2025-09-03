@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
 
-export const authSchema = { security: [{ bearerAuth: [] }] };
+export const securitySchema = [{ bearerAuth: [] }];
 
 export function withDocs(
   routes: (app: FastifyInstance, options: Object) => Promise<void> | void,
@@ -12,7 +12,7 @@ export function withDocs(
       routeOptions.schema = {
         ...routeOptions.schema,
         tags: [tag],
-        ...(auth ? authSchema : {}),
+        ...(auth ? { security: securitySchema } : {}),
       };
     });
 

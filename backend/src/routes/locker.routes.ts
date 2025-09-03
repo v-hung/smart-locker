@@ -1,7 +1,11 @@
 import { FastifyInstance } from "fastify";
 import * as lockerController from "../controllers/locker.controller";
 import z from "zod";
-import { lockerInsertSchema, lockerSelectSchema } from "../db/schema";
+import {
+  lockerInsertSchema,
+  lockerSelectSchema,
+  lockerUpdateSchema,
+} from "../db/schema";
 
 async function routes(app: FastifyInstance) {
   app.get(
@@ -29,6 +33,31 @@ async function routes(app: FastifyInstance) {
       },
     },
     lockerController.createLocker
+  );
+
+  app.put(
+    "/lockers/:id",
+    {
+      schema: {
+        body: lockerUpdateSchema,
+        response: {
+          200: lockerSelectSchema,
+        },
+      },
+    },
+    lockerController.updateLocker
+  );
+
+  app.delete(
+    "/lockers/:id",
+    {
+      schema: {
+        response: {
+          200: z.boolean(),
+        },
+      },
+    },
+    lockerController.deleteLocker
   );
 }
 

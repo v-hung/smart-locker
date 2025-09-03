@@ -1,47 +1,74 @@
 import { create } from "zustand";
-import { supabase } from "../lib/supabaseClient";
-import type { AuthTokenResponsePassword, Session } from "@supabase/supabase-js";
 import { sleep } from "@/utils/promise.utils";
+import { AuthApi, Configuration, type User } from "@/generate-api";
+import { immer } from "zustand/middleware/immer";
+import { createJSONStorage, persist } from "zustand/middleware";
+
+const baseAuthApi = new AuthApi(
+	new Configuration({
+		basePath: "",
+	}),
+);
 
 type State = {
-	session: Session | null;
+	user: User | null;
+	token: string | null;
 	init: boolean;
-	load: () => Promise<Session | null>;
-	login: (
-		email: string,
-		password: string,
-	) => Promise<AuthTokenResponsePassword>;
+	load: () => Promise<User | null>;
+	login: (email: string, password: string) => Promise<User | null>;
 	logout: () => void;
 };
 
-export const useAuthStore = create<State>((set, get) => ({
-	session: null,
-	init: false,
+export const useAuthStore = create<State>()(
+	persist(
+		immer((set, get) => ({
+			user: null,
+			token: null,
+			init: false,
 
-	load: async () => {
-		if (get().init) return get().session;
+			load: async () => {
+				if (get().init) return get().user;
 
-		let { data, error } = await supabase.auth.getSession();
+				try {
+					const { authApi } = await import("@/lib/apiClient");
 
-		set({ session: data.session, init: true });
+					let user = await authApi.apiAuthLoadGet();
 
-		return data.session;
-	},
+					set({ user, init: true });
 
-	login: async (email, password) => {
-		const [{ data, error }] = await Promise.all([
-			supabase.auth.signInWithPassword({ email, password }),
-			sleep(1000),
-		]);
+					return user;
+				} catch (error) {
+					console.log(error);
+					return null;
+				}
+			},
 
-		if (!error) {
-			set({ session: data.session });
-		}
+			login: async (email, password) => {
+				try {
+					const [{ user, token }] = await Promise.all([
+						baseAuthApi.apiAuthLoginPost({
+							loginBodyInput: { email, password },
+						}),
+						sleep(1000),
+					]);
 
-		return { data, error } as AuthTokenResponsePassword;
-	},
+					set({ user, token });
 
-	logout: async () => {
-		const { error } = await supabase.auth.signOut();
-	},
-}));
+					return user;
+				} catch (error) {
+					console.log(error);
+					return null;
+				}
+			},
+
+			logout: async () => {
+				set({ user: null, token: null });
+			},
+		})),
+		{
+			name: "auth-storage",
+			storage: createJSONStorage(() => localStorage),
+			partialize: (state) => ({ user: state.user, token: state.token }),
+		},
+	),
+);
