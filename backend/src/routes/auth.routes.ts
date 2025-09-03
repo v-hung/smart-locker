@@ -30,6 +30,7 @@ async function routes(app: FastifyInstance) {
           200: userSelectSchema,
         },
       },
+      onRequest: [app.auth],
     },
     authController.load
   );

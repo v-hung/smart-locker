@@ -13,14 +13,24 @@ async function routes(app: FastifyInstance) {
     {
       schema: {
         response: {
-          200: z.array(lockerSelectSchema),
+          200: lockerSelectSchema.array(),
         },
       },
     },
     lockerController.getAllLockers
   );
 
-  app.get("/lockers/:id", lockerController.getLockerById);
+  app.get(
+    "/lockers/:id",
+    {
+      schema: {
+        response: {
+          200: lockerSelectSchema,
+        },
+      },
+    },
+    lockerController.getLockerById
+  );
 
   app.post(
     "/lockers",

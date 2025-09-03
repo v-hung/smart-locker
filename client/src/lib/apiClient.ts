@@ -1,4 +1,4 @@
-import { AuthApi, Configuration } from "@/generate-api";
+import { AuthApi, Configuration, LockerApi, UserApi } from "@/generate-api";
 import { useAuthStore } from "@/stores/auth.store";
 
 export const config = new Configuration({
@@ -9,5 +9,7 @@ export const config = new Configuration({
 });
 
 const authApi = new AuthApi(config);
+const userApi = new UserApi(config);
+const lockerApi = new LockerApi(config);
 
-export { authApi };
+export { authApi, userApi, lockerApi };

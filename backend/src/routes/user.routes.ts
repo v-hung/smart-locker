@@ -13,14 +13,24 @@ async function routes(app: FastifyInstance) {
     {
       schema: {
         response: {
-          200: z.array(userSelectSchema),
+          200: userSelectSchema.array(),
         },
       },
     },
     userController.getAllUsers
   );
 
-  app.get("/users/:id", userController.getUserById);
+  app.get(
+    "/users/:id",
+    {
+      schema: {
+        response: {
+          200: userSelectSchema,
+        },
+      },
+    },
+    userController.getUserById
+  );
 
   app.post(
     "/users",

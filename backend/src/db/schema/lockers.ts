@@ -13,11 +13,22 @@ export const lockers = table("lockers", {
   id: t.int().primaryKey({ autoIncrement: true }),
   lockerCode: t.text("locker_code").notNull().unique(),
   location: t.text("location").notNull(),
-  status: t.text("status").notNull().default("available"), // available, in_use, maintenance
-  createdAt: t.text("created_at").default(sql`CURRENT_TIMESTAMP`),
+  status: t
+    .text("status")
+    .notNull()
+    .default("available")
+    .$type<"available" | "in_use" | "maintenance">(),
+  createdAt: t
+    .text("created_at")
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`)
+    .$type<Date>(),
 
   // relations
-  userId: t.integer("user_id").references(() => users.id),
+  userId: t
+    .integer("user_id")
+    .notNull()
+    .references(() => users.id),
 });
 
 export const lockerRelations = relations(lockers, ({ one }) => ({

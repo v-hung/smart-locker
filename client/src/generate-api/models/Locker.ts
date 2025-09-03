@@ -48,13 +48,13 @@ export interface Locker {
      * @type {string}
      * @memberof Locker
      */
-    createdAt: string | null;
+    createdAt: string;
     /**
      * 
      * @type {number}
      * @memberof Locker
      */
-    userId: number | null;
+    userId: number;
 }
 
 /**

@@ -1,29 +1,24 @@
+import type { Locker } from "@/generate-api";
 import { ActionIcon, Box, Button, Group, Menu } from "@mantine/core";
 import { IconDots, IconEdit, IconEye, IconTrash } from "@tabler/icons-react";
 import type { DataTableColumn } from "mantine-datatable";
+import { format } from "date-fns";
 
-export const COLUMNS: DataTableColumn<any>[] = [
-	{ accessor: "name", render: ({ city }) => city.toLocaleUpperCase() },
-	{ accessor: "streetAddress", sortable: true },
-	{ accessor: "city" },
-	{ accessor: "state" },
+export const COLUMNS: DataTableColumn<Locker>[] = [
+	{ accessor: "id" },
+	{ accessor: "lockerCode", sortable: true },
+	{ accessor: "location" },
+	{ accessor: "status" },
+	{
+		accessor: "createdAt",
+		render: ({ createdAt }) => format(new Date(createdAt!), "dd/MM/yyyy"),
+	},
 	{
 		accessor: "actions",
 		title: "",
 		textAlign: "right",
 		width: "5rem",
 		render: (company) => (
-			// <Group gap={4} justify="right" wrap="nowrap">
-			// 	<ActionIcon size="sm" variant="subtle" color="green">
-			// 		<IconEye size={16} />
-			// 	</ActionIcon>
-			// 	<ActionIcon size="sm" variant="subtle" color="blue">
-			// 		<IconEdit size={16} />
-			// 	</ActionIcon>
-			// 	<ActionIcon size="sm" variant="subtle" color="red">
-			// 		<IconTrash size={16} />
-			// 	</ActionIcon>
-			// </Group>
 			<Menu width={150} position="top-end" withinPortal>
 				<Menu.Target>
 					<ActionIcon variant="subtle">

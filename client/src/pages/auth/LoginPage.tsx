@@ -95,14 +95,14 @@ export function Component() {
 			new FormData(e.currentTarget).entries(),
 		) as any;
 
-		const { data, error } = await auth.login(email, password);
+		const [user, error] = await auth.login(email, password);
 
 		if (error) {
 			setLoading(false);
 			notifications.show({
 				color: "red",
 				title: "Login failed",
-				message: "Invalid email or password, please try again!",
+				message: error,
 			});
 
 			trigFail.fire();

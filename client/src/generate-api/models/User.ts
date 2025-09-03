@@ -42,13 +42,13 @@ export interface User {
      * @type {string}
      * @memberof User
      */
-    role: string | null;
+    role: string;
     /**
      * 
      * @type {string}
      * @memberof User
      */
-    createdAt: string | null;
+    createdAt: string;
 }
 
 /**

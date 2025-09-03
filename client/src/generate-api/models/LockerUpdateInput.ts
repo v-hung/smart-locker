@@ -48,13 +48,13 @@ export interface LockerUpdateInput {
      * @type {string}
      * @memberof LockerUpdateInput
      */
-    createdAt?: string | null;
+    createdAt?: string;
     /**
      * 
      * @type {number}
      * @memberof LockerUpdateInput
      */
-    userId?: number | null;
+    userId?: number;
 }
 
 /**

@@ -134,7 +134,7 @@ export class UserApi extends runtime.BaseAPI {
 
     /**
      */
-    async apiUsersUsersIdGetRaw(requestParameters: ApiUsersUsersIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async apiUsersUsersIdGetRaw(requestParameters: ApiUsersUsersIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<User>> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
@@ -165,13 +165,14 @@ export class UserApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => UserFromJSON(jsonValue));
     }
 
     /**
      */
-    async apiUsersUsersIdGet(requestParameters: ApiUsersUsersIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.apiUsersUsersIdGetRaw(requestParameters, initOverrides);
+    async apiUsersUsersIdGet(requestParameters: ApiUsersUsersIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<User> {
+        const response = await this.apiUsersUsersIdGetRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**

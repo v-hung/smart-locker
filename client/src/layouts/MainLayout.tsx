@@ -11,7 +11,7 @@ import {
 	Menu,
 	ScrollArea,
 } from "@mantine/core";
-import { useMenu } from "@/hooks/useMenu";
+import { useMenu } from "@/layouts/hooks/useMenu";
 import { forwardRef } from "react";
 
 // https://dribbble.com/shots/18895539-Modern-Admin-Dashboard-UI-Design-for-Flup-Furniture-App-Website

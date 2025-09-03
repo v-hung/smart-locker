@@ -42,13 +42,13 @@ export interface UserInput {
      * @type {string}
      * @memberof UserInput
      */
-    role: string | null;
+    role: string;
     /**
      * 
      * @type {string}
      * @memberof UserInput
      */
-    createdAt: string | null;
+    createdAt: string;
 }
 
 /**

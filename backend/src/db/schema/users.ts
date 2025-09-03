@@ -16,8 +16,17 @@ export const users = table(
     fullName: t.text("full_name"),
     email: t.text().notNull(),
     password: t.text().notNull(),
-    role: t.text().$type<"guest" | "user" | "admin">().default("guest"),
-    createdAt: t.text("created_at").default(sql`CURRENT_TIMESTAMP`),
+    role: t
+      .text()
+      .notNull()
+      .$type<"guest" | "user" | "admin">()
+      .default("guest"),
+
+    createdAt: t
+      .text("created_at")
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP`)
+      .$type<Date>(),
   },
   (table) => [t.uniqueIndex("email_idx").on(table.email)]
 );

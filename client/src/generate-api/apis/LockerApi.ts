@@ -134,7 +134,7 @@ export class LockerApi extends runtime.BaseAPI {
 
     /**
      */
-    async apiLockersLockersIdGetRaw(requestParameters: ApiLockersLockersIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async apiLockersLockersIdGetRaw(requestParameters: ApiLockersLockersIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Locker>> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
@@ -165,13 +165,14 @@ export class LockerApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => LockerFromJSON(jsonValue));
     }
 
     /**
      */
-    async apiLockersLockersIdGet(requestParameters: ApiLockersLockersIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.apiLockersLockersIdGetRaw(requestParameters, initOverrides);
+    async apiLockersLockersIdGet(requestParameters: ApiLockersLockersIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Locker> {
+        const response = await this.apiLockersLockersIdGetRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**

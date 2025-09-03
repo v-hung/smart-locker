@@ -48,13 +48,13 @@ export interface UserInsert {
      * @type {string}
      * @memberof UserInsert
      */
-    role?: string | null;
+    role?: string;
     /**
      * 
      * @type {string}
      * @memberof UserInsert
      */
-    createdAt?: string | null;
+    createdAt?: string;
 }
 
 /**

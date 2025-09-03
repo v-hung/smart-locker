@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { sleep } from "@/utils/promise.utils";
+import { getMessageError, sleep, wrapPromise } from "@/utils/promise.utils";
 import { AuthApi, Configuration, type User } from "@/generate-api";
 import { immer } from "zustand/middleware/immer";
 import { createJSONStorage, persist } from "zustand/middleware";
@@ -15,7 +15,10 @@ type State = {
 	token: string | null;
 	init: boolean;
 	load: () => Promise<User | null>;
-	login: (email: string, password: string) => Promise<User | null>;
+	login: (
+		email: string,
+		password: string,
+	) => Promise<[User | null, string | null]>;
 	logout: () => void;
 };
 
@@ -29,18 +32,13 @@ export const useAuthStore = create<State>()(
 			load: async () => {
 				if (get().init) return get().user;
 
-				try {
-					const { authApi } = await import("@/lib/apiClient");
+				const { authApi } = await import("@/lib/apiClient");
 
-					let user = await authApi.apiAuthLoadGet();
+				let user = await wrapPromise(() => authApi.apiAuthLoadGet());
 
-					set({ user, init: true });
+				set({ user, init: true });
 
-					return user;
-				} catch (error) {
-					console.log(error);
-					return null;
-				}
+				return user;
 			},
 
 			login: async (email, password) => {
@@ -54,10 +52,9 @@ export const useAuthStore = create<State>()(
 
 					set({ user, token });
 
-					return user;
+					return [user, null];
 				} catch (error) {
-					console.log(error);
-					return null;
+					return [null, await getMessageError(error)];
 				}
 			},
 

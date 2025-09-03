@@ -48,13 +48,13 @@ export interface UserUpdateInput {
      * @type {string}
      * @memberof UserUpdateInput
      */
-    role?: string | null;
+    role?: string;
     /**
      * 
      * @type {string}
      * @memberof UserUpdateInput
      */
-    createdAt?: string | null;
+    createdAt?: string;
 }
 
 /**

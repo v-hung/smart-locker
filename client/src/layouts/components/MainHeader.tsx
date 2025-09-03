@@ -3,12 +3,14 @@ import { Anchor, Breadcrumbs } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons-react";
 
 import styles from "./MainHeader.module.css";
+import { useNavigate } from "react-router";
 
 type State = HTMLAttributes<HTMLDivElement> & {
 	title: string;
 	subTitle?: string;
 	description?: string;
 	rightSection?: React.ReactNode;
+	breadcrumbs: { label: string; path?: string }[];
 };
 
 const MainHeader: FC<State> = (props) => {
@@ -18,8 +20,17 @@ const MainHeader: FC<State> = (props) => {
 		subTitle = "",
 		description = "",
 		rightSection: rightEl,
+		breadcrumbs,
 		...rest
 	} = props;
+
+	const navigate = useNavigate();
+
+	const handelBreadcrumbClick = (path?: string) => {
+		if (path) {
+			navigate(path);
+		}
+	};
 
 	return (
 		<div {...rest} className={`${styles.mainHeader} ${className}`}>
@@ -27,8 +38,11 @@ const MainHeader: FC<State> = (props) => {
 				<div className={styles.headerLeft}>
 					<Breadcrumbs separator={<IconChevronRight size={14} />}>
 						<Anchor>Dashboard</Anchor>
-						<Anchor>Lockers</Anchor>
-						<Anchor>Create a locker</Anchor>
+						{breadcrumbs.map((v, i) => (
+							<Anchor key={i} onClick={() => handelBreadcrumbClick(v.path)}>
+								{v.label}
+							</Anchor>
+						))}
 					</Breadcrumbs>
 				</div>
 				<div className={styles.headerRight}>{rightEl ? rightEl : null}</div>

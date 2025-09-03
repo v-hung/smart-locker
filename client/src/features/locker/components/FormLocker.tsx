@@ -1,19 +1,19 @@
-import { useState, type FC, type HTMLAttributes } from "react";
-import companies from "./data.json";
-import MainTable from "@/components/data-display/MainTable/MainTable";
-import { COLUMNS } from "./FormLocker.columns";
+import { Paper, Tabs } from "@mantine/core";
+import { IconListDetails } from "@tabler/icons-react";
 
 const FormLocker = () => {
-	const [selectedRecords, setSelectedRecords] = useState<any[]>([]);
-
 	return (
-		<MainTable
-			columns={COLUMNS}
-			records={companies}
-			selectedRecords={selectedRecords}
-			onSelectedRecordsChange={setSelectedRecords}
-			onRowClick={() => {}}
-		/>
+		<Tabs defaultValue="form">
+			<Tabs.List>
+				<Tabs.Tab value="form" leftSection={<IconListDetails size={12} />}>
+					Form
+				</Tabs.Tab>
+			</Tabs.List>
+
+			<Tabs.Panel value="form" style={{ marginTop: "2rem" }}>
+				<div className="paper">a</div>
+			</Tabs.Panel>
+		</Tabs>
 	);
 };
 
