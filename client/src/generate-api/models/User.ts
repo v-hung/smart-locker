@@ -42,7 +42,7 @@ export interface User {
      * @type {string}
      * @memberof User
      */
-    role: string;
+    role: UserRoleEnum;
     /**
      * 
      * @type {string}
@@ -50,6 +50,18 @@ export interface User {
      */
     createdAt: string;
 }
+
+
+/**
+ * @export
+ */
+export const UserRoleEnum = {
+    Guest: 'guest',
+    User: 'user',
+    Admin: 'admin'
+} as const;
+export type UserRoleEnum = typeof UserRoleEnum[keyof typeof UserRoleEnum];
+
 
 /**
  * Check if a given object implements the User interface.

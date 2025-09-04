@@ -48,7 +48,7 @@ export interface UserUpdateInput {
      * @type {string}
      * @memberof UserUpdateInput
      */
-    role?: string;
+    role?: UserUpdateInputRoleEnum;
     /**
      * 
      * @type {string}
@@ -56,6 +56,18 @@ export interface UserUpdateInput {
      */
     createdAt?: string;
 }
+
+
+/**
+ * @export
+ */
+export const UserUpdateInputRoleEnum = {
+    Guest: 'guest',
+    User: 'user',
+    Admin: 'admin'
+} as const;
+export type UserUpdateInputRoleEnum = typeof UserUpdateInputRoleEnum[keyof typeof UserUpdateInputRoleEnum];
+
 
 /**
  * Check if a given object implements the UserUpdateInput interface.

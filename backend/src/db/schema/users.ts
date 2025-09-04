@@ -17,9 +17,8 @@ export const users = table(
     email: t.text().notNull(),
     password: t.text().notNull(),
     role: t
-      .text()
+      .text({ enum: ["guest", "user", "admin"] })
       .notNull()
-      .$type<"guest" | "user" | "admin">()
       .default("guest"),
 
     createdAt: t

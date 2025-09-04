@@ -42,7 +42,7 @@ export interface Locker {
      * @type {string}
      * @memberof Locker
      */
-    status: string;
+    status: LockerStatusEnum;
     /**
      * 
      * @type {string}
@@ -56,6 +56,18 @@ export interface Locker {
      */
     userId: number;
 }
+
+
+/**
+ * @export
+ */
+export const LockerStatusEnum = {
+    Available: 'available',
+    InUse: 'in_use',
+    Maintenance: 'maintenance'
+} as const;
+export type LockerStatusEnum = typeof LockerStatusEnum[keyof typeof LockerStatusEnum];
+
 
 /**
  * Check if a given object implements the Locker interface.

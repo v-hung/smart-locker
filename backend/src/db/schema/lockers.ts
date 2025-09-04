@@ -14,10 +14,9 @@ export const lockers = table("lockers", {
   lockerCode: t.text("locker_code").notNull().unique(),
   location: t.text("location").notNull(),
   status: t
-    .text("status")
+    .text({ enum: ["available", "in_use", "maintenance"] })
     .notNull()
-    .default("available")
-    .$type<"available" | "in_use" | "maintenance">(),
+    .default("available"),
   createdAt: t
     .text("created_at")
     .notNull()

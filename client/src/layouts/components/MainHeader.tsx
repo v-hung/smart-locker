@@ -10,7 +10,7 @@ type State = HTMLAttributes<HTMLDivElement> & {
 	subTitle?: string;
 	description?: string;
 	rightSection?: React.ReactNode;
-	breadcrumbs: { label: string; path?: string }[];
+	breadcrumbs?: { label: string; path?: string }[];
 };
 
 const MainHeader: FC<State> = (props) => {
@@ -20,7 +20,7 @@ const MainHeader: FC<State> = (props) => {
 		subTitle = "",
 		description = "",
 		rightSection: rightEl,
-		breadcrumbs,
+		breadcrumbs = [],
 		...rest
 	} = props;
 

@@ -42,7 +42,7 @@ export interface LockerInsertInput {
      * @type {string}
      * @memberof LockerInsertInput
      */
-    status?: string;
+    status?: LockerInsertInputStatusEnum;
     /**
      * 
      * @type {string}
@@ -56,6 +56,18 @@ export interface LockerInsertInput {
      */
     userId: number;
 }
+
+
+/**
+ * @export
+ */
+export const LockerInsertInputStatusEnum = {
+    Available: 'available',
+    InUse: 'in_use',
+    Maintenance: 'maintenance'
+} as const;
+export type LockerInsertInputStatusEnum = typeof LockerInsertInputStatusEnum[keyof typeof LockerInsertInputStatusEnum];
+
 
 /**
  * Check if a given object implements the LockerInsertInput interface.

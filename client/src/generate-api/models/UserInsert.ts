@@ -48,7 +48,7 @@ export interface UserInsert {
      * @type {string}
      * @memberof UserInsert
      */
-    role?: string;
+    role?: UserInsertRoleEnum;
     /**
      * 
      * @type {string}
@@ -56,6 +56,18 @@ export interface UserInsert {
      */
     createdAt?: string;
 }
+
+
+/**
+ * @export
+ */
+export const UserInsertRoleEnum = {
+    Guest: 'guest',
+    User: 'user',
+    Admin: 'admin'
+} as const;
+export type UserInsertRoleEnum = typeof UserInsertRoleEnum[keyof typeof UserInsertRoleEnum];
+
 
 /**
  * Check if a given object implements the UserInsert interface.
