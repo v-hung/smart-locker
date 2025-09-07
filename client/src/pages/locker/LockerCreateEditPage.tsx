@@ -19,9 +19,7 @@ export const loader = wrapProtectedLoader(async ({ params }) => {
 		return null;
 	}
 
-	const data = await wrapPromise(() =>
-		lockerApi.apiLockersLockersIdGet({ id }),
-	);
+	const data = await wrapPromise(() => lockerApi.apiLockersIdGet({ id }));
 
 	if (!data) {
 		throw redirect("/lockers");
@@ -51,6 +49,7 @@ export function Component() {
 						{ label: "Lockers", path: "/lockers" },
 						{ label: `${data ? "Edit" : "Create"} a locker` },
 					]}
+					sticky
 				/>
 
 				<MainBody>

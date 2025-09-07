@@ -1,7 +1,7 @@
 import { relations, sql } from "drizzle-orm";
 import { sqliteTable as table } from "drizzle-orm/sqlite-core";
 import * as t from "drizzle-orm/sqlite-core";
-import { users } from "./users";
+import { users, userSelectSchema } from "./users";
 import {
   createInsertSchema,
   createSelectSchema,
@@ -24,10 +24,7 @@ export const lockers = table("lockers", {
     .$type<Date>(),
 
   // relations
-  userId: t
-    .integer("user_id")
-    .notNull()
-    .references(() => users.id),
+  userId: t.integer("user_id").references(() => users.id),
 });
 
 export const lockerRelations = relations(lockers, ({ one }) => ({
@@ -37,8 +34,6 @@ export const lockerRelations = relations(lockers, ({ one }) => ({
 export const lockerSelectSchema = createSelectSchema(lockers);
 export const lockerInsertSchema = createInsertSchema(lockers);
 export const lockerUpdateSchema = createUpdateSchema(lockers);
-
-export type lockerInsertType = z.infer<typeof lockerInsertSchema>;
 
 z.globalRegistry.add(lockerSelectSchema, { id: "Locker" });
 z.globalRegistry.add(lockerInsertSchema, { id: "LockerInsert" });

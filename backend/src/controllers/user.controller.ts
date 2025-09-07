@@ -1,9 +1,18 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import * as userService from "../services/user.service";
 import { users } from "../db/schema";
+import { PaginationInput } from "../schemas/auth/pagination.schema";
+import { PaginatedUser } from "../schemas/user/user.schema";
 
 export const getAllUsers = async (req: FastifyRequest, reply: FastifyReply) => {
   return userService.getAll();
+};
+
+export const searchUsers = async (
+  req: FastifyRequest<{ Querystring: PaginationInput }>,
+  reply: FastifyReply
+): Promise<PaginatedUser> => {
+  return userService.search(req.query);
 };
 
 export const getUserById = async (

@@ -54,7 +54,7 @@ export interface LockerUpdate {
      * @type {number}
      * @memberof LockerUpdate
      */
-    userId?: number;
+    userId?: number | null;
 }
 
 

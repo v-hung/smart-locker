@@ -15,34 +15,45 @@
 
 import * as runtime from '../runtime';
 import type {
+  ApiLockersSearchGet200Response,
   Locker,
   LockerInsertInput,
   LockerUpdateInput,
+  LockerWithRelations,
 } from '../models/index';
 import {
+    ApiLockersSearchGet200ResponseFromJSON,
+    ApiLockersSearchGet200ResponseToJSON,
     LockerFromJSON,
     LockerToJSON,
     LockerInsertInputFromJSON,
     LockerInsertInputToJSON,
     LockerUpdateInputFromJSON,
     LockerUpdateInputToJSON,
+    LockerWithRelationsFromJSON,
+    LockerWithRelationsToJSON,
 } from '../models/index';
 
-export interface ApiLockersLockersIdDeleteRequest {
+export interface ApiLockersIdDeleteRequest {
     id: string;
 }
 
-export interface ApiLockersLockersIdGetRequest {
+export interface ApiLockersIdGetRequest {
     id: string;
 }
 
-export interface ApiLockersLockersIdPutRequest {
+export interface ApiLockersIdPutRequest {
     id: string;
     lockerUpdateInput?: LockerUpdateInput;
 }
 
-export interface ApiLockersLockersPostRequest {
+export interface ApiLockersPostRequest {
     lockerInsertInput?: LockerInsertInput;
+}
+
+export interface ApiLockersSearchGetRequest {
+    page?: number;
+    pageSize?: number;
 }
 
 /**
@@ -52,7 +63,7 @@ export class LockerApi extends runtime.BaseAPI {
 
     /**
      */
-    async apiLockersLockersGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Locker>>> {
+    async apiLockersGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Locker>>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -66,7 +77,7 @@ export class LockerApi extends runtime.BaseAPI {
             }
         }
 
-        let urlPath = `/api/lockers/lockers`;
+        let urlPath = `/api/lockers`;
 
         const response = await this.request({
             path: urlPath,
@@ -80,18 +91,18 @@ export class LockerApi extends runtime.BaseAPI {
 
     /**
      */
-    async apiLockersLockersGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Locker>> {
-        const response = await this.apiLockersLockersGetRaw(initOverrides);
+    async apiLockersGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Locker>> {
+        const response = await this.apiLockersGetRaw(initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async apiLockersLockersIdDeleteRaw(requestParameters: ApiLockersLockersIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<boolean>> {
+    async apiLockersIdDeleteRaw(requestParameters: ApiLockersIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<boolean>> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
-                'Required parameter "id" was null or undefined when calling apiLockersLockersIdDelete().'
+                'Required parameter "id" was null or undefined when calling apiLockersIdDelete().'
             );
         }
 
@@ -108,7 +119,7 @@ export class LockerApi extends runtime.BaseAPI {
             }
         }
 
-        let urlPath = `/api/lockers/lockers/{id}`;
+        let urlPath = `/api/lockers/{id}`;
         urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
 
         const response = await this.request({
@@ -127,18 +138,18 @@ export class LockerApi extends runtime.BaseAPI {
 
     /**
      */
-    async apiLockersLockersIdDelete(requestParameters: ApiLockersLockersIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<boolean> {
-        const response = await this.apiLockersLockersIdDeleteRaw(requestParameters, initOverrides);
+    async apiLockersIdDelete(requestParameters: ApiLockersIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<boolean> {
+        const response = await this.apiLockersIdDeleteRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async apiLockersLockersIdGetRaw(requestParameters: ApiLockersLockersIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Locker>> {
+    async apiLockersIdGetRaw(requestParameters: ApiLockersIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<LockerWithRelations>> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
-                'Required parameter "id" was null or undefined when calling apiLockersLockersIdGet().'
+                'Required parameter "id" was null or undefined when calling apiLockersIdGet().'
             );
         }
 
@@ -155,7 +166,7 @@ export class LockerApi extends runtime.BaseAPI {
             }
         }
 
-        let urlPath = `/api/lockers/lockers/{id}`;
+        let urlPath = `/api/lockers/{id}`;
         urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
 
         const response = await this.request({
@@ -165,23 +176,23 @@ export class LockerApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => LockerFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => LockerWithRelationsFromJSON(jsonValue));
     }
 
     /**
      */
-    async apiLockersLockersIdGet(requestParameters: ApiLockersLockersIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Locker> {
-        const response = await this.apiLockersLockersIdGetRaw(requestParameters, initOverrides);
+    async apiLockersIdGet(requestParameters: ApiLockersIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<LockerWithRelations> {
+        const response = await this.apiLockersIdGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async apiLockersLockersIdPutRaw(requestParameters: ApiLockersLockersIdPutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Locker>> {
+    async apiLockersIdPutRaw(requestParameters: ApiLockersIdPutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Locker>> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
-                'Required parameter "id" was null or undefined when calling apiLockersLockersIdPut().'
+                'Required parameter "id" was null or undefined when calling apiLockersIdPut().'
             );
         }
 
@@ -200,7 +211,7 @@ export class LockerApi extends runtime.BaseAPI {
             }
         }
 
-        let urlPath = `/api/lockers/lockers/{id}`;
+        let urlPath = `/api/lockers/{id}`;
         urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
 
         const response = await this.request({
@@ -216,14 +227,14 @@ export class LockerApi extends runtime.BaseAPI {
 
     /**
      */
-    async apiLockersLockersIdPut(requestParameters: ApiLockersLockersIdPutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Locker> {
-        const response = await this.apiLockersLockersIdPutRaw(requestParameters, initOverrides);
+    async apiLockersIdPut(requestParameters: ApiLockersIdPutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Locker> {
+        const response = await this.apiLockersIdPutRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async apiLockersLockersPostRaw(requestParameters: ApiLockersLockersPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Locker>> {
+    async apiLockersPostRaw(requestParameters: ApiLockersPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Locker>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -239,7 +250,7 @@ export class LockerApi extends runtime.BaseAPI {
             }
         }
 
-        let urlPath = `/api/lockers/lockers`;
+        let urlPath = `/api/lockers`;
 
         const response = await this.request({
             path: urlPath,
@@ -254,8 +265,51 @@ export class LockerApi extends runtime.BaseAPI {
 
     /**
      */
-    async apiLockersLockersPost(requestParameters: ApiLockersLockersPostRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Locker> {
-        const response = await this.apiLockersLockersPostRaw(requestParameters, initOverrides);
+    async apiLockersPost(requestParameters: ApiLockersPostRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Locker> {
+        const response = await this.apiLockersPostRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async apiLockersSearchGetRaw(requestParameters: ApiLockersSearchGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiLockersSearchGet200Response>> {
+        const queryParameters: any = {};
+
+        if (requestParameters['page'] != null) {
+            queryParameters['page'] = requestParameters['page'];
+        }
+
+        if (requestParameters['pageSize'] != null) {
+            queryParameters['pageSize'] = requestParameters['pageSize'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/api/lockers/search`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiLockersSearchGet200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async apiLockersSearchGet(requestParameters: ApiLockersSearchGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiLockersSearchGet200Response> {
+        const response = await this.apiLockersSearchGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

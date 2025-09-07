@@ -54,7 +54,7 @@ export interface LockerInsert {
      * @type {number}
      * @memberof LockerInsert
      */
-    userId: number;
+    userId?: number | null;
 }
 
 
@@ -75,7 +75,6 @@ export type LockerInsertStatusEnum = typeof LockerInsertStatusEnum[keyof typeof 
 export function instanceOfLockerInsert(value: object): value is LockerInsert {
     if (!('lockerCode' in value) || value['lockerCode'] === undefined) return false;
     if (!('location' in value) || value['location'] === undefined) return false;
-    if (!('userId' in value) || value['userId'] === undefined) return false;
     return true;
 }
 
@@ -94,7 +93,7 @@ export function LockerInsertFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'location': json['location'],
         'status': json['status'] == null ? undefined : json['status'],
         'createdAt': json['createdAt'] == null ? undefined : json['createdAt'],
-        'userId': json['userId'],
+        'userId': json['userId'] == null ? undefined : json['userId'],
     };
 }
 

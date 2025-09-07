@@ -6,10 +6,15 @@ import {
   lockerSelectSchema,
   lockerUpdateSchema,
 } from "../db/schema";
+import { paginationSchema } from "../schemas/auth/pagination.schema";
+import {
+  lockerWithRelationsSchema,
+  paginatedLockerSchema,
+} from "../schemas/locker/locker.schema";
 
 async function routes(app: FastifyInstance) {
   app.get(
-    "/lockers",
+    "",
     {
       schema: {
         response: {
@@ -21,11 +26,24 @@ async function routes(app: FastifyInstance) {
   );
 
   app.get(
-    "/lockers/:id",
+    "/search",
+    {
+      schema: {
+        querystring: paginationSchema,
+        response: {
+          200: paginatedLockerSchema,
+        },
+      },
+    },
+    lockerController.searchLockers
+  );
+
+  app.get(
+    "/:id",
     {
       schema: {
         response: {
-          200: lockerSelectSchema,
+          200: lockerWithRelationsSchema,
         },
       },
     },
@@ -33,7 +51,7 @@ async function routes(app: FastifyInstance) {
   );
 
   app.post(
-    "/lockers",
+    "",
     {
       schema: {
         body: lockerInsertSchema,
@@ -46,7 +64,7 @@ async function routes(app: FastifyInstance) {
   );
 
   app.put(
-    "/lockers/:id",
+    "/:id",
     {
       schema: {
         body: lockerUpdateSchema,
@@ -59,7 +77,7 @@ async function routes(app: FastifyInstance) {
   );
 
   app.delete(
-    "/lockers/:id",
+    "/:id",
     {
       schema: {
         response: {

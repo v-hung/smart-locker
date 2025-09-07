@@ -1,12 +1,21 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import * as lockerService from "../services/locker.service";
-import { lockerInsertType, lockers } from "../db/schema";
+import { lockers } from "../db/schema";
+import { PaginationInput } from "../schemas/auth/pagination.schema";
+import { PaginatedLocker } from "../schemas/locker/locker.schema";
 
 export const getAllLockers = async (
   req: FastifyRequest,
   reply: FastifyReply
 ) => {
   return lockerService.getAll();
+};
+
+export const searchLockers = async (
+  req: FastifyRequest<{ Querystring: PaginationInput }>,
+  reply: FastifyReply
+): Promise<PaginatedLocker> => {
+  return lockerService.search(req.query);
 };
 
 export const getLockerById = async (
@@ -18,7 +27,7 @@ export const getLockerById = async (
 };
 
 export const createLocker = async (
-  req: FastifyRequest<{ Body: lockerInsertType }>,
+  req: FastifyRequest<{ Body: typeof lockers.$inferInsert }>,
   reply: FastifyReply
 ) => {
   return lockerService.create(req.body);

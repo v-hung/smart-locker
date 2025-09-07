@@ -3,12 +3,17 @@ apis/LockerApi.ts
 apis/UserApi.ts
 apis/index.ts
 index.ts
+models/ApiLockersSearchGet200Response.ts
+models/ApiLockersSearchGet200ResponseMeta.ts
+models/ApiUsersSearchGet200Response.ts
 models/Locker.ts
 models/LockerInput.ts
 models/LockerInsert.ts
 models/LockerInsertInput.ts
 models/LockerUpdate.ts
 models/LockerUpdateInput.ts
+models/LockerWithRelations.ts
+models/LockerWithRelationsInput.ts
 models/LoginBody.ts
 models/LoginBodyInput.ts
 models/LoginResponse.ts
@@ -19,5 +24,7 @@ models/UserInsert.ts
 models/UserInsertInput.ts
 models/UserUpdate.ts
 models/UserUpdateInput.ts
+models/UserWithRelations.ts
+models/UserWithRelationsInput.ts
 models/index.ts
 runtime.ts

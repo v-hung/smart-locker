@@ -54,7 +54,7 @@ export interface LockerUpdateInput {
      * @type {number}
      * @memberof LockerUpdateInput
      */
-    userId?: number;
+    userId?: number | null;
 }
 
 

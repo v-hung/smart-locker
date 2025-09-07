@@ -4,7 +4,7 @@ import { Anchor, Breadcrumbs, Button, Grid } from "@mantine/core";
 import MainContent from "@/layouts/components/MainContent";
 import MainBody from "@/layouts/components/MainBody";
 import TableLocker from "@/features/locker/components/TableLocker";
-import { IconCirclePlusFilled } from "@tabler/icons-react";
+import { IconCirclePlusFilled, IconTrash } from "@tabler/icons-react";
 import {
 	LockersProvider,
 	useLockersContext,
@@ -27,19 +27,31 @@ export function Component() {
 }
 
 const Header = () => {
-	const { data } = useLockersContext();
+	const { data, selectedRecords } = useLockersContext();
+
 	return (
 		<MainHeader
 			title="Lockers"
 			subTitle={`${data.length} items`}
 			description="Track, manage, and optimize your lockers"
 			rightSection={
-				<Button
-					variant="light"
-					leftSection={<IconCirclePlusFilled size={24} />}
-				>
-					Add new item
-				</Button>
+				<>
+					{selectedRecords.length > 0 ? (
+						<Button
+							variant="light"
+							color="red"
+							leftSection={<IconTrash size={24} />}
+						>
+							Delete
+						</Button>
+					) : null}
+					<Button
+						variant="light"
+						leftSection={<IconCirclePlusFilled size={24} />}
+					>
+						Add new item
+					</Button>
+				</>
 			}
 			breadcrumbs={[{ label: "Lockers", path: "/lockers" }]}
 		/>

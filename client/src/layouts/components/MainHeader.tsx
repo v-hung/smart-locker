@@ -11,6 +11,7 @@ type State = HTMLAttributes<HTMLDivElement> & {
 	description?: string;
 	rightSection?: React.ReactNode;
 	breadcrumbs?: { label: string; path?: string }[];
+	sticky?: boolean;
 };
 
 const MainHeader: FC<State> = (props) => {
@@ -21,6 +22,7 @@ const MainHeader: FC<State> = (props) => {
 		description = "",
 		rightSection: rightEl,
 		breadcrumbs = [],
+		sticky = false,
 		...rest
 	} = props;
 
@@ -33,7 +35,10 @@ const MainHeader: FC<State> = (props) => {
 	};
 
 	return (
-		<div {...rest} className={`${styles.mainHeader} ${className}`}>
+		<div
+			{...rest}
+			className={`${styles.mainHeader} ${sticky ? styles.mainHeaderSticky : ""} ${className}`}
+		>
 			<div className={styles.headerContainer}>
 				<div className={styles.headerLeft}>
 					<Breadcrumbs separator={<IconChevronRight size={14} />}>

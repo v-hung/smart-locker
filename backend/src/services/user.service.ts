@@ -1,15 +1,42 @@
 import db from "../config/db";
 import { users } from "../db/schema/users";
 import { eq } from "drizzle-orm";
+import { PaginationInput } from "../schemas/auth/pagination.schema";
+import { lockers } from "../db/schema";
+import { PaginatedUser } from "../schemas/user/user.schema";
 
 export const getAll = async () => {
-  return await db.query.users.findMany();
+  return await db.select().from(users);
+};
+
+export const search = async (
+  input: PaginationInput
+): Promise<PaginatedUser> => {
+  const limit = input.pageSize;
+  const offset = (input.page - 1) * input.pageSize;
+
+  const data = await db.select().from(users).offset(offset).limit(limit);
+
+  const total = await db.$count(users);
+
+  return {
+    data,
+    meta: {
+      page: input.page,
+      pageSize: input.pageSize,
+      total,
+      totalPages: Math.ceil(total / input.pageSize),
+    },
+  };
 };
 
 export const getById = async (id: number) => {
-  const [user] = await db.query.users.findMany({
-    where: eq(users.id, id),
-  });
+  const [user] = await db
+    .select()
+    .from(users)
+    .leftJoin(users, eq(users.id, lockers.id))
+    .where(eq(users.id, id));
+
   return user;
 };
 

@@ -19,9 +19,9 @@ export const COLUMNS: DataTableColumn<Locker>[] = [
 		textAlign: "right",
 		width: "5rem",
 		render: (company) => (
-			<Menu width={150} position="top-end" withinPortal>
+			<Menu width={150} position="top-end">
 				<Menu.Target>
-					<ActionIcon variant="subtle">
+					<ActionIcon variant="subtle" onClick={(e) => e.stopPropagation()}>
 						<IconDots />
 					</ActionIcon>
 				</Menu.Target>

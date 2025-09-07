@@ -3,6 +3,13 @@
 	flex: none;
 }
 
+.mainHeaderSticky {
+	position: sticky;
+	top: 0;
+	background-color: #fff;
+	z-index: 10;
+}
+
 .headerContainer {
 	display: flex;
 	align-items: center;
@@ -22,6 +29,8 @@
 
 	.headerRight {
 		margin-left: auto;
+		display: flex;
+		gap: 1rem;
 	}
 }
 

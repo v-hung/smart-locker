@@ -39,7 +39,7 @@ export function Component() {
 		>
 			<div className={styles.menu}>
 				<div className={styles["menu-logo"]}>
-					<img src="./logo_min.png" alt="logo" />
+					<img src="/logo_min.png" alt="logo" />
 					<span>Smart Locker</span>
 					<button
 						className={"menu-toggle"}
@@ -73,9 +73,16 @@ export function Component() {
 						),
 					)}
 
-					<Menu shadow="md" width={200} position="top">
+					<Menu
+						shadow="md"
+						width={200}
+						position="top"
+						// floatingStrategy="absolute"
+						// withinPortal
+					>
 						<Menu.Target>
-							<MenuAccount />
+							{/* <MenuAccount /> */}
+							<Button>asdf</Button>
 						</Menu.Target>
 
 						<Menu.Dropdown>

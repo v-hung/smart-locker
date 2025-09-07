@@ -13,80 +13,95 @@
  */
 
 import { mapValues } from '../runtime';
+import type { User } from './User';
+import {
+    UserFromJSON,
+    UserFromJSONTyped,
+    UserToJSON,
+    UserToJSONTyped,
+} from './User';
+
 /**
  * 
  * @export
- * @interface LockerInput
+ * @interface LockerWithRelations
  */
-export interface LockerInput {
+export interface LockerWithRelations {
     /**
      * 
      * @type {number}
-     * @memberof LockerInput
+     * @memberof LockerWithRelations
      */
     id: number;
     /**
      * 
      * @type {string}
-     * @memberof LockerInput
+     * @memberof LockerWithRelations
      */
     lockerCode: string;
     /**
      * 
      * @type {string}
-     * @memberof LockerInput
+     * @memberof LockerWithRelations
      */
     location: string;
     /**
      * 
      * @type {string}
-     * @memberof LockerInput
+     * @memberof LockerWithRelations
      */
-    status: LockerInputStatusEnum;
+    status: LockerWithRelationsStatusEnum;
     /**
      * 
      * @type {string}
-     * @memberof LockerInput
+     * @memberof LockerWithRelations
      */
     createdAt: string;
     /**
      * 
      * @type {number}
-     * @memberof LockerInput
+     * @memberof LockerWithRelations
      */
     userId: number | null;
+    /**
+     * 
+     * @type {User}
+     * @memberof LockerWithRelations
+     */
+    user: User | null;
 }
 
 
 /**
  * @export
  */
-export const LockerInputStatusEnum = {
+export const LockerWithRelationsStatusEnum = {
     Available: 'available',
     InUse: 'in_use',
     Maintenance: 'maintenance'
 } as const;
-export type LockerInputStatusEnum = typeof LockerInputStatusEnum[keyof typeof LockerInputStatusEnum];
+export type LockerWithRelationsStatusEnum = typeof LockerWithRelationsStatusEnum[keyof typeof LockerWithRelationsStatusEnum];
 
 
 /**
- * Check if a given object implements the LockerInput interface.
+ * Check if a given object implements the LockerWithRelations interface.
  */
-export function instanceOfLockerInput(value: object): value is LockerInput {
+export function instanceOfLockerWithRelations(value: object): value is LockerWithRelations {
     if (!('id' in value) || value['id'] === undefined) return false;
     if (!('lockerCode' in value) || value['lockerCode'] === undefined) return false;
     if (!('location' in value) || value['location'] === undefined) return false;
     if (!('status' in value) || value['status'] === undefined) return false;
     if (!('createdAt' in value) || value['createdAt'] === undefined) return false;
     if (!('userId' in value) || value['userId'] === undefined) return false;
+    if (!('user' in value) || value['user'] === undefined) return false;
     return true;
 }
 
-export function LockerInputFromJSON(json: any): LockerInput {
-    return LockerInputFromJSONTyped(json, false);
+export function LockerWithRelationsFromJSON(json: any): LockerWithRelations {
+    return LockerWithRelationsFromJSONTyped(json, false);
 }
 
-export function LockerInputFromJSONTyped(json: any, ignoreDiscriminator: boolean): LockerInput {
+export function LockerWithRelationsFromJSONTyped(json: any, ignoreDiscriminator: boolean): LockerWithRelations {
     if (json == null) {
         return json;
     }
@@ -98,14 +113,15 @@ export function LockerInputFromJSONTyped(json: any, ignoreDiscriminator: boolean
         'status': json['status'],
         'createdAt': json['createdAt'],
         'userId': json['userId'],
+        'user': UserFromJSON(json['user']),
     };
 }
 
-export function LockerInputToJSON(json: any): LockerInput {
-    return LockerInputToJSONTyped(json, false);
+export function LockerWithRelationsToJSON(json: any): LockerWithRelations {
+    return LockerWithRelationsToJSONTyped(json, false);
 }
 
-export function LockerInputToJSONTyped(value?: LockerInput | null, ignoreDiscriminator: boolean = false): any {
+export function LockerWithRelationsToJSONTyped(value?: LockerWithRelations | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
@@ -118,6 +134,7 @@ export function LockerInputToJSONTyped(value?: LockerInput | null, ignoreDiscrim
         'status': value['status'],
         'createdAt': value['createdAt'],
         'userId': value['userId'],
+        'user': UserToJSON(value['user']),
     };
 }
 

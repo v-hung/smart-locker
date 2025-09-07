@@ -1,7 +1,7 @@
 import { relations, sql } from "drizzle-orm";
 import { sqliteTable as table } from "drizzle-orm/sqlite-core";
 import * as t from "drizzle-orm/sqlite-core";
-import { lockers } from "./lockers";
+import { lockers, lockerSelectSchema } from "./lockers";
 import {
   createInsertSchema,
   createSelectSchema,
@@ -37,6 +37,7 @@ export const usersRelations = relations(users, ({ one }) => ({
 export const userSelectSchema = createSelectSchema(users).omit({
   password: true,
 });
+
 export const userInsertSchema = createInsertSchema(users);
 export const userUpdateSchema = createUpdateSchema(users);
 

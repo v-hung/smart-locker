@@ -54,7 +54,7 @@ export interface Locker {
      * @type {number}
      * @memberof Locker
      */
-    userId: number;
+    userId: number | null;
 }
 
 

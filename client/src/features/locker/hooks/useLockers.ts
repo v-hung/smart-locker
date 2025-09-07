@@ -6,11 +6,12 @@ import { useState } from "react";
 export const useLockers = () => {
 	const [loading, setLoading] = useState(false);
 	const [data, setData] = useState<Locker[]>([]);
+	const [selectedRecords, setSelectedRecords] = useState<any[]>([]);
 
 	const getAll = async () => {
 		setLoading(true);
 
-		const items = await wrapPromise(() => lockerApi.apiLockersLockersGet());
+		const items = await wrapPromise(() => lockerApi.apiLockersGet());
 
 		setData(items ?? []);
 
@@ -21,5 +22,7 @@ export const useLockers = () => {
 		loading,
 		data,
 		getAll,
+		selectedRecords,
+		setSelectedRecords,
 	};
 };

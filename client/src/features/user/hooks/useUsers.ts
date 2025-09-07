@@ -10,7 +10,7 @@ export const useUsers = () => {
 	const getAll = async () => {
 		setLoading(true);
 
-		const items = await wrapPromise(() => userApi.apiUsersUsersGet());
+		const items = await wrapPromise(() => userApi.apiUsersGet());
 
 		setData(items ?? []);
 

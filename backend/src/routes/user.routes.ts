@@ -6,10 +6,15 @@ import {
   userSelectSchema,
   userUpdateSchema,
 } from "../db/schema";
+import { paginationSchema } from "../schemas/auth/pagination.schema";
+import {
+  paginatedUserSchema,
+  userWithRelationsSchema,
+} from "../schemas/user/user.schema";
 
 async function routes(app: FastifyInstance) {
   app.get(
-    "/users",
+    "",
     {
       schema: {
         response: {
@@ -21,11 +26,24 @@ async function routes(app: FastifyInstance) {
   );
 
   app.get(
-    "/users/:id",
+    "/search",
+    {
+      schema: {
+        querystring: paginationSchema,
+        response: {
+          200: paginatedUserSchema,
+        },
+      },
+    },
+    userController.searchUsers
+  );
+
+  app.get(
+    "/:id",
     {
       schema: {
         response: {
-          200: userSelectSchema,
+          200: userWithRelationsSchema,
         },
       },
     },
@@ -33,7 +51,7 @@ async function routes(app: FastifyInstance) {
   );
 
   app.post(
-    "/users",
+    "",
     {
       schema: {
         body: userInsertSchema,
@@ -46,7 +64,7 @@ async function routes(app: FastifyInstance) {
   );
 
   app.put(
-    "/users/:id",
+    "/:id",
     {
       schema: {
         body: userUpdateSchema,
@@ -59,7 +77,7 @@ async function routes(app: FastifyInstance) {
   );
 
   app.delete(
-    "/users/:id",
+    "/:id",
     {
       schema: {
         response: {
