@@ -3,9 +3,6 @@ apis/LockerApi.ts
 apis/UserApi.ts
 apis/index.ts
 index.ts
-models/ApiLockersSearchGet200Response.ts
-models/ApiLockersSearchGet200ResponseMeta.ts
-models/ApiUsersSearchGet200Response.ts
 models/Locker.ts
 models/LockerInput.ts
 models/LockerInsert.ts
@@ -18,6 +15,14 @@ models/LoginBody.ts
 models/LoginBodyInput.ts
 models/LoginResponse.ts
 models/LoginResponseInput.ts
+models/PaginatedLocker.ts
+models/PaginatedLockerInput.ts
+models/PaginatedLockerInputMeta.ts
+models/PaginatedLockerMeta.ts
+models/PaginatedUser.ts
+models/PaginatedUserInput.ts
+models/PaginationQuery.ts
+models/PaginationQueryInput.ts
 models/User.ts
 models/UserInput.ts
 models/UserInsert.ts

@@ -1,16 +1,10 @@
-import {
-	forwardRef,
-	useEffect,
-	useState,
-	type FC,
-	type HTMLAttributes,
-} from "react";
+import { forwardRef, useEffect } from "react";
 import MainTable from "@/components/data-display/MainTable/MainTable";
-import { COLUMNS } from "./TableLocker.columns";
+import { COLUMNS } from "./LockerTable.columns";
 import { useLockersContext } from "../contexts/LockerContext";
 import { useNavigate } from "react-router";
 
-const TableLocker = forwardRef((props, ref) => {
+const LockerTable = forwardRef((props, ref) => {
 	const { selectedRecords, setSelectedRecords } = useLockersContext();
 	const navigate = useNavigate();
 
@@ -32,4 +26,4 @@ const TableLocker = forwardRef((props, ref) => {
 	);
 });
 
-export default TableLocker;
+export default LockerTable;

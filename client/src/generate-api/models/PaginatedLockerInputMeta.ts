@@ -16,39 +16,39 @@ import { mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface ApiLockersSearchGet200ResponseMeta
+ * @interface PaginatedLockerInputMeta
  */
-export interface ApiLockersSearchGet200ResponseMeta {
+export interface PaginatedLockerInputMeta {
     /**
      * 
      * @type {number}
-     * @memberof ApiLockersSearchGet200ResponseMeta
+     * @memberof PaginatedLockerInputMeta
      */
     page: number;
     /**
      * 
      * @type {number}
-     * @memberof ApiLockersSearchGet200ResponseMeta
+     * @memberof PaginatedLockerInputMeta
      */
     pageSize: number;
     /**
      * 
      * @type {number}
-     * @memberof ApiLockersSearchGet200ResponseMeta
+     * @memberof PaginatedLockerInputMeta
      */
     total: number;
     /**
      * 
      * @type {number}
-     * @memberof ApiLockersSearchGet200ResponseMeta
+     * @memberof PaginatedLockerInputMeta
      */
     totalPages: number;
 }
 
 /**
- * Check if a given object implements the ApiLockersSearchGet200ResponseMeta interface.
+ * Check if a given object implements the PaginatedLockerInputMeta interface.
  */
-export function instanceOfApiLockersSearchGet200ResponseMeta(value: object): value is ApiLockersSearchGet200ResponseMeta {
+export function instanceOfPaginatedLockerInputMeta(value: object): value is PaginatedLockerInputMeta {
     if (!('page' in value) || value['page'] === undefined) return false;
     if (!('pageSize' in value) || value['pageSize'] === undefined) return false;
     if (!('total' in value) || value['total'] === undefined) return false;
@@ -56,11 +56,11 @@ export function instanceOfApiLockersSearchGet200ResponseMeta(value: object): val
     return true;
 }
 
-export function ApiLockersSearchGet200ResponseMetaFromJSON(json: any): ApiLockersSearchGet200ResponseMeta {
-    return ApiLockersSearchGet200ResponseMetaFromJSONTyped(json, false);
+export function PaginatedLockerInputMetaFromJSON(json: any): PaginatedLockerInputMeta {
+    return PaginatedLockerInputMetaFromJSONTyped(json, false);
 }
 
-export function ApiLockersSearchGet200ResponseMetaFromJSONTyped(json: any, ignoreDiscriminator: boolean): ApiLockersSearchGet200ResponseMeta {
+export function PaginatedLockerInputMetaFromJSONTyped(json: any, ignoreDiscriminator: boolean): PaginatedLockerInputMeta {
     if (json == null) {
         return json;
     }
@@ -73,11 +73,11 @@ export function ApiLockersSearchGet200ResponseMetaFromJSONTyped(json: any, ignor
     };
 }
 
-export function ApiLockersSearchGet200ResponseMetaToJSON(json: any): ApiLockersSearchGet200ResponseMeta {
-    return ApiLockersSearchGet200ResponseMetaToJSONTyped(json, false);
+export function PaginatedLockerInputMetaToJSON(json: any): PaginatedLockerInputMeta {
+    return PaginatedLockerInputMetaToJSONTyped(json, false);
 }
 
-export function ApiLockersSearchGet200ResponseMetaToJSONTyped(value?: ApiLockersSearchGet200ResponseMeta | null, ignoreDiscriminator: boolean = false): any {
+export function PaginatedLockerInputMetaToJSONTyped(value?: PaginatedLockerInputMeta | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

@@ -12,10 +12,10 @@ export const getAllLockers = async (
 };
 
 export const searchLockers = async (
-  req: FastifyRequest<{ Querystring: PaginationInput }>,
+  req: FastifyRequest<{ Body: PaginationInput }>,
   reply: FastifyReply
 ): Promise<PaginatedLocker> => {
-  return lockerService.search(req.query);
+  return lockerService.search(req.body);
 };
 
 export const getLockerById = async (

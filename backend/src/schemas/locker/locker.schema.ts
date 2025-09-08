@@ -9,4 +9,6 @@ export type PaginatedLocker = z.infer<typeof paginatedLockerSchema>;
 export const lockerWithRelationsSchema = lockerSelectSchema.extend({
   user: userSelectSchema.nullable(),
 });
+
+z.globalRegistry.add(paginatedLockerSchema, { id: "paginatedLocker" });
 z.globalRegistry.add(lockerWithRelationsSchema, { id: "lockerWithRelations" });

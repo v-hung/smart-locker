@@ -1,6 +1,6 @@
 import type { Locker } from "@/generate-api";
-import { ActionIcon, Box, Button, Group, Menu } from "@mantine/core";
-import { IconDots, IconEdit, IconEye, IconTrash } from "@tabler/icons-react";
+import { ActionIcon, Menu } from "@mantine/core";
+import { IconDots, IconEdit, IconTrash } from "@tabler/icons-react";
 import type { DataTableColumn } from "mantine-datatable";
 import { format } from "date-fns";
 

@@ -15,15 +15,14 @@
 
 import * as runtime from '../runtime';
 import type {
-  ApiLockersSearchGet200Response,
   Locker,
   LockerInsertInput,
   LockerUpdateInput,
   LockerWithRelations,
+  PaginatedLocker,
+  PaginationQueryInput,
 } from '../models/index';
 import {
-    ApiLockersSearchGet200ResponseFromJSON,
-    ApiLockersSearchGet200ResponseToJSON,
     LockerFromJSON,
     LockerToJSON,
     LockerInsertInputFromJSON,
@@ -32,6 +31,10 @@ import {
     LockerUpdateInputToJSON,
     LockerWithRelationsFromJSON,
     LockerWithRelationsToJSON,
+    PaginatedLockerFromJSON,
+    PaginatedLockerToJSON,
+    PaginationQueryInputFromJSON,
+    PaginationQueryInputToJSON,
 } from '../models/index';
 
 export interface ApiLockersIdDeleteRequest {
@@ -51,9 +54,8 @@ export interface ApiLockersPostRequest {
     lockerInsertInput?: LockerInsertInput;
 }
 
-export interface ApiLockersSearchGetRequest {
-    page?: number;
-    pageSize?: number;
+export interface ApiLockersSearchPostRequest {
+    paginationQueryInput?: PaginationQueryInput;
 }
 
 /**
@@ -272,18 +274,12 @@ export class LockerApi extends runtime.BaseAPI {
 
     /**
      */
-    async apiLockersSearchGetRaw(requestParameters: ApiLockersSearchGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiLockersSearchGet200Response>> {
+    async apiLockersSearchPostRaw(requestParameters: ApiLockersSearchPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PaginatedLocker>> {
         const queryParameters: any = {};
 
-        if (requestParameters['page'] != null) {
-            queryParameters['page'] = requestParameters['page'];
-        }
-
-        if (requestParameters['pageSize'] != null) {
-            queryParameters['pageSize'] = requestParameters['pageSize'];
-        }
-
         const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
 
         if (this.configuration && this.configuration.accessToken) {
             const token = this.configuration.accessToken;
@@ -298,18 +294,19 @@ export class LockerApi extends runtime.BaseAPI {
 
         const response = await this.request({
             path: urlPath,
-            method: 'GET',
+            method: 'POST',
             headers: headerParameters,
             query: queryParameters,
+            body: PaginationQueryInputToJSON(requestParameters['paginationQueryInput']),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ApiLockersSearchGet200ResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => PaginatedLockerFromJSON(jsonValue));
     }
 
     /**
      */
-    async apiLockersSearchGet(requestParameters: ApiLockersSearchGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiLockersSearchGet200Response> {
-        const response = await this.apiLockersSearchGetRaw(requestParameters, initOverrides);
+    async apiLockersSearchPost(requestParameters: ApiLockersSearchPostRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PaginatedLocker> {
+        const response = await this.apiLockersSearchPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

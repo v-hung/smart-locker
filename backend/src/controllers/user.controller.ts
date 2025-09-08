@@ -9,10 +9,10 @@ export const getAllUsers = async (req: FastifyRequest, reply: FastifyReply) => {
 };
 
 export const searchUsers = async (
-  req: FastifyRequest<{ Querystring: PaginationInput }>,
+  req: FastifyRequest<{ Body: PaginationInput }>,
   reply: FastifyReply
 ): Promise<PaginatedUser> => {
-  return userService.search(req.query);
+  return userService.search(req.body);
 };
 
 export const getUserById = async (

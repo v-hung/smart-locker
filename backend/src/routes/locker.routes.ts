@@ -6,7 +6,7 @@ import {
   lockerSelectSchema,
   lockerUpdateSchema,
 } from "../db/schema";
-import { paginationSchema } from "../schemas/auth/pagination.schema";
+import { paginationQuerySchema } from "../schemas/auth/pagination.schema";
 import {
   lockerWithRelationsSchema,
   paginatedLockerSchema,
@@ -25,11 +25,11 @@ async function routes(app: FastifyInstance) {
     lockerController.getAllLockers
   );
 
-  app.get(
+  app.post(
     "/search",
     {
       schema: {
-        querystring: paginationSchema,
+        body: paginationQuerySchema,
         response: {
           200: paginatedLockerSchema,
         },

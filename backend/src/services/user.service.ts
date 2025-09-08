@@ -31,11 +31,12 @@ export const search = async (
 };
 
 export const getById = async (id: number) => {
-  const [user] = await db
-    .select()
-    .from(users)
-    .leftJoin(users, eq(users.id, lockers.id))
-    .where(eq(users.id, id));
+  const user = await db.query.users.findFirst({
+    where: eq(users.id, id),
+    with: {
+      locker: true,
+    },
+  });
 
   return user;
 };

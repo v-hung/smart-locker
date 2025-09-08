@@ -1,8 +1,5 @@
 /* tslint:disable */
 /* eslint-disable */
-export * from './ApiLockersSearchGet200Response';
-export * from './ApiLockersSearchGet200ResponseMeta';
-export * from './ApiUsersSearchGet200Response';
 export * from './Locker';
 export * from './LockerInput';
 export * from './LockerInsert';
@@ -15,6 +12,14 @@ export * from './LoginBody';
 export * from './LoginBodyInput';
 export * from './LoginResponse';
 export * from './LoginResponseInput';
+export * from './PaginatedLocker';
+export * from './PaginatedLockerInput';
+export * from './PaginatedLockerInputMeta';
+export * from './PaginatedLockerMeta';
+export * from './PaginatedUser';
+export * from './PaginatedUserInput';
+export * from './PaginationQuery';
+export * from './PaginationQueryInput';
 export * from './User';
 export * from './UserInput';
 export * from './UserInsert';

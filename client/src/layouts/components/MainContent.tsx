@@ -6,13 +6,16 @@ type State = HTMLAttributes<HTMLDivElement> & {
 };
 
 const MainContent: FC<State> = (props) => {
-	const { className = "", hFull = false, ...rest } = props;
+	const { className = "", hFull = false, children, ...rest } = props;
 	return (
-		<div
-			{...rest}
-			className={`${styles.mainContent} ${className}`}
-			style={{ height: hFull ? "100dvh" : "auto" }}
-		/>
+		<div {...rest} className={`${styles.mainWrap} ${className}`}>
+			<div
+				className={styles.mainContent}
+				style={{ height: hFull ? "100dvh" : "auto" }}
+			>
+				{children}
+			</div>
+		</div>
 	);
 };
 

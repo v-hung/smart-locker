@@ -15,15 +15,18 @@
 
 import * as runtime from '../runtime';
 import type {
-  ApiUsersSearchGet200Response,
+  PaginatedUser,
+  PaginationQueryInput,
   User,
   UserInsertInput,
   UserUpdateInput,
   UserWithRelations,
 } from '../models/index';
 import {
-    ApiUsersSearchGet200ResponseFromJSON,
-    ApiUsersSearchGet200ResponseToJSON,
+    PaginatedUserFromJSON,
+    PaginatedUserToJSON,
+    PaginationQueryInputFromJSON,
+    PaginationQueryInputToJSON,
     UserFromJSON,
     UserToJSON,
     UserInsertInputFromJSON,
@@ -51,9 +54,8 @@ export interface ApiUsersPostRequest {
     userInsertInput?: UserInsertInput;
 }
 
-export interface ApiUsersSearchGetRequest {
-    page?: number;
-    pageSize?: number;
+export interface ApiUsersSearchPostRequest {
+    paginationQueryInput?: PaginationQueryInput;
 }
 
 /**
@@ -272,18 +274,12 @@ export class UserApi extends runtime.BaseAPI {
 
     /**
      */
-    async apiUsersSearchGetRaw(requestParameters: ApiUsersSearchGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiUsersSearchGet200Response>> {
+    async apiUsersSearchPostRaw(requestParameters: ApiUsersSearchPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PaginatedUser>> {
         const queryParameters: any = {};
 
-        if (requestParameters['page'] != null) {
-            queryParameters['page'] = requestParameters['page'];
-        }
-
-        if (requestParameters['pageSize'] != null) {
-            queryParameters['pageSize'] = requestParameters['pageSize'];
-        }
-
         const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
 
         if (this.configuration && this.configuration.accessToken) {
             const token = this.configuration.accessToken;
@@ -298,18 +294,19 @@ export class UserApi extends runtime.BaseAPI {
 
         const response = await this.request({
             path: urlPath,
-            method: 'GET',
+            method: 'POST',
             headers: headerParameters,
             query: queryParameters,
+            body: PaginationQueryInputToJSON(requestParameters['paginationQueryInput']),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ApiUsersSearchGet200ResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => PaginatedUserFromJSON(jsonValue));
     }
 
     /**
      */
-    async apiUsersSearchGet(requestParameters: ApiUsersSearchGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiUsersSearchGet200Response> {
-        const response = await this.apiUsersSearchGetRaw(requestParameters, initOverrides);
+    async apiUsersSearchPost(requestParameters: ApiUsersSearchPostRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PaginatedUser> {
+        const response = await this.apiUsersSearchPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

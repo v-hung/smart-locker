@@ -1,13 +1,4 @@
-import {
-	useEffect,
-	useMemo,
-	useRef,
-	useState,
-	type ChangeEvent,
-	type Dispatch,
-	type FC,
-	type SetStateAction,
-} from "react";
+import { useEffect, useRef, useState, type FC } from "react";
 import {
 	Combobox,
 	useCombobox,
@@ -17,111 +8,114 @@ import {
 	rem,
 	type TextInputProps,
 } from "@mantine/core";
-import { useDebouncedValue } from "@mantine/hooks";
 
-/** Giả lập API – thay bằng API thật của bạn */
-type Item = { value: string; label: string };
-const PAGE_SIZE = 20;
+export type InfiniteSelectItem = {
+	label: string;
+	value: string;
+};
 
-async function fetchOptions(
-	query: string,
-	page: number,
-): Promise<{
-	items: Item[];
-	hasMore: boolean;
-}> {
-	const ALL: Item[] = Array.from({ length: 100 }).map((_, i) => ({
-		value: String(i + 1),
-		label: `Option ${i + 1}`,
-	}));
-
-	const filtered = query
-		? ALL.filter((i) =>
-				i.label.toLowerCase().includes(query.trim().toLowerCase()),
-			)
-		: ALL;
-
-	const start = page * PAGE_SIZE;
-	const end = start + PAGE_SIZE;
-	await new Promise((r) => setTimeout(r, 500)); // giả lập network
-	return { items: filtered.slice(start, end), hasMore: end < filtered.length };
-}
-
-export type InfiniteSelectState = Omit<TextInputProps, "value" | "onChange"> & {
-	value?: string | null;
-	// setValue?: Dispatch<SetStateAction<string | null | undefined>>;
-	onChange?: (value: string | null | undefined) => void;
+export type InfiniteSelectState<Multiple extends boolean = false> = Omit<
+	TextInputProps,
+	"value" | "defaultValue" | "onChange"
+> & {
+	multiple?: Multiple;
+	value?: Multiple extends true ? string[] : string | null;
+	defaultValue?: Multiple extends true ? string[] : string | null;
+	onChange?: Multiple extends true
+		? (value: string[]) => void
+		: (value: string | null | undefined) => void;
+	data?: InfiniteSelectItem[];
+	onScroll?: () => void;
+	loading?: boolean;
+	onSearch?: (k?: string) => void;
+	initDropdownOnOpen?: () => void;
 };
 
 const InfiniteSelect: FC<InfiniteSelectState> = (props) => {
-	const { value, onChange, ...rest } = props;
+	const {
+		value,
+		defaultValue,
+		onChange,
+		data = [],
+		onScroll,
+		loading = false,
+		onSearch,
+		initDropdownOnOpen,
+		...rest
+	} = props;
 
-	const combobox = useCombobox({ onDropdownClose: () => setSearch("") });
-
-	const [search, setSearch] = useState(value ?? "");
-	const [debouncedSearch] = useDebouncedValue(search, 300);
-
-	const [page, setPage] = useState(0);
-	const [data, setData] = useState<Item[]>([]);
-	const [hasMore, setHasMore] = useState(true);
-	const [loading, setLoading] = useState(false);
-
+	const combobox = useCombobox({
+		onDropdownClose: () => {
+			setSearch(getLabelInValue(currentValue));
+		},
+	});
 	const viewportRef = useRef<HTMLDivElement | null>(null);
 
-	useEffect(() => {
-		let ignore = false;
-		(async () => {
-			setLoading(true);
-			const res = await fetchOptions(debouncedSearch, page);
-			if (ignore) return;
-			setData((prev) => (page === 0 ? res.items : [...prev, ...res.items]));
-			setHasMore(res.hasMore);
-			setLoading(false);
-		})();
-		return () => {
-			ignore = true;
-		};
-	}, [debouncedSearch, page]);
-
-	useEffect(() => {
-		setPage(0);
-	}, [debouncedSearch]);
+	const hasOpened = useRef(false);
+	const [currentValue, setCurrentValue] = useState<string | null>();
+	const [search, setSearch] = useState("");
 
 	const handleScroll = () => {
 		const el = viewportRef.current;
-		if (!el || loading || !hasMore) return;
+		if (!el) return;
 		const distanceToBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
 		if (distanceToBottom < 40) {
-			setPage((p) => p + 1);
+			onScroll?.();
 		}
 	};
+
+	const handleDropdownOpen = () => {
+		combobox.openDropdown();
+
+		if (!hasOpened.current) {
+			initDropdownOnOpen?.();
+			hasOpened.current = true;
+		}
+	};
+
+	const getLabelInValue = (value?: string | null) =>
+		value ? (data.find((v) => v.value == value)?.label ?? "") : "";
+
+	useEffect(() => {
+		let newCurrentValue = value ?? defaultValue;
+		let newSearchValue = getLabelInValue(newCurrentValue);
+
+		if (
+			newCurrentValue &&
+			currentValue != newCurrentValue &&
+			newSearchValue != search
+		) {
+			setCurrentValue(newCurrentValue);
+			setSearch(newSearchValue);
+		}
+	}, [value, defaultValue, data]);
 
 	return (
 		<Combobox
 			store={combobox}
 			onOptionSubmit={(val) => {
-				console.log({ val });
-				setSearch(val);
+				setSearch(getLabelInValue(val));
 				onChange?.(val);
+				setCurrentValue(val);
 				combobox.closeDropdown();
 			}}
-			// withinPortal
+			withinPortal
 		>
 			<Combobox.Target>
 				<TextInput
 					rightSection={loading ? <Loader size="xs" /> : null}
 					rightSectionPointerEvents="none"
 					value={search}
-					onClick={() => combobox.openDropdown()}
-					onFocus={() => combobox.openDropdown()}
-					onBlur={() => {
-						combobox.closeDropdown();
-						setSearch(value?.toString() || "");
-					}}
+					onClick={handleDropdownOpen}
+					onFocus={handleDropdownOpen}
+					onBlur={() => combobox.closeDropdown()}
 					placeholder="Search value"
 					onChange={(event) => {
 						combobox.updateSelectedOptionIndex();
 						setSearch(event.currentTarget.value);
+						if (onSearch) {
+							onSearch(event.currentTarget.value);
+						}
 					}}
 					{...rest}
 				/>

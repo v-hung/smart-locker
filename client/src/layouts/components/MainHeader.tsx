@@ -28,7 +28,7 @@ const MainHeader: FC<State> = (props) => {
 
 	const navigate = useNavigate();
 
-	const handelBreadcrumbClick = (path?: string) => {
+	const handleBreadcrumbClick = (path?: string) => {
 		if (path) {
 			navigate(path);
 		}
@@ -44,7 +44,7 @@ const MainHeader: FC<State> = (props) => {
 					<Breadcrumbs separator={<IconChevronRight size={14} />}>
 						<Anchor>Dashboard</Anchor>
 						{breadcrumbs.map((v, i) => (
-							<Anchor key={i} onClick={() => handelBreadcrumbClick(v.path)}>
+							<Anchor key={i} onClick={() => handleBreadcrumbClick(v.path)}>
 								{v.label}
 							</Anchor>
 						))}

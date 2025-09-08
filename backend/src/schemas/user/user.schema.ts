@@ -10,4 +10,5 @@ export const userWithRelationsSchema = userSelectSchema.extend({
   locker: lockerSelectSchema.nullable(),
 });
 
+z.globalRegistry.add(paginatedUserSchema, { id: "paginatedUser" });
 z.globalRegistry.add(userWithRelationsSchema, { id: "userWithRelations" });

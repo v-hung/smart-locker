@@ -1,16 +1,15 @@
 import MainHeader from "@/layouts/components/MainHeader";
 import { wrapProtectedLoader } from "@/utils/loader.utils";
-import { Anchor, Breadcrumbs, Button, Grid } from "@mantine/core";
+import { Button } from "@mantine/core";
 import MainContent from "@/layouts/components/MainContent";
 import MainBody from "@/layouts/components/MainBody";
-import TableLocker from "@/features/locker/components/TableLocker";
 import { IconCirclePlusFilled } from "@tabler/icons-react";
 import { LockersProvider } from "@/features/locker/contexts/LockerContext";
 import { wrapPromise } from "@/utils/promise.utils";
 import { lockerApi } from "@/lib/apiClient";
 import { redirect, useLoaderData } from "react-router";
-import type { Locker } from "@/generate-api";
-import FormLocker from "@/features/locker/components/FormLocker";
+import type { Locker, LockerWithRelations } from "@/generate-api";
+import LockerForm from "@/features/locker/components/LockerForm";
 
 export const loader = wrapProtectedLoader(async ({ params }) => {
 	const { id } = params;
@@ -29,7 +28,7 @@ export const loader = wrapProtectedLoader(async ({ params }) => {
 });
 
 export function Component() {
-	const data = useLoaderData() as Locker;
+	const data = useLoaderData() as LockerWithRelations;
 
 	return (
 		<MainContent>
@@ -53,7 +52,7 @@ export function Component() {
 				/>
 
 				<MainBody>
-					<FormLocker />
+					<LockerForm data={data} />
 				</MainBody>
 			</LockersProvider>
 		</MainContent>

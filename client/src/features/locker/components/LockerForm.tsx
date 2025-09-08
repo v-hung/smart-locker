@@ -1,16 +1,20 @@
-import { LockerStatusEnum, type Locker } from "@/generate-api";
+import {
+	LockerStatusEnum,
+	type Locker,
+	type LockerWithRelations,
+} from "@/generate-api";
 import { Button, Grid, Select, Tabs, TextInput } from "@mantine/core";
 import { IconListDetails } from "@tabler/icons-react";
 import { useState, type FC, type FormEvent } from "react";
 import { useForm } from "@mantine/form";
 import { enumToSelectOptions } from "@/utils/enum.utils";
-import InfiniteSelect from "@/components/inputs/InfiniteSelect/InfiniteSelect";
+import UserSelect from "@/features/user/components/UserSelect";
 
-type FormLockerState = {
-	data?: Locker | null;
+type LockerFormState = {
+	data?: LockerWithRelations | null;
 };
 
-const FormLocker: FC<FormLockerState> = (props) => {
+const LockerForm: FC<LockerFormState> = (props) => {
 	const { data } = props;
 
 	const form = useForm({
@@ -25,13 +29,13 @@ const FormLocker: FC<FormLockerState> = (props) => {
 
 	const [first, setFirst] = useState({});
 
-	const handelSubmit = form.onSubmit((values) => {
+	const handleSubmit = form.onSubmit((values) => {
 		setFirst(values);
 		console.log({ values });
 	});
 
 	return (
-		<form onSubmit={handelSubmit}>
+		<form onSubmit={handleSubmit}>
 			<Tabs defaultValue="form">
 				<Tabs.List>
 					<Tabs.Tab value="form" leftSection={<IconListDetails size={12} />}>
@@ -61,7 +65,7 @@ const FormLocker: FC<FormLockerState> = (props) => {
 								/>
 							</Grid.Col>
 							<Grid.Col span={6}>
-								<InfiniteSelect
+								<UserSelect
 									label="User"
 									key={form.key("userId")}
 									{...form.getInputProps("userId")}
@@ -79,4 +83,4 @@ const FormLocker: FC<FormLockerState> = (props) => {
 	);
 };
 
-export default FormLocker;
+export default LockerForm;

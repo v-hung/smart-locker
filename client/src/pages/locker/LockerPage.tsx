@@ -1,9 +1,9 @@
 import MainHeader from "@/layouts/components/MainHeader";
 import { wrapProtectedLoader } from "@/utils/loader.utils";
-import { Anchor, Breadcrumbs, Button, Grid } from "@mantine/core";
+import { Button } from "@mantine/core";
 import MainContent from "@/layouts/components/MainContent";
 import MainBody from "@/layouts/components/MainBody";
-import TableLocker from "@/features/locker/components/TableLocker";
+import LockerTable from "@/features/locker/components/LockerTable";
 import { IconCirclePlusFilled, IconTrash } from "@tabler/icons-react";
 import {
 	LockersProvider,
@@ -19,7 +19,7 @@ export function Component() {
 				<Header />
 
 				<MainBody grow>
-					<TableLocker />
+					<LockerTable />
 				</MainBody>
 			</LockersProvider>
 		</MainContent>

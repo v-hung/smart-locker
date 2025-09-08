@@ -6,7 +6,7 @@ import {
   userSelectSchema,
   userUpdateSchema,
 } from "../db/schema";
-import { paginationSchema } from "../schemas/auth/pagination.schema";
+import { paginationQuerySchema } from "../schemas/auth/pagination.schema";
 import {
   paginatedUserSchema,
   userWithRelationsSchema,
@@ -25,11 +25,11 @@ async function routes(app: FastifyInstance) {
     userController.getAllUsers
   );
 
-  app.get(
+  app.post(
     "/search",
     {
       schema: {
-        querystring: paginationSchema,
+        body: paginationQuerySchema,
         response: {
           200: paginatedUserSchema,
         },
