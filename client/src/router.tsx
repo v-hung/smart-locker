@@ -21,7 +21,11 @@ const router = createBrowserRouter([
 								lazy: () => import("./pages/locker/LockerPage"),
 							},
 							{
-								path: ":id",
+								path: "create",
+								lazy: () => import("./pages/locker/LockerCreateEditPage"),
+							},
+							{
+								path: ":id/edit",
 								lazy: () => import("./pages/locker/LockerCreateEditPage"),
 							},
 						],

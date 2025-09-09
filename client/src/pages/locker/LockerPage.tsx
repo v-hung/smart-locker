@@ -9,6 +9,7 @@ import {
 	LockersProvider,
 	useLockersContext,
 } from "@/features/locker/contexts/LockerContext";
+import { Link } from "react-router";
 
 export const loader = wrapProtectedLoader();
 
@@ -48,6 +49,8 @@ const Header = () => {
 					<Button
 						variant="light"
 						leftSection={<IconCirclePlusFilled size={24} />}
+						component={Link}
+						to="/lockers/create"
 					>
 						Add new item
 					</Button>

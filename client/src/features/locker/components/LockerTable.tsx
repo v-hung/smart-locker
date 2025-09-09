@@ -18,7 +18,7 @@ const LockerTable = forwardRef((props, ref) => {
 		<MainTable
 			selectedRecords={selectedRecords}
 			onSelectedRecordsChange={setSelectedRecords}
-			onRowClick={({ record }) => navigate(`/lockers/${record.id}`)}
+			onRowClick={({ record }) => navigate(`/lockers/${record.id}/edit`)}
 			columns={COLUMNS}
 			records={data}
 			fetching={loading}
