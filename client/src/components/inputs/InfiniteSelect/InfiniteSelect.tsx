@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FC } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
 	Combobox,
 	useCombobox,
@@ -7,23 +7,22 @@ import {
 	Loader,
 	rem,
 	type TextInputProps,
+	PillsInput,
+	Pill,
+	CloseButton,
 } from "@mantine/core";
+import { IconX } from "@tabler/icons-react";
 
 export type InfiniteSelectItem = {
 	label: string;
 	value: string;
 };
 
-export type InfiniteSelectState<Multiple extends boolean = false> = Omit<
+// ==== Props types ====
+type InfiniteSelectBase = Omit<
 	TextInputProps,
 	"value" | "defaultValue" | "onChange"
 > & {
-	multiple?: Multiple;
-	value?: Multiple extends true ? string[] : string | null;
-	defaultValue?: Multiple extends true ? string[] : string | null;
-	onChange?: Multiple extends true
-		? (value: string[]) => void
-		: (value: string | null | undefined) => void;
 	data?: InfiniteSelectItem[];
 	onScroll?: () => void;
 	loading?: boolean;
@@ -31,8 +30,26 @@ export type InfiniteSelectState<Multiple extends boolean = false> = Omit<
 	initDropdownOnOpen?: () => void;
 };
 
-const InfiniteSelect: FC<InfiniteSelectState> = (props) => {
+type InfiniteSelectSingle = InfiniteSelectBase & {
+	multiple?: false;
+	value?: string | null;
+	defaultValue?: string | null;
+	onChange?: (value: string | null) => void;
+};
+
+type InfiniteSelectMultiple = InfiniteSelectBase & {
+	multiple: true;
+	value?: string[];
+	defaultValue?: string[];
+	onChange?: (value: string[]) => void;
+};
+
+export type InfiniteSelectProps = InfiniteSelectSingle | InfiniteSelectMultiple;
+
+// ==== Component ====
+function InfiniteSelect(props: InfiniteSelectProps) {
 	const {
+		multiple,
 		value,
 		defaultValue,
 		onChange,
@@ -44,82 +61,155 @@ const InfiniteSelect: FC<InfiniteSelectState> = (props) => {
 		...rest
 	} = props;
 
-	const combobox = useCombobox({
-		onDropdownClose: () => {
-			setSearch(getLabelInValue(currentValue));
-		},
-	});
+	const combobox = useCombobox({ onDropdownClose: () => {} });
 	const viewportRef = useRef<HTMLDivElement | null>(null);
-
 	const hasOpened = useRef(false);
-	const [currentValue, setCurrentValue] = useState<string | null>();
+
+	// state
+	const [currentValue, setCurrentValue] = useState(
+		value ?? defaultValue ?? (multiple ? [] : null),
+	);
 	const [search, setSearch] = useState("");
 
-	const handleScroll = () => {
-		const el = viewportRef.current;
-		if (!el) return;
-		const distanceToBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
-		if (distanceToBottom < 40) {
-			onScroll?.();
-		}
-	};
+	// helpers
+	const getLabelInValue = (val?: string | null) =>
+		val ? (data.find((v) => v.value === val)?.label ?? "") : "";
 
 	const handleDropdownOpen = () => {
 		combobox.openDropdown();
-
 		if (!hasOpened.current) {
 			initDropdownOnOpen?.();
 			hasOpened.current = true;
 		}
 	};
 
-	const getLabelInValue = (value?: string | null) =>
-		value ? (data.find((v) => v.value == value)?.label ?? "") : "";
+	const handleScroll = () => {
+		const el = viewportRef.current;
+		if (!el) return;
+		const distanceToBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
+		if (distanceToBottom < 40) onScroll?.();
+	};
 
+	const handleValueRemove = (val: string) => {
+		if (multiple) {
+			const newValue = (currentValue as string[]).filter((v) => v !== val);
+			setCurrentValue(newValue);
+			props.onChange?.(newValue);
+		}
+	};
+
+	// sync value/search when props change
 	useEffect(() => {
-		let newCurrentValue = value ?? defaultValue;
-		let newSearchValue = getLabelInValue(newCurrentValue);
+		const newCurrentValue = value ?? defaultValue;
+		const newSearchValue = Array.isArray(newCurrentValue)
+			? getLabelInValue(newCurrentValue[0])
+			: getLabelInValue(newCurrentValue);
 
 		if (
 			newCurrentValue &&
-			currentValue != newCurrentValue &&
-			newSearchValue != search
+			currentValue !== newCurrentValue &&
+			newSearchValue !== search
 		) {
 			setCurrentValue(newCurrentValue);
 			setSearch(newSearchValue);
 		}
 	}, [value, defaultValue, data]);
 
+	// handlers
+	const handleOptionSubmit = (val: string) => {
+		if (multiple) {
+			const newValue = [...((currentValue as string[]) ?? []), val];
+			setCurrentValue(newValue);
+			(onChange as (v: string[]) => void)?.(newValue);
+			setSearch("");
+		} else {
+			setCurrentValue(val);
+			(onChange as (v: string | null) => void)?.(val);
+			setSearch(getLabelInValue(val));
+			combobox.closeDropdown();
+		}
+	};
+
 	return (
-		<Combobox
-			store={combobox}
-			onOptionSubmit={(val) => {
-				setSearch(getLabelInValue(val));
-				onChange?.(val);
-				setCurrentValue(val);
-				combobox.closeDropdown();
-			}}
-			withinPortal
-		>
-			<Combobox.Target>
-				<TextInput
-					rightSection={loading ? <Loader size="xs" /> : null}
-					rightSectionPointerEvents="none"
-					value={search}
-					onClick={handleDropdownOpen}
-					onFocus={handleDropdownOpen}
-					onBlur={() => combobox.closeDropdown()}
-					placeholder="Search value"
-					onChange={(event) => {
-						combobox.updateSelectedOptionIndex();
-						setSearch(event.currentTarget.value);
-						if (onSearch) {
-							onSearch(event.currentTarget.value);
+		<Combobox store={combobox} onOptionSubmit={handleOptionSubmit} withinPortal>
+			{!multiple ? (
+				<Combobox.Target>
+					<TextInput
+						rightSection={
+							loading ? (
+								<Loader size="xs" />
+							) : (
+								<CloseButton
+									aria-label="Clear input"
+									onClick={(e) => {
+										e.stopPropagation();
+										setCurrentValue(null);
+										(onChange as (v: string | null) => void)?.(null);
+										setSearch("");
+									}}
+									style={{ display: search ? undefined : "none" }}
+								/>
+							)
 						}
-					}}
-					{...rest}
-				/>
-			</Combobox.Target>
+						rightSectionPointerEvents={loading ? "none" : "all"}
+						value={search}
+						onClick={handleDropdownOpen}
+						onFocus={handleDropdownOpen}
+						onBlur={() => {
+							setSearch(getLabelInValue(currentValue as string | null));
+							combobox.closeDropdown();
+						}}
+						placeholder="Search value"
+						onChange={(event) => {
+							setSearch(event.currentTarget.value);
+							onSearch?.(event.currentTarget.value);
+						}}
+						{...rest}
+					/>
+				</Combobox.Target>
+			) : (
+				<Combobox.DropdownTarget>
+					<PillsInput onClick={() => combobox.openDropdown()}>
+						<Pill.Group>
+							{(currentValue as string[]).map((item) => (
+								<Pill
+									key={item}
+									withRemoveButton
+									onRemove={() => handleValueRemove(item)}
+								>
+									{item}
+								</Pill>
+							))}
+
+							<Combobox.EventsTarget>
+								<PillsInput.Field
+									onFocus={() => combobox.openDropdown()}
+									onBlur={() => combobox.closeDropdown()}
+									value={search}
+									placeholder="Search values"
+									onChange={(event) => {
+										combobox.updateSelectedOptionIndex();
+										setSearch(event.currentTarget.value);
+										onSearch?.(event.currentTarget.value);
+									}}
+									onKeyDown={(event) => {
+										if (
+											event.key === "Backspace" &&
+											search.length === 0 &&
+											(currentValue as string[]).length > 0
+										) {
+											event.preventDefault();
+											handleValueRemove(
+												(currentValue as string[]).slice(-1)[0],
+											);
+										}
+									}}
+								/>
+							</Combobox.EventsTarget>
+						</Pill.Group>
+					</PillsInput>
+				</Combobox.DropdownTarget>
+			)}
 
 			<Combobox.Dropdown>
 				<ScrollArea.Autosize
@@ -148,6 +238,6 @@ const InfiniteSelect: FC<InfiniteSelectState> = (props) => {
 			</Combobox.Dropdown>
 		</Combobox>
 	);
-};
+}
 
 export default InfiniteSelect;
