@@ -81,8 +81,7 @@ export function Component() {
 						// withinPortal
 					>
 						<Menu.Target>
-							{/* <MenuAccount /> */}
-							<Button>asdf</Button>
+							<MenuAccount />
 						</Menu.Target>
 
 						<Menu.Dropdown>

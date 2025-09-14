@@ -1,12 +1,30 @@
 import {
+	LockerLockTypeEnum,
+	LockerSizeEnum,
 	LockerStatusEnum,
+	LockerTypeEnum,
 	type Locker,
 	type LockerWithRelations,
 } from "@/generate-api";
-import { Button, Grid, Select, Tabs, TextInput } from "@mantine/core";
+import {
+	Button,
+	Grid,
+	LoadingOverlay,
+	Select,
+	Tabs,
+	TextInput,
+	Tree,
+} from "@mantine/core";
 import { IconListDetails } from "@tabler/icons-react";
-import { useState, type FC, type FormEvent } from "react";
-import { useForm } from "@mantine/form";
+import {
+	forwardRef,
+	useImperativeHandle,
+	useState,
+	type FC,
+	type FormEvent,
+	type ForwardRefRenderFunction,
+} from "react";
+import { isNotEmpty, useForm } from "@mantine/form";
 import { enumToSelectOptions } from "@/utils/enum.utils";
 import UserSelect from "@/features/user/components/UserSelect";
 
@@ -14,28 +32,45 @@ type LockerFormState = {
 	data?: LockerWithRelations | null;
 };
 
-const LockerForm: FC<LockerFormState> = (props) => {
+export type LockerFormRef = {
+	submit: () => void;
+};
+
+const LockerForm: ForwardRefRenderFunction<LockerFormRef, LockerFormState> = (
+	props,
+	ref,
+) => {
 	const { data } = props;
 
 	const form = useForm({
 		mode: "uncontrolled",
 		initialValues: {
 			lockerCode: data?.lockerCode ?? "",
-			location: data?.location ?? "",
-			status: data?.status ?? "",
+			area: data?.area ?? "",
+			size: data?.size ?? LockerSizeEnum.M,
+			type: data?.type ?? LockerTypeEnum.Standard,
+			lockType: data?.lockType ?? LockerLockTypeEnum.Card,
+			status: data?.status ?? LockerStatusEnum.Available,
 			userId: data?.userId ?? "",
+			branchId: data?.branchId ?? "",
 		},
 	});
 
-	const [first, setFirst] = useState({});
-
 	const handleSubmit = form.onSubmit((values) => {
-		setFirst(values);
 		console.log({ values });
 	});
 
+	useImperativeHandle(ref, () => ({
+		submit: () => handleSubmit(),
+	}));
+
 	return (
-		<form onSubmit={handleSubmit}>
+		<form onSubmit={handleSubmit} style={{ position: "relative" }}>
+			<LoadingOverlay
+				visible={true}
+				zIndex={1000}
+				overlayProps={{ radius: "sm", blur: 2 }}
+			/>
 			<Tabs defaultValue="form">
 				<Tabs.List>
 					<Tabs.Tab value="form" leftSection={<IconListDetails size={12} />}>
@@ -45,30 +80,64 @@ const LockerForm: FC<LockerFormState> = (props) => {
 
 				<div className="paper" style={{ marginTop: "2rem" }}>
 					<Tabs.Panel value="form">
-						<pre>{JSON.stringify(first)}</pre>
 						<Grid>
 							<Grid.Col span={6}>
 								<TextInput
 									label="Locker code"
+									required
 									key={form.key("lockerCode")}
 									{...form.getInputProps("lockerCode")}
 								/>
 							</Grid.Col>
 							<Grid.Col span={12}>
-								<TextInput label="Location" />
+								<TextInput label="Area" required />
+							</Grid.Col>
+							<Grid.Col span={6}>
+								<Select
+									label="Size"
+									placeholder="Pick value"
+									required
+									data={enumToSelectOptions(LockerSizeEnum)}
+								/>
+							</Grid.Col>
+							<Grid.Col span={6}>
+								<Select
+									label="Type"
+									placeholder="Pick value"
+									required
+									data={enumToSelectOptions(LockerTypeEnum)}
+								/>
+							</Grid.Col>
+							<Grid.Col span={6}>
+								<Select
+									label="Lock Type"
+									placeholder="Pick value"
+									required
+									data={enumToSelectOptions(LockerLockTypeEnum)}
+								/>
 							</Grid.Col>
 							<Grid.Col span={6}>
 								<Select
 									label="Status"
 									placeholder="Pick value"
+									required
 									data={enumToSelectOptions(LockerStatusEnum)}
 								/>
 							</Grid.Col>
 							<Grid.Col span={6}>
 								<UserSelect
 									label="User"
+									required
 									key={form.key("userId")}
 									{...form.getInputProps("userId")}
+								/>
+							</Grid.Col>
+							<Grid.Col span={6}>
+								<UserSelect
+									label="Branch"
+									required
+									key={form.key("branchId")}
+									{...form.getInputProps("branchId")}
 								/>
 							</Grid.Col>
 						</Grid>
@@ -83,4 +152,4 @@ const LockerForm: FC<LockerFormState> = (props) => {
 	);
 };
 
-export default LockerForm;
+export default forwardRef(LockerForm);

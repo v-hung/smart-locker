@@ -1,3 +1,5 @@
+import { IconBuilding } from "@tabler/icons-react";
+
 const MENU = [
 	{
 		key: "/manager",
@@ -9,6 +11,12 @@ const MENU = [
 		type: "item",
 		label: "Dashboard",
 		icon: <IIonSpeedometer />,
+	},
+	{
+		key: "/branches",
+		type: "item",
+		label: "Branches",
+		icon: <IconBuilding />,
 	},
 	{
 		key: "/lockers",

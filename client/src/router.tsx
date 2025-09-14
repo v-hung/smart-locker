@@ -1,5 +1,6 @@
-import { createBrowserRouter, Navigate } from "react-router";
+import { createBrowserRouter, Navigate, Outlet } from "react-router";
 import App from "./App";
+import { LockerProvider } from "./features/locker/contexts/LockerContext";
 
 const router = createBrowserRouter([
 	{
@@ -15,6 +16,55 @@ const router = createBrowserRouter([
 					},
 					{
 						path: "lockers",
+						element: (
+							<LockerProvider>
+								<Outlet />
+							</LockerProvider>
+						),
+						children: [
+							{
+								index: true,
+								lazy: () => import("./pages/locker/LockerPage"),
+							},
+							{
+								path: "create",
+								lazy: () => import("./pages/locker/LockerCreateEditPage"),
+							},
+							{
+								path: ":id/edit",
+								lazy: () => import("./pages/locker/LockerCreateEditPage"),
+							},
+						],
+					},
+					{
+						path: "users",
+						element: (
+							<LockerProvider>
+								<Outlet />
+							</LockerProvider>
+						),
+						children: [
+							{
+								index: true,
+								lazy: () => import("./pages/locker/LockerPage"),
+							},
+							{
+								path: "create",
+								lazy: () => import("./pages/locker/LockerCreateEditPage"),
+							},
+							{
+								path: ":id/edit",
+								lazy: () => import("./pages/locker/LockerCreateEditPage"),
+							},
+						],
+					},
+					{
+						path: "branches",
+						element: (
+							<LockerProvider>
+								<Outlet />
+							</LockerProvider>
+						),
 						children: [
 							{
 								index: true,

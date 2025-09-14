@@ -36,7 +36,25 @@ export interface LockerUpdate {
      * @type {string}
      * @memberof LockerUpdate
      */
-    location?: string;
+    area?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof LockerUpdate
+     */
+    size?: LockerUpdateSizeEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof LockerUpdate
+     */
+    type?: LockerUpdateTypeEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof LockerUpdate
+     */
+    lockType?: LockerUpdateLockTypeEnum;
     /**
      * 
      * @type {string}
@@ -55,8 +73,45 @@ export interface LockerUpdate {
      * @memberof LockerUpdate
      */
     userId?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof LockerUpdate
+     */
+    branchId?: number | null;
 }
 
+
+/**
+ * @export
+ */
+export const LockerUpdateSizeEnum = {
+    S: 's',
+    M: 'm',
+    L: 'l',
+    Xl: 'xl'
+} as const;
+export type LockerUpdateSizeEnum = typeof LockerUpdateSizeEnum[keyof typeof LockerUpdateSizeEnum];
+
+/**
+ * @export
+ */
+export const LockerUpdateTypeEnum = {
+    Standard: 'standard',
+    Smart: 'smart'
+} as const;
+export type LockerUpdateTypeEnum = typeof LockerUpdateTypeEnum[keyof typeof LockerUpdateTypeEnum];
+
+/**
+ * @export
+ */
+export const LockerUpdateLockTypeEnum = {
+    Key: 'key',
+    Card: 'card',
+    Pin: 'pin',
+    Biometric: 'biometric'
+} as const;
+export type LockerUpdateLockTypeEnum = typeof LockerUpdateLockTypeEnum[keyof typeof LockerUpdateLockTypeEnum];
 
 /**
  * @export
@@ -64,7 +119,8 @@ export interface LockerUpdate {
 export const LockerUpdateStatusEnum = {
     Available: 'available',
     InUse: 'in_use',
-    Maintenance: 'maintenance'
+    Maintenance: 'maintenance',
+    Broken: 'broken'
 } as const;
 export type LockerUpdateStatusEnum = typeof LockerUpdateStatusEnum[keyof typeof LockerUpdateStatusEnum];
 
@@ -88,10 +144,14 @@ export function LockerUpdateFromJSONTyped(json: any, ignoreDiscriminator: boolea
         
         'id': json['id'] == null ? undefined : json['id'],
         'lockerCode': json['lockerCode'] == null ? undefined : json['lockerCode'],
-        'location': json['location'] == null ? undefined : json['location'],
+        'area': json['area'] == null ? undefined : json['area'],
+        'size': json['size'] == null ? undefined : json['size'],
+        'type': json['type'] == null ? undefined : json['type'],
+        'lockType': json['lockType'] == null ? undefined : json['lockType'],
         'status': json['status'] == null ? undefined : json['status'],
         'createdAt': json['createdAt'] == null ? undefined : json['createdAt'],
         'userId': json['userId'] == null ? undefined : json['userId'],
+        'branchId': json['branchId'] == null ? undefined : json['branchId'],
     };
 }
 
@@ -108,10 +168,14 @@ export function LockerUpdateToJSONTyped(value?: LockerUpdate | null, ignoreDiscr
         
         'id': value['id'],
         'lockerCode': value['lockerCode'],
-        'location': value['location'],
+        'area': value['area'],
+        'size': value['size'],
+        'type': value['type'],
+        'lockType': value['lockType'],
         'status': value['status'],
         'createdAt': value['createdAt'],
         'userId': value['userId'],
+        'branchId': value['branchId'],
     };
 }
 

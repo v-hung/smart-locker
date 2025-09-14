@@ -7,7 +7,10 @@ import { format } from "date-fns";
 export const COLUMNS: DataTableColumn<Locker>[] = [
 	{ accessor: "id" },
 	{ accessor: "lockerCode", sortable: true },
-	{ accessor: "location" },
+	{ accessor: "area" },
+	{ accessor: "size" },
+	{ accessor: "type" },
+	{ accessor: "lockType" },
 	{ accessor: "status" },
 	{
 		accessor: "createdAt",

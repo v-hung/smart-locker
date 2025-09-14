@@ -1,9 +1,9 @@
 import InfiniteSelect, {
-	type InfiniteSelectState,
+	type InfiniteSelectProps,
 } from "@/components/inputs/InfiniteSelect/InfiniteSelect";
 import type { FC } from "react";
 
-export type LockerSelectState = InfiniteSelectState & {
+export type LockerSelectState = InfiniteSelectProps & {
 	withoutIds?: string[];
 };
 

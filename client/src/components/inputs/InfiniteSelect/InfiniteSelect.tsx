@@ -32,16 +32,16 @@ type InfiniteSelectBase = Omit<
 
 type InfiniteSelectSingle = InfiniteSelectBase & {
 	multiple?: false;
-	value?: string | null;
-	defaultValue?: string | null;
-	onChange?: (value: string | null) => void;
+	value?: string | number | null;
+	defaultValue?: string | number | null;
+	onChange?: (value: string | number | null) => void;
 };
 
 type InfiniteSelectMultiple = InfiniteSelectBase & {
 	multiple: true;
-	value?: string[];
-	defaultValue?: string[];
-	onChange?: (value: string[]) => void;
+	value?: string[] | number[] | null;
+	defaultValue?: string[] | number[] | null;
+	onChange?: (value: string[] | number[] | null) => void;
 };
 
 export type InfiniteSelectProps = InfiniteSelectSingle | InfiniteSelectMultiple;
@@ -66,14 +66,14 @@ function InfiniteSelect(props: InfiniteSelectProps) {
 	const hasOpened = useRef(false);
 
 	// state
-	const [currentValue, setCurrentValue] = useState(
-		value ?? defaultValue ?? (multiple ? [] : null),
+	const [currentValue, setCurrentValue] = useState<typeof value>(
+		multiple ? [] : null,
 	);
 	const [search, setSearch] = useState("");
 
 	// helpers
-	const getLabelInValue = (val?: string | null) =>
-		val ? (data.find((v) => v.value === val)?.label ?? "") : "";
+	const getLabelInValue = (val?: string | number | null) =>
+		val ? (data.find((v) => v.value == val)?.label ?? "") : "";
 
 	const handleDropdownOpen = () => {
 		combobox.openDropdown();
@@ -100,10 +100,15 @@ function InfiniteSelect(props: InfiniteSelectProps) {
 
 	// sync value/search when props change
 	useEffect(() => {
+		if (multiple) {
+			const newCurrentValue = value ?? defaultValue;
+			setCurrentValue(newCurrentValue);
+			setSearch("");
+			return;
+		}
+
 		const newCurrentValue = value ?? defaultValue;
-		const newSearchValue = Array.isArray(newCurrentValue)
-			? getLabelInValue(newCurrentValue[0])
-			: getLabelInValue(newCurrentValue);
+		const newSearchValue = getLabelInValue(newCurrentValue);
 
 		if (
 			newCurrentValue &&

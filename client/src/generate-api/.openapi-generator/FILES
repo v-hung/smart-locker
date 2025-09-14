@@ -1,8 +1,18 @@
+.openapi-generator-ignore
 apis/AuthApi.ts
+apis/BranchApi.ts
 apis/LockerApi.ts
 apis/UserApi.ts
 apis/index.ts
 index.ts
+models/Branch.ts
+models/BranchInput.ts
+models/BranchInsert.ts
+models/BranchInsertInput.ts
+models/BranchUpdate.ts
+models/BranchUpdateInput.ts
+models/BranchWithRelations.ts
+models/BranchWithRelationsInput.ts
 models/Locker.ts
 models/LockerInput.ts
 models/LockerInsert.ts
@@ -15,6 +25,8 @@ models/LoginBody.ts
 models/LoginBodyInput.ts
 models/LoginResponse.ts
 models/LoginResponseInput.ts
+models/PaginatedBranch.ts
+models/PaginatedBranchInput.ts
 models/PaginatedLocker.ts
 models/PaginatedLockerInput.ts
 models/PaginatedLockerInputMeta.ts

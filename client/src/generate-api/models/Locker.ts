@@ -36,7 +36,25 @@ export interface Locker {
      * @type {string}
      * @memberof Locker
      */
-    location: string;
+    area: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof Locker
+     */
+    size: LockerSizeEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof Locker
+     */
+    type: LockerTypeEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof Locker
+     */
+    lockType: LockerLockTypeEnum;
     /**
      * 
      * @type {string}
@@ -55,8 +73,45 @@ export interface Locker {
      * @memberof Locker
      */
     userId: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof Locker
+     */
+    branchId: number | null;
 }
 
+
+/**
+ * @export
+ */
+export const LockerSizeEnum = {
+    S: 's',
+    M: 'm',
+    L: 'l',
+    Xl: 'xl'
+} as const;
+export type LockerSizeEnum = typeof LockerSizeEnum[keyof typeof LockerSizeEnum];
+
+/**
+ * @export
+ */
+export const LockerTypeEnum = {
+    Standard: 'standard',
+    Smart: 'smart'
+} as const;
+export type LockerTypeEnum = typeof LockerTypeEnum[keyof typeof LockerTypeEnum];
+
+/**
+ * @export
+ */
+export const LockerLockTypeEnum = {
+    Key: 'key',
+    Card: 'card',
+    Pin: 'pin',
+    Biometric: 'biometric'
+} as const;
+export type LockerLockTypeEnum = typeof LockerLockTypeEnum[keyof typeof LockerLockTypeEnum];
 
 /**
  * @export
@@ -64,7 +119,8 @@ export interface Locker {
 export const LockerStatusEnum = {
     Available: 'available',
     InUse: 'in_use',
-    Maintenance: 'maintenance'
+    Maintenance: 'maintenance',
+    Broken: 'broken'
 } as const;
 export type LockerStatusEnum = typeof LockerStatusEnum[keyof typeof LockerStatusEnum];
 
@@ -75,10 +131,14 @@ export type LockerStatusEnum = typeof LockerStatusEnum[keyof typeof LockerStatus
 export function instanceOfLocker(value: object): value is Locker {
     if (!('id' in value) || value['id'] === undefined) return false;
     if (!('lockerCode' in value) || value['lockerCode'] === undefined) return false;
-    if (!('location' in value) || value['location'] === undefined) return false;
+    if (!('area' in value) || value['area'] === undefined) return false;
+    if (!('size' in value) || value['size'] === undefined) return false;
+    if (!('type' in value) || value['type'] === undefined) return false;
+    if (!('lockType' in value) || value['lockType'] === undefined) return false;
     if (!('status' in value) || value['status'] === undefined) return false;
     if (!('createdAt' in value) || value['createdAt'] === undefined) return false;
     if (!('userId' in value) || value['userId'] === undefined) return false;
+    if (!('branchId' in value) || value['branchId'] === undefined) return false;
     return true;
 }
 
@@ -94,10 +154,14 @@ export function LockerFromJSONTyped(json: any, ignoreDiscriminator: boolean): Lo
         
         'id': json['id'],
         'lockerCode': json['lockerCode'],
-        'location': json['location'],
+        'area': json['area'],
+        'size': json['size'],
+        'type': json['type'],
+        'lockType': json['lockType'],
         'status': json['status'],
         'createdAt': json['createdAt'],
         'userId': json['userId'],
+        'branchId': json['branchId'],
     };
 }
 
@@ -114,10 +178,14 @@ export function LockerToJSONTyped(value?: Locker | null, ignoreDiscriminator: bo
         
         'id': value['id'],
         'lockerCode': value['lockerCode'],
-        'location': value['location'],
+        'area': value['area'],
+        'size': value['size'],
+        'type': value['type'],
+        'lockType': value['lockType'],
         'status': value['status'],
         'createdAt': value['createdAt'],
         'userId': value['userId'],
+        'branchId': value['branchId'],
     };
 }
 

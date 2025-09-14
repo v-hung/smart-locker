@@ -36,7 +36,25 @@ export interface LockerInput {
      * @type {string}
      * @memberof LockerInput
      */
-    location: string;
+    area: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof LockerInput
+     */
+    size: LockerInputSizeEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof LockerInput
+     */
+    type: LockerInputTypeEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof LockerInput
+     */
+    lockType: LockerInputLockTypeEnum;
     /**
      * 
      * @type {string}
@@ -55,8 +73,45 @@ export interface LockerInput {
      * @memberof LockerInput
      */
     userId: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof LockerInput
+     */
+    branchId: number | null;
 }
 
+
+/**
+ * @export
+ */
+export const LockerInputSizeEnum = {
+    S: 's',
+    M: 'm',
+    L: 'l',
+    Xl: 'xl'
+} as const;
+export type LockerInputSizeEnum = typeof LockerInputSizeEnum[keyof typeof LockerInputSizeEnum];
+
+/**
+ * @export
+ */
+export const LockerInputTypeEnum = {
+    Standard: 'standard',
+    Smart: 'smart'
+} as const;
+export type LockerInputTypeEnum = typeof LockerInputTypeEnum[keyof typeof LockerInputTypeEnum];
+
+/**
+ * @export
+ */
+export const LockerInputLockTypeEnum = {
+    Key: 'key',
+    Card: 'card',
+    Pin: 'pin',
+    Biometric: 'biometric'
+} as const;
+export type LockerInputLockTypeEnum = typeof LockerInputLockTypeEnum[keyof typeof LockerInputLockTypeEnum];
 
 /**
  * @export
@@ -64,7 +119,8 @@ export interface LockerInput {
 export const LockerInputStatusEnum = {
     Available: 'available',
     InUse: 'in_use',
-    Maintenance: 'maintenance'
+    Maintenance: 'maintenance',
+    Broken: 'broken'
 } as const;
 export type LockerInputStatusEnum = typeof LockerInputStatusEnum[keyof typeof LockerInputStatusEnum];
 
@@ -75,10 +131,14 @@ export type LockerInputStatusEnum = typeof LockerInputStatusEnum[keyof typeof Lo
 export function instanceOfLockerInput(value: object): value is LockerInput {
     if (!('id' in value) || value['id'] === undefined) return false;
     if (!('lockerCode' in value) || value['lockerCode'] === undefined) return false;
-    if (!('location' in value) || value['location'] === undefined) return false;
+    if (!('area' in value) || value['area'] === undefined) return false;
+    if (!('size' in value) || value['size'] === undefined) return false;
+    if (!('type' in value) || value['type'] === undefined) return false;
+    if (!('lockType' in value) || value['lockType'] === undefined) return false;
     if (!('status' in value) || value['status'] === undefined) return false;
     if (!('createdAt' in value) || value['createdAt'] === undefined) return false;
     if (!('userId' in value) || value['userId'] === undefined) return false;
+    if (!('branchId' in value) || value['branchId'] === undefined) return false;
     return true;
 }
 
@@ -94,10 +154,14 @@ export function LockerInputFromJSONTyped(json: any, ignoreDiscriminator: boolean
         
         'id': json['id'],
         'lockerCode': json['lockerCode'],
-        'location': json['location'],
+        'area': json['area'],
+        'size': json['size'],
+        'type': json['type'],
+        'lockType': json['lockType'],
         'status': json['status'],
         'createdAt': json['createdAt'],
         'userId': json['userId'],
+        'branchId': json['branchId'],
     };
 }
 
@@ -114,10 +178,14 @@ export function LockerInputToJSONTyped(value?: LockerInput | null, ignoreDiscrim
         
         'id': value['id'],
         'lockerCode': value['lockerCode'],
-        'location': value['location'],
+        'area': value['area'],
+        'size': value['size'],
+        'type': value['type'],
+        'lockType': value['lockType'],
         'status': value['status'],
         'createdAt': value['createdAt'],
         'userId': value['userId'],
+        'branchId': value['branchId'],
     };
 }
 

@@ -1,19 +1,19 @@
 import { createContext, useContext } from "react";
 import { useLockers } from "../hooks/useLockers";
 
-type LockersContextType = ReturnType<typeof useLockers>;
+type LockerContextType = ReturnType<typeof useLockers>;
 
-const LockersContext = createContext<LockersContextType | null>(null);
+const LockerContext = createContext<LockerContextType | null>(null);
 
-export function LockersProvider({ children }: { children: React.ReactNode }) {
+export function LockerProvider({ children }: { children: React.ReactNode }) {
 	const value = useLockers();
 	return (
-		<LockersContext.Provider value={value}>{children}</LockersContext.Provider>
+		<LockerContext.Provider value={value}>{children}</LockerContext.Provider>
 	);
 }
 
-export function useLockersContext() {
-	const ctx = useContext(LockersContext);
+export function useLockerContext() {
+	const ctx = useContext(LockerContext);
 	if (!ctx)
 		throw new Error("useLockersContext must be used within LockersProvider");
 	return ctx;

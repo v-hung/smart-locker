@@ -36,7 +36,25 @@ export interface LockerUpdateInput {
      * @type {string}
      * @memberof LockerUpdateInput
      */
-    location?: string;
+    area?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof LockerUpdateInput
+     */
+    size?: LockerUpdateInputSizeEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof LockerUpdateInput
+     */
+    type?: LockerUpdateInputTypeEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof LockerUpdateInput
+     */
+    lockType?: LockerUpdateInputLockTypeEnum;
     /**
      * 
      * @type {string}
@@ -55,8 +73,45 @@ export interface LockerUpdateInput {
      * @memberof LockerUpdateInput
      */
     userId?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof LockerUpdateInput
+     */
+    branchId?: number | null;
 }
 
+
+/**
+ * @export
+ */
+export const LockerUpdateInputSizeEnum = {
+    S: 's',
+    M: 'm',
+    L: 'l',
+    Xl: 'xl'
+} as const;
+export type LockerUpdateInputSizeEnum = typeof LockerUpdateInputSizeEnum[keyof typeof LockerUpdateInputSizeEnum];
+
+/**
+ * @export
+ */
+export const LockerUpdateInputTypeEnum = {
+    Standard: 'standard',
+    Smart: 'smart'
+} as const;
+export type LockerUpdateInputTypeEnum = typeof LockerUpdateInputTypeEnum[keyof typeof LockerUpdateInputTypeEnum];
+
+/**
+ * @export
+ */
+export const LockerUpdateInputLockTypeEnum = {
+    Key: 'key',
+    Card: 'card',
+    Pin: 'pin',
+    Biometric: 'biometric'
+} as const;
+export type LockerUpdateInputLockTypeEnum = typeof LockerUpdateInputLockTypeEnum[keyof typeof LockerUpdateInputLockTypeEnum];
 
 /**
  * @export
@@ -64,7 +119,8 @@ export interface LockerUpdateInput {
 export const LockerUpdateInputStatusEnum = {
     Available: 'available',
     InUse: 'in_use',
-    Maintenance: 'maintenance'
+    Maintenance: 'maintenance',
+    Broken: 'broken'
 } as const;
 export type LockerUpdateInputStatusEnum = typeof LockerUpdateInputStatusEnum[keyof typeof LockerUpdateInputStatusEnum];
 
@@ -88,10 +144,14 @@ export function LockerUpdateInputFromJSONTyped(json: any, ignoreDiscriminator: b
         
         'id': json['id'] == null ? undefined : json['id'],
         'lockerCode': json['lockerCode'] == null ? undefined : json['lockerCode'],
-        'location': json['location'] == null ? undefined : json['location'],
+        'area': json['area'] == null ? undefined : json['area'],
+        'size': json['size'] == null ? undefined : json['size'],
+        'type': json['type'] == null ? undefined : json['type'],
+        'lockType': json['lockType'] == null ? undefined : json['lockType'],
         'status': json['status'] == null ? undefined : json['status'],
         'createdAt': json['createdAt'] == null ? undefined : json['createdAt'],
         'userId': json['userId'] == null ? undefined : json['userId'],
+        'branchId': json['branchId'] == null ? undefined : json['branchId'],
     };
 }
 
@@ -108,10 +168,14 @@ export function LockerUpdateInputToJSONTyped(value?: LockerUpdateInput | null, i
         
         'id': value['id'],
         'lockerCode': value['lockerCode'],
-        'location': value['location'],
+        'area': value['area'],
+        'size': value['size'],
+        'type': value['type'],
+        'lockType': value['lockType'],
         'status': value['status'],
         'createdAt': value['createdAt'],
         'userId': value['userId'],
+        'branchId': value['branchId'],
     };
 }
 

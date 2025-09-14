@@ -4,12 +4,15 @@ import { Button } from "@mantine/core";
 import MainContent from "@/layouts/components/MainContent";
 import MainBody from "@/layouts/components/MainBody";
 import { IconCirclePlusFilled } from "@tabler/icons-react";
-import { LockersProvider } from "@/features/locker/contexts/LockerContext";
+import { LockerProvider } from "@/features/locker/contexts/LockerContext";
 import { wrapPromise } from "@/utils/promise.utils";
 import { lockerApi } from "@/lib/apiClient";
 import { redirect, useLoaderData } from "react-router";
 import type { Locker, LockerWithRelations } from "@/generate-api";
-import LockerForm from "@/features/locker/components/LockerForm";
+import LockerForm, {
+	type LockerFormRef,
+} from "@/features/locker/components/LockerForm";
+import { useRef } from "react";
 
 export const loader = wrapProtectedLoader(async ({ params }) => {
 	const { id } = params;
@@ -30,9 +33,11 @@ export const loader = wrapProtectedLoader(async ({ params }) => {
 export function Component() {
 	const data = useLoaderData() as LockerWithRelations;
 
+	const formRef = useRef<LockerFormRef>(null);
+
 	return (
 		<MainContent>
-			<LockersProvider>
+			<LockerProvider>
 				<MainHeader
 					title="Lockers"
 					description="Track, manage, and optimize your lockers"
@@ -40,6 +45,7 @@ export function Component() {
 						<Button
 							variant="light"
 							leftSection={<IconCirclePlusFilled size={24} />}
+							onClick={formRef.current?.submit}
 						>
 							Save
 						</Button>
@@ -52,9 +58,9 @@ export function Component() {
 				/>
 
 				<MainBody>
-					<LockerForm data={data} />
+					<LockerForm ref={formRef} data={data} />
 				</MainBody>
-			</LockersProvider>
+			</LockerProvider>
 		</MainContent>
 	);
 }

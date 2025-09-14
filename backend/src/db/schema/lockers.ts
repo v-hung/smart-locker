@@ -8,13 +8,28 @@ import {
   createUpdateSchema,
 } from "drizzle-zod";
 import z from "zod";
+import { branches } from "./branches";
 
 export const lockers = table("lockers", {
   id: t.int().primaryKey({ autoIncrement: true }),
   lockerCode: t.text("locker_code").notNull().unique(),
-  location: t.text("location").notNull(),
+  area: t.text(),
+
+  size: t
+    .text({ enum: ["s", "m", "l", "xl"] })
+    .notNull()
+    .default("s"),
+  type: t
+    .text({ enum: ["standard", "smart"] })
+    .notNull()
+    .default("standard"),
+  lockType: t
+    .text("lock_type", { enum: ["key", "card", "pin", "biometric"] })
+    .notNull()
+    .default("key"),
+
   status: t
-    .text({ enum: ["available", "in_use", "maintenance"] })
+    .text({ enum: ["available", "in_use", "maintenance", "broken"] })
     .notNull()
     .default("available"),
   createdAt: t
@@ -25,10 +40,15 @@ export const lockers = table("lockers", {
 
   // relations
   userId: t.integer("user_id").references(() => users.id),
+  branchId: t.integer("branch_id").references(() => branches.id),
 });
 
 export const lockerRelations = relations(lockers, ({ one }) => ({
   user: one(users, { fields: [lockers.userId], references: [users.id] }),
+  branch: one(branches, {
+    fields: [lockers.branchId],
+    references: [branches.id],
+  }),
 }));
 
 export const lockerSelectSchema = createSelectSchema(lockers);

@@ -1,9 +1,55 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "8b64cc88-68a4-432b-8cfc-c3d43ab12a0a",
+  "id": "7375dd08-ddaa-4717-ba48-1637234d7914",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
+    "branches": {
+      "name": "branches",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "address": {
+          "name": "address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "location": {
+          "name": "location",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
     "users": {
       "name": "users",
       "columns": {
@@ -39,7 +85,7 @@
           "name": "role",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false,
           "default": "'guest'"
         },
@@ -47,7 +93,7 @@
           "name": "created_at",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false,
           "default": "CURRENT_TIMESTAMP"
         }
@@ -83,12 +129,36 @@
           "notNull": true,
           "autoincrement": false
         },
-        "location": {
-          "name": "location",
+        "area": {
+          "name": "area",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "size": {
+          "name": "size",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "autoincrement": false,
+          "default": "'s'"
+        },
+        "type": {
+          "name": "type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'standard'"
+        },
+        "lock_type": {
+          "name": "lock_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'key'"
         },
         "status": {
           "name": "status",
@@ -102,12 +172,19 @@
           "name": "created_at",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false,
           "default": "CURRENT_TIMESTAMP"
         },
         "user_id": {
           "name": "user_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "branch_id": {
+          "name": "branch_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": false,
@@ -130,6 +207,19 @@
           "tableTo": "users",
           "columnsFrom": [
             "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "lockers_branch_id_branches_id_fk": {
+          "name": "lockers_branch_id_branches_id_fk",
+          "tableFrom": "lockers",
+          "tableTo": "branches",
+          "columnsFrom": [
+            "branch_id"
           ],
           "columnsTo": [
             "id"

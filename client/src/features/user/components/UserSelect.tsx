@@ -1,14 +1,14 @@
-import type { InfiniteSelectState } from "@/components/inputs/InfiniteSelect/InfiniteSelect";
 import InfiniteSelect, {
 	type InfiniteSelectItem,
+	type InfiniteSelectProps,
 } from "@/components/inputs/InfiniteSelect/InfiniteSelect";
 import { useEffect, useState, type FC } from "react";
 import { useUsers } from "../hooks/useUsers";
 import { useDebouncedCallback } from "@mantine/hooks";
 
-export type UserSelectState = InfiniteSelectState & {};
+export type UserSelectProps = InfiniteSelectProps;
 
-const UserSelect: FC<UserSelectState> = (props) => {
+const UserSelect: FC<UserSelectProps> = (props) => {
 	const { defaultValue, ...rest } = props;
 
 	const [options, setOptions] = useState<InfiniteSelectItem[]>([]);
@@ -27,12 +27,9 @@ const UserSelect: FC<UserSelectState> = (props) => {
 	};
 
 	const [isSearching, setIsSearching] = useState(false);
-	const handleSearch = useDebouncedCallback(async (query: string = "") => {
-		const input = {
-			...paginationInput,
-			q: query,
-		};
 
+	const handleSearch = useDebouncedCallback((query: string = "") => {
+		const input = { ...paginationInput, q: query };
 		setPaginationInput(input);
 		search(input);
 		setIsSearching(query.length > 0);
@@ -42,9 +39,13 @@ const UserSelect: FC<UserSelectState> = (props) => {
 
 	useEffect(() => {
 		if (defaultValue) {
-			getById(defaultValue);
+			if (Array.isArray(defaultValue)) {
+				defaultValue.forEach((id) => getById(id.toString()));
+			} else {
+				getById(defaultValue.toString());
+			}
 		}
-	}, []);
+	}, [defaultValue]);
 
 	useEffect(() => {
 		const combinedData = [
@@ -59,6 +60,7 @@ const UserSelect: FC<UserSelectState> = (props) => {
 				value: item.id.toString(),
 			})),
 		];
+
 		const newOptions = Array.from(
 			new Map(merge.map((item) => [item.value, item])).values(),
 		);
@@ -68,13 +70,12 @@ const UserSelect: FC<UserSelectState> = (props) => {
 
 	return (
 		<InfiniteSelect
-			defaultValue={defaultValue}
+			{...props}
 			data={options}
 			loading={loading}
 			initDropdownOnOpen={initDropdownOnOpen}
 			onSearch={handleSearch}
 			onScroll={handleScroll}
-			{...rest}
 		/>
 	);
 };

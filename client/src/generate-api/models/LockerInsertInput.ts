@@ -36,7 +36,25 @@ export interface LockerInsertInput {
      * @type {string}
      * @memberof LockerInsertInput
      */
-    location: string;
+    area?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof LockerInsertInput
+     */
+    size?: LockerInsertInputSizeEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof LockerInsertInput
+     */
+    type?: LockerInsertInputTypeEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof LockerInsertInput
+     */
+    lockType?: LockerInsertInputLockTypeEnum;
     /**
      * 
      * @type {string}
@@ -55,8 +73,45 @@ export interface LockerInsertInput {
      * @memberof LockerInsertInput
      */
     userId?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof LockerInsertInput
+     */
+    branchId?: number | null;
 }
 
+
+/**
+ * @export
+ */
+export const LockerInsertInputSizeEnum = {
+    S: 's',
+    M: 'm',
+    L: 'l',
+    Xl: 'xl'
+} as const;
+export type LockerInsertInputSizeEnum = typeof LockerInsertInputSizeEnum[keyof typeof LockerInsertInputSizeEnum];
+
+/**
+ * @export
+ */
+export const LockerInsertInputTypeEnum = {
+    Standard: 'standard',
+    Smart: 'smart'
+} as const;
+export type LockerInsertInputTypeEnum = typeof LockerInsertInputTypeEnum[keyof typeof LockerInsertInputTypeEnum];
+
+/**
+ * @export
+ */
+export const LockerInsertInputLockTypeEnum = {
+    Key: 'key',
+    Card: 'card',
+    Pin: 'pin',
+    Biometric: 'biometric'
+} as const;
+export type LockerInsertInputLockTypeEnum = typeof LockerInsertInputLockTypeEnum[keyof typeof LockerInsertInputLockTypeEnum];
 
 /**
  * @export
@@ -64,7 +119,8 @@ export interface LockerInsertInput {
 export const LockerInsertInputStatusEnum = {
     Available: 'available',
     InUse: 'in_use',
-    Maintenance: 'maintenance'
+    Maintenance: 'maintenance',
+    Broken: 'broken'
 } as const;
 export type LockerInsertInputStatusEnum = typeof LockerInsertInputStatusEnum[keyof typeof LockerInsertInputStatusEnum];
 
@@ -74,7 +130,6 @@ export type LockerInsertInputStatusEnum = typeof LockerInsertInputStatusEnum[key
  */
 export function instanceOfLockerInsertInput(value: object): value is LockerInsertInput {
     if (!('lockerCode' in value) || value['lockerCode'] === undefined) return false;
-    if (!('location' in value) || value['location'] === undefined) return false;
     return true;
 }
 
@@ -90,10 +145,14 @@ export function LockerInsertInputFromJSONTyped(json: any, ignoreDiscriminator: b
         
         'id': json['id'] == null ? undefined : json['id'],
         'lockerCode': json['lockerCode'],
-        'location': json['location'],
+        'area': json['area'] == null ? undefined : json['area'],
+        'size': json['size'] == null ? undefined : json['size'],
+        'type': json['type'] == null ? undefined : json['type'],
+        'lockType': json['lockType'] == null ? undefined : json['lockType'],
         'status': json['status'] == null ? undefined : json['status'],
         'createdAt': json['createdAt'] == null ? undefined : json['createdAt'],
         'userId': json['userId'] == null ? undefined : json['userId'],
+        'branchId': json['branchId'] == null ? undefined : json['branchId'],
     };
 }
 
@@ -110,10 +169,14 @@ export function LockerInsertInputToJSONTyped(value?: LockerInsertInput | null, i
         
         'id': value['id'],
         'lockerCode': value['lockerCode'],
-        'location': value['location'],
+        'area': value['area'],
+        'size': value['size'],
+        'type': value['type'],
+        'lockType': value['lockType'],
         'status': value['status'],
         'createdAt': value['createdAt'],
         'userId': value['userId'],
+        'branchId': value['branchId'],
     };
 }
 

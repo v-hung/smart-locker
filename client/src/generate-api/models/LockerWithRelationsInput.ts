@@ -20,6 +20,13 @@ import {
     UserInputToJSON,
     UserInputToJSONTyped,
 } from './UserInput';
+import type { BranchInput } from './BranchInput';
+import {
+    BranchInputFromJSON,
+    BranchInputFromJSONTyped,
+    BranchInputToJSON,
+    BranchInputToJSONTyped,
+} from './BranchInput';
 
 /**
  * 
@@ -44,7 +51,25 @@ export interface LockerWithRelationsInput {
      * @type {string}
      * @memberof LockerWithRelationsInput
      */
-    location: string;
+    area: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof LockerWithRelationsInput
+     */
+    size: LockerWithRelationsInputSizeEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof LockerWithRelationsInput
+     */
+    type: LockerWithRelationsInputTypeEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof LockerWithRelationsInput
+     */
+    lockType: LockerWithRelationsInputLockTypeEnum;
     /**
      * 
      * @type {string}
@@ -65,12 +90,55 @@ export interface LockerWithRelationsInput {
     userId: number | null;
     /**
      * 
+     * @type {number}
+     * @memberof LockerWithRelationsInput
+     */
+    branchId: number | null;
+    /**
+     * 
      * @type {UserInput}
      * @memberof LockerWithRelationsInput
      */
     user: UserInput | null;
+    /**
+     * 
+     * @type {BranchInput}
+     * @memberof LockerWithRelationsInput
+     */
+    branch: BranchInput | null;
 }
 
+
+/**
+ * @export
+ */
+export const LockerWithRelationsInputSizeEnum = {
+    S: 's',
+    M: 'm',
+    L: 'l',
+    Xl: 'xl'
+} as const;
+export type LockerWithRelationsInputSizeEnum = typeof LockerWithRelationsInputSizeEnum[keyof typeof LockerWithRelationsInputSizeEnum];
+
+/**
+ * @export
+ */
+export const LockerWithRelationsInputTypeEnum = {
+    Standard: 'standard',
+    Smart: 'smart'
+} as const;
+export type LockerWithRelationsInputTypeEnum = typeof LockerWithRelationsInputTypeEnum[keyof typeof LockerWithRelationsInputTypeEnum];
+
+/**
+ * @export
+ */
+export const LockerWithRelationsInputLockTypeEnum = {
+    Key: 'key',
+    Card: 'card',
+    Pin: 'pin',
+    Biometric: 'biometric'
+} as const;
+export type LockerWithRelationsInputLockTypeEnum = typeof LockerWithRelationsInputLockTypeEnum[keyof typeof LockerWithRelationsInputLockTypeEnum];
 
 /**
  * @export
@@ -78,7 +146,8 @@ export interface LockerWithRelationsInput {
 export const LockerWithRelationsInputStatusEnum = {
     Available: 'available',
     InUse: 'in_use',
-    Maintenance: 'maintenance'
+    Maintenance: 'maintenance',
+    Broken: 'broken'
 } as const;
 export type LockerWithRelationsInputStatusEnum = typeof LockerWithRelationsInputStatusEnum[keyof typeof LockerWithRelationsInputStatusEnum];
 
@@ -89,11 +158,16 @@ export type LockerWithRelationsInputStatusEnum = typeof LockerWithRelationsInput
 export function instanceOfLockerWithRelationsInput(value: object): value is LockerWithRelationsInput {
     if (!('id' in value) || value['id'] === undefined) return false;
     if (!('lockerCode' in value) || value['lockerCode'] === undefined) return false;
-    if (!('location' in value) || value['location'] === undefined) return false;
+    if (!('area' in value) || value['area'] === undefined) return false;
+    if (!('size' in value) || value['size'] === undefined) return false;
+    if (!('type' in value) || value['type'] === undefined) return false;
+    if (!('lockType' in value) || value['lockType'] === undefined) return false;
     if (!('status' in value) || value['status'] === undefined) return false;
     if (!('createdAt' in value) || value['createdAt'] === undefined) return false;
     if (!('userId' in value) || value['userId'] === undefined) return false;
+    if (!('branchId' in value) || value['branchId'] === undefined) return false;
     if (!('user' in value) || value['user'] === undefined) return false;
+    if (!('branch' in value) || value['branch'] === undefined) return false;
     return true;
 }
 
@@ -109,11 +183,16 @@ export function LockerWithRelationsInputFromJSONTyped(json: any, ignoreDiscrimin
         
         'id': json['id'],
         'lockerCode': json['lockerCode'],
-        'location': json['location'],
+        'area': json['area'],
+        'size': json['size'],
+        'type': json['type'],
+        'lockType': json['lockType'],
         'status': json['status'],
         'createdAt': json['createdAt'],
         'userId': json['userId'],
+        'branchId': json['branchId'],
         'user': UserInputFromJSON(json['user']),
+        'branch': BranchInputFromJSON(json['branch']),
     };
 }
 
@@ -130,11 +209,16 @@ export function LockerWithRelationsInputToJSONTyped(value?: LockerWithRelationsI
         
         'id': value['id'],
         'lockerCode': value['lockerCode'],
-        'location': value['location'],
+        'area': value['area'],
+        'size': value['size'],
+        'type': value['type'],
+        'lockType': value['lockType'],
         'status': value['status'],
         'createdAt': value['createdAt'],
         'userId': value['userId'],
+        'branchId': value['branchId'],
         'user': UserInputToJSON(value['user']),
+        'branch': BranchInputToJSON(value['branch']),
     };
 }
 

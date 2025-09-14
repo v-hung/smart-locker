@@ -1,5 +1,13 @@
 /* tslint:disable */
 /* eslint-disable */
+export * from './Branch';
+export * from './BranchInput';
+export * from './BranchInsert';
+export * from './BranchInsertInput';
+export * from './BranchUpdate';
+export * from './BranchUpdateInput';
+export * from './BranchWithRelations';
+export * from './BranchWithRelationsInput';
 export * from './Locker';
 export * from './LockerInput';
 export * from './LockerInsert';
@@ -12,6 +20,8 @@ export * from './LoginBody';
 export * from './LoginBodyInput';
 export * from './LoginResponse';
 export * from './LoginResponseInput';
+export * from './PaginatedBranch';
+export * from './PaginatedBranchInput';
 export * from './PaginatedLocker';
 export * from './PaginatedLockerInput';
 export * from './PaginatedLockerInputMeta';
