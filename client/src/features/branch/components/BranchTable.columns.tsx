@@ -1,18 +1,14 @@
-import type { Locker } from "@/generate-api";
+import type { Branch } from "@/generate-api";
 import { ActionIcon, Menu } from "@mantine/core";
 import { IconDots, IconEdit, IconTrash } from "@tabler/icons-react";
 import type { DataTableColumn } from "mantine-datatable";
 import { format } from "date-fns";
 import { Link } from "react-router";
 
-export const COLUMNS: DataTableColumn<Locker>[] = [
+export const COLUMNS: DataTableColumn<Branch>[] = [
 	{ accessor: "id" },
-	{ accessor: "lockerCode", sortable: true },
-	{ accessor: "area" },
-	{ accessor: "size" },
-	{ accessor: "type" },
-	{ accessor: "lockType" },
-	{ accessor: "status" },
+	{ accessor: "name" },
+	{ accessor: "addess" },
 	{
 		accessor: "createdAt",
 		render: ({ createdAt }) => format(new Date(createdAt!), "dd/MM/yyyy"),
