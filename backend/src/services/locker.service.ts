@@ -14,7 +14,12 @@ export const search = async (
   const limit = input.pageSize;
   const offset = (input.page - 1) * input.pageSize;
 
-  const data = await db.select().from(lockers).offset(offset).limit(limit);
+  const data = await db
+    .select()
+    .from(lockers)
+    .offset(offset)
+    .limit(limit)
+    .where(eq(lockers.lockerCode, input.p));
 
   const total = await db.$count(lockers);
 

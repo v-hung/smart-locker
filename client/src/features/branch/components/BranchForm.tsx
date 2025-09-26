@@ -1,4 +1,4 @@
-import { type Branch, type BranchWithRelations } from "@/generate-api";
+import { type BranchWithRelations } from "@/generate-api";
 import {
 	Button,
 	Grid,
@@ -6,20 +6,15 @@ import {
 	Select,
 	Tabs,
 	TextInput,
-	Tree,
 } from "@mantine/core";
 import { IconListDetails } from "@tabler/icons-react";
 import {
 	forwardRef,
 	useImperativeHandle,
-	useState,
-	type FC,
-	type FormEvent,
 	type ForwardRefRenderFunction,
 } from "react";
-import { isNotEmpty, useForm } from "@mantine/form";
-import { enumToSelectOptions } from "@/utils/enum.utils";
-import UserSelect from "@/features/user/components/UserSelect";
+import { useForm } from "@mantine/form";
+import MapPicker from "@/components/inputs/MapPicker/MapPicker";
 
 type BranchFormState = {
 	data?: BranchWithRelations | null;
@@ -38,6 +33,7 @@ const BranchForm: ForwardRefRenderFunction<BranchFormRef, BranchFormState> = (
 	const form = useForm({
 		mode: "uncontrolled",
 		initialValues: {
+			id: data?.id,
 			name: data?.name ?? "",
 			address: data?.address ?? "",
 			location: data?.location,
@@ -55,7 +51,7 @@ const BranchForm: ForwardRefRenderFunction<BranchFormRef, BranchFormState> = (
 	return (
 		<form onSubmit={handleSubmit} style={{ position: "relative" }}>
 			<LoadingOverlay
-				visible={true}
+				visible={false}
 				zIndex={1000}
 				overlayProps={{ radius: "sm", blur: 2 }}
 			/>
@@ -86,7 +82,7 @@ const BranchForm: ForwardRefRenderFunction<BranchFormRef, BranchFormState> = (
 								/>
 							</Grid.Col>
 							<Grid.Col span={12}>
-								<Select label="Location" placeholder="Pick value" required />
+								<MapPicker label="Location" />
 							</Grid.Col>
 						</Grid>
 					</Tabs.Panel>

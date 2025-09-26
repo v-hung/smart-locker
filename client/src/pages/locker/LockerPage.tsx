@@ -18,39 +18,37 @@ export function Component() {
 
 	return (
 		<MainContent hFull>
-			<LockerProvider>
-				<MainHeader
-					title="Lockers"
-					subTitle={`${data.length} items`}
-					description="Track, manage, and optimize your lockers"
-					rightSection={
-						<>
-							{selectedRecords.length > 0 ? (
-								<Button
-									variant="light"
-									color="red"
-									leftSection={<IconTrash size={24} />}
-								>
-									Delete
-								</Button>
-							) : null}
+			<MainHeader
+				title="Lockers"
+				subTitle={`${data.length} items`}
+				description="Track, manage, and optimize your lockers"
+				rightSection={
+					<>
+						{selectedRecords.length > 0 ? (
 							<Button
 								variant="light"
-								leftSection={<IconCirclePlusFilled size={24} />}
-								component={Link}
-								to="/lockers/create"
+								color="red"
+								leftSection={<IconTrash size={24} />}
 							>
-								Add new item
+								Delete
 							</Button>
-						</>
-					}
-					breadcrumbs={[{ label: "Lockers", path: "/lockers" }]}
-				/>
+						) : null}
+						<Button
+							variant="light"
+							leftSection={<IconCirclePlusFilled size={24} />}
+							component={Link}
+							to="/lockers/create"
+						>
+							Add new item
+						</Button>
+					</>
+				}
+				breadcrumbs={[{ label: "Lockers", path: "/lockers" }]}
+			/>
 
-				<MainBody grow>
-					<LockerTable />
-				</MainBody>
-			</LockerProvider>
+			<MainBody grow>
+				<LockerTable />
+			</MainBody>
 		</MainContent>
 	);
 }

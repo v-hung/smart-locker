@@ -37,30 +37,28 @@ export function Component() {
 
 	return (
 		<MainContent>
-			<LockerProvider>
-				<MainHeader
-					title="Lockers"
-					description="Track, manage, and optimize your lockers"
-					rightSection={
-						<Button
-							variant="light"
-							leftSection={<IconCirclePlusFilled size={24} />}
-							onClick={formRef.current?.submit}
-						>
-							Save
-						</Button>
-					}
-					breadcrumbs={[
-						{ label: "Lockers", path: "/lockers" },
-						{ label: `${data ? "Edit" : "Create"} a locker` },
-					]}
-					sticky
-				/>
+			<MainHeader
+				title="Lockers"
+				description="Track, manage, and optimize your lockers"
+				rightSection={
+					<Button
+						variant="light"
+						leftSection={<IconCirclePlusFilled size={24} />}
+						onClick={formRef.current?.submit}
+					>
+						Save
+					</Button>
+				}
+				breadcrumbs={[
+					{ label: "Lockers", path: "/lockers" },
+					{ label: `${data ? "Edit" : "Create"} a locker` },
+				]}
+				sticky
+			/>
 
-				<MainBody>
-					<LockerForm ref={formRef} data={data} />
-				</MainBody>
-			</LockerProvider>
+			<MainBody>
+				<LockerForm ref={formRef} data={data} />
+			</MainBody>
 		</MainContent>
 	);
 }

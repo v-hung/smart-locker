@@ -13,6 +13,7 @@ import "mantine-datatable/styles.layer.css";
 
 // Your global css
 import "./App.css";
+import ProgressIndicator from "./components/navigation/ProgressIndicator";
 
 const myColor: MantineColorsTuple = [
 	"#effbf6",
@@ -39,6 +40,7 @@ function App() {
 		<MantineProvider theme={theme}>
 			<Notifications position="top-right" />
 			<Outlet />
+			<ProgressIndicator />
 		</MantineProvider>
 	);
 }

@@ -4,11 +4,10 @@ import { Button } from "@mantine/core";
 import MainContent from "@/layouts/components/MainContent";
 import MainBody from "@/layouts/components/MainBody";
 import { IconCirclePlusFilled } from "@tabler/icons-react";
-import { BranchProvider } from "@/features/branch/contexts/BranchContext";
 import { wrapPromise } from "@/utils/promise.utils";
 import { branchApi } from "@/lib/apiClient";
 import { redirect, useLoaderData } from "react-router";
-import type { Branch, BranchWithRelations } from "@/generate-api";
+import type { BranchWithRelations } from "@/generate-api";
 import BranchForm, {
 	type BranchFormRef,
 } from "@/features/branch/components/BranchForm";
@@ -37,30 +36,28 @@ export function Component() {
 
 	return (
 		<MainContent>
-			<BranchProvider>
-				<MainHeader
-					title="Branches"
-					description="Track, manage, and optimize your branches"
-					rightSection={
-						<Button
-							variant="light"
-							leftSection={<IconCirclePlusFilled size={24} />}
-							onClick={formRef.current?.submit}
-						>
-							Save
-						</Button>
-					}
-					breadcrumbs={[
-						{ label: "Branches", path: "/branches" },
-						{ label: `${data ? "Edit" : "Create"} a branch` },
-					]}
-					sticky
-				/>
+			<MainHeader
+				title="Branches"
+				description="Track, manage, and optimize your branches"
+				rightSection={
+					<Button
+						variant="light"
+						leftSection={<IconCirclePlusFilled size={24} />}
+						onClick={formRef.current?.submit}
+					>
+						Save
+					</Button>
+				}
+				breadcrumbs={[
+					{ label: "Branches", path: "/branches" },
+					{ label: `${data ? "Edit" : "Create"} a branch` },
+				]}
+				sticky
+			/>
 
-				<MainBody>
-					<BranchForm ref={formRef} data={data} />
-				</MainBody>
-			</BranchProvider>
+			<MainBody>
+				<BranchForm ref={formRef} data={data} />
+			</MainBody>
 		</MainContent>
 	);
 }

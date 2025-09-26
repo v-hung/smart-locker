@@ -14,7 +14,12 @@ export const search = async (
   const limit = input.pageSize;
   const offset = (input.page - 1) * input.pageSize;
 
-  const data = await db.select().from(branches).offset(offset).limit(limit);
+  const data = await db
+    .select()
+    .from(branches)
+    .offset(offset)
+    .limit(limit)
+    .where(eq(branches.name, input.p));
 
   const total = await db.$count(branches);
 

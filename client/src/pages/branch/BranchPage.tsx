@@ -18,39 +18,37 @@ export function Component() {
 
 	return (
 		<MainContent hFull>
-			<BranchProvider>
-				<MainHeader
-					title="Branches"
-					subTitle={`${data.length} items`}
-					description="Track, manage, and optimize your branches"
-					rightSection={
-						<>
-							{selectedRecords.length > 0 ? (
-								<Button
-									variant="light"
-									color="red"
-									leftSection={<IconTrash size={24} />}
-								>
-									Delete
-								</Button>
-							) : null}
+			<MainHeader
+				title="Branches"
+				subTitle={`${data.length} items`}
+				description="Track, manage, and optimize your branches"
+				rightSection={
+					<>
+						{selectedRecords.length > 0 ? (
 							<Button
 								variant="light"
-								leftSection={<IconCirclePlusFilled size={24} />}
-								component={Link}
-								to="/branches/create"
+								color="red"
+								leftSection={<IconTrash size={24} />}
 							>
-								Add new item
+								Delete
 							</Button>
-						</>
-					}
-					breadcrumbs={[{ label: "Branches", path: "/branches" }]}
-				/>
+						) : null}
+						<Button
+							variant="light"
+							leftSection={<IconCirclePlusFilled size={24} />}
+							component={Link}
+							to="/branches/create"
+						>
+							Add new item
+						</Button>
+					</>
+				}
+				breadcrumbs={[{ label: "Branches", path: "/branches" }]}
+			/>
 
-				<MainBody grow>
-					<BranchTable />
-				</MainBody>
-			</BranchProvider>
+			<MainBody grow>
+				<BranchTable />
+			</MainBody>
 		</MainContent>
 	);
 }
