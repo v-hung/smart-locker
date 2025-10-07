@@ -8,10 +8,10 @@ const BranchTable = forwardRef((props, ref) => {
 	const { selectedRecords, setSelectedRecords } = useBranchContext();
 	const navigate = useNavigate();
 
-	const { loading, data, getAll } = useBranchContext();
+	const { loading, data, search } = useBranchContext();
 
 	useEffect(() => {
-		getAll();
+		search();
 	}, []);
 
 	return (

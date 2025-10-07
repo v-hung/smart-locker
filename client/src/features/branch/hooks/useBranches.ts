@@ -1,4 +1,4 @@
-import type { Branch } from "@/generate-api";
+import type { Branch, BranchInsertInput } from "@/generate-api";
 import { branchApi } from "@/lib/apiClient";
 import { wrapPromise } from "@/utils/promise.utils";
 import { useState } from "react";
@@ -8,7 +8,7 @@ export const useBranches = () => {
 	const [data, setData] = useState<Branch[]>([]);
 	const [selectedRecords, setSelectedRecords] = useState<any[]>([]);
 
-	const getAll = async () => {
+	const search = async () => {
 		setLoading(true);
 
 		const items = await wrapPromise(() => branchApi.apiBranchesGet());
@@ -18,11 +18,27 @@ export const useBranches = () => {
 		setLoading(false);
 	};
 
+	const create = async (values: BranchInsertInput) => {
+		try {
+			if (loading) return;
+
+			setLoading(true);
+
+			await wrapPromise(() =>
+				branchApi.apiBranchesPost({ branchInsertInput: values }),
+			);
+		} catch (error) {
+		} finally {
+			setLoading(false);
+		}
+	};
+
 	return {
 		loading,
 		data,
-		getAll,
+		search,
 		selectedRecords,
 		setSelectedRecords,
+		create,
 	};
 };

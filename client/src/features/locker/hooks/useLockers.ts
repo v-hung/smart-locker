@@ -18,11 +18,14 @@ export const useLockers = () => {
 		setLoading(false);
 	};
 
+	const create = async () => {};
+
 	return {
 		loading,
 		data,
 		getAll,
 		selectedRecords,
 		setSelectedRecords,
+		create,
 	};
 };

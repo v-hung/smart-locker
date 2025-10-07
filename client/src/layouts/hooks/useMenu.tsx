@@ -31,36 +31,6 @@ const MENU = [
 		icon: <IIonPeople />,
 	},
 	{
-		key: "/marketing",
-		type: "item",
-		label: "Marketing",
-		icon: <IIonPeople />,
-	},
-	{
-		key: "/marketplace",
-		type: "item",
-		label: "Marketplace",
-		icon: <IIonStorefront />,
-	},
-	{
-		key: "/discounts",
-		type: "item",
-		label: "Discounts",
-		icon: <IIonPricetag />,
-	},
-	{
-		key: "/payments",
-		type: "item",
-		label: "Payments",
-		icon: <IIonCard />,
-	},
-	{
-		key: "/ledger",
-		type: "item",
-		label: "Ledger",
-		icon: <IIonBook />,
-	},
-	{
 		key: "/system",
 		type: "group",
 		label: "System",

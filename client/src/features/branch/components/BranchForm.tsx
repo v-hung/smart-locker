@@ -15,6 +15,8 @@ import {
 } from "react";
 import { useForm } from "@mantine/form";
 import MapPicker from "@/components/inputs/MapPicker/MapPicker";
+import { useBranches } from "../hooks/useBranches";
+import { useNavigate } from "react-router";
 
 type BranchFormState = {
 	data?: BranchWithRelations | null;
@@ -29,6 +31,9 @@ const BranchForm: ForwardRefRenderFunction<BranchFormRef, BranchFormState> = (
 	ref,
 ) => {
 	const { data } = props;
+	const navigate = useNavigate();
+
+	const { loading, create } = useBranches();
 
 	const form = useForm({
 		mode: "uncontrolled",
@@ -40,8 +45,9 @@ const BranchForm: ForwardRefRenderFunction<BranchFormRef, BranchFormState> = (
 		},
 	});
 
-	const handleSubmit = form.onSubmit((values) => {
-		console.log({ values });
+	const handleSubmit = form.onSubmit(async (values) => {
+		await create(values);
+		navigate("/branches");
 	});
 
 	useImperativeHandle(ref, () => ({
@@ -51,10 +57,11 @@ const BranchForm: ForwardRefRenderFunction<BranchFormRef, BranchFormState> = (
 	return (
 		<form onSubmit={handleSubmit} style={{ position: "relative" }}>
 			<LoadingOverlay
-				visible={false}
+				visible={loading}
 				zIndex={1000}
 				overlayProps={{ radius: "sm", blur: 2 }}
 			/>
+
 			<Tabs defaultValue="form">
 				<Tabs.List>
 					<Tabs.Tab value="form" leftSection={<IconListDetails size={12} />}>
@@ -82,7 +89,10 @@ const BranchForm: ForwardRefRenderFunction<BranchFormRef, BranchFormState> = (
 								/>
 							</Grid.Col>
 							<Grid.Col span={12}>
-								<MapPicker label="Location" />
+								<MapPicker
+									label="Location"
+									{...form.getInputProps("location")}
+								/>
 							</Grid.Col>
 						</Grid>
 					</Tabs.Panel>

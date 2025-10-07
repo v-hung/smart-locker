@@ -7,19 +7,20 @@ import styles from "./MainTable.module.css";
 // type State<T> = ComponentProps<typeof DataTable<T>>;
 
 const MainTable = <T,>(props: DataTableProps<T>) => {
-	const { className = "", ...rest } = props;
+	const { className = "", records, ...rest } = props;
 	return (
 		<DataTable
 			withTableBorder
 			borderRadius="md"
 			striped
 			highlightOnHover
-			minHeight={150}
+			minHeight={records?.length == 0 ? 200 : undefined}
 			sortIcons={{
 				sorted: <IconChevronUp size={14} />,
 				unsorted: <IconSelector size={14} />,
 			}}
 			{...loaderCustom}
+			records={records}
 			{...rest}
 			classNames={{
 				root: `${styles.root} ${className}`,
