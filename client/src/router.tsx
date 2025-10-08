@@ -61,11 +61,7 @@ const router = createBrowserRouter([
 					},
 					{
 						path: "branches",
-						element: (
-							<BranchProvider>
-								<Outlet />
-							</BranchProvider>
-						),
+						lazy: () => import("./pages/branch/BranchLayout"),
 						children: [
 							{
 								index: true,

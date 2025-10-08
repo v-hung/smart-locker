@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+export * from './ApiBranchesDeleteDeleteRequest';
 export * from './Branch';
 export * from './BranchInput';
 export * from './BranchInsert';

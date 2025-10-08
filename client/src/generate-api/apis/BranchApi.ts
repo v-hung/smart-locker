@@ -15,6 +15,7 @@
 
 import * as runtime from '../runtime';
 import type {
+  ApiBranchesDeleteDeleteRequest,
   Branch,
   BranchInsertInput,
   BranchUpdateInput,
@@ -23,6 +24,8 @@ import type {
   PaginationQueryInput,
 } from '../models/index';
 import {
+    ApiBranchesDeleteDeleteRequestFromJSON,
+    ApiBranchesDeleteDeleteRequestToJSON,
     BranchFromJSON,
     BranchToJSON,
     BranchInsertInputFromJSON,
@@ -36,6 +39,10 @@ import {
     PaginationQueryInputFromJSON,
     PaginationQueryInputToJSON,
 } from '../models/index';
+
+export interface ApiBranchesDeleteDeleteOperationRequest {
+    apiBranchesDeleteDeleteRequest: ApiBranchesDeleteDeleteRequest;
+}
 
 export interface ApiBranchesIdDeleteRequest {
     id: string;
@@ -62,6 +69,55 @@ export interface ApiBranchesSearchPostRequest {
  * 
  */
 export class BranchApi extends runtime.BaseAPI {
+
+    /**
+     */
+    async apiBranchesDeleteDeleteRaw(requestParameters: ApiBranchesDeleteDeleteOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<boolean>> {
+        if (requestParameters['apiBranchesDeleteDeleteRequest'] == null) {
+            throw new runtime.RequiredError(
+                'apiBranchesDeleteDeleteRequest',
+                'Required parameter "apiBranchesDeleteDeleteRequest" was null or undefined when calling apiBranchesDeleteDelete().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/api/branches/delete`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+            body: ApiBranchesDeleteDeleteRequestToJSON(requestParameters['apiBranchesDeleteDeleteRequest']),
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<boolean>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     */
+    async apiBranchesDeleteDelete(requestParameters: ApiBranchesDeleteDeleteOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<boolean> {
+        const response = await this.apiBranchesDeleteDeleteRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      */

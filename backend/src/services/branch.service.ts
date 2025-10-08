@@ -1,5 +1,5 @@
 import db from "../config/db";
-import { eq } from "drizzle-orm";
+import { eq, inArray, like } from "drizzle-orm";
 import { PaginationInput } from "../schemas/auth/pagination.schema";
 import { PaginatedBranch } from "../schemas/branch/branch.schema";
 import { branches } from "../db/schema/branches";
@@ -14,12 +14,14 @@ export const search = async (
   const limit = input.pageSize;
   const offset = (input.page - 1) * input.pageSize;
 
+  console.log({ limit, offset, input });
+
   const data = await db
     .select()
     .from(branches)
     .offset(offset)
     .limit(limit)
-    .where(eq(branches.name, input.p));
+    .where(like(branches.name, `%${input.p}%`));
 
   const total = await db.$count(branches);
 
@@ -63,5 +65,10 @@ export const update = async (
 
 export const remove = async (id: number) => {
   const result = await db.delete(branches).where(eq(branches.id, id));
+  return result.rowsAffected > 0;
+};
+
+export const destroy = async (ids: number[]) => {
+  const result = await db.delete(branches).where(inArray(branches.id, ids));
   return result.rowsAffected > 0;
 };

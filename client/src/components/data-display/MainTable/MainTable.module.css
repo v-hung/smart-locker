@@ -1,6 +1,10 @@
 .root {
 	color: inherit;
 	height: auto !important;
+
+	:global(.mantine-datatable-empty-state) {
+		padding-bottom: 48px;
+	}
 }
 
 .table {
@@ -44,11 +48,15 @@
 		}
 	}
 
-	tbody :global(tr.mantine-datatable-row:last-child) {
+	/* tbody :global(tr.mantine-datatable-row:last-child) {
 		border-bottom: none !important;
-	}
+	} */
 }
 
 .header {
 	color: var(--mantine-color-myColor-9);
+}
+
+.pagination {
+	border-top: none;
 }

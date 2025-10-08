@@ -1,6 +1,6 @@
 import db from "../config/db";
 import { lockers } from "../db/schema/lockers";
-import { eq } from "drizzle-orm";
+import { eq, like } from "drizzle-orm";
 import { PaginationInput } from "../schemas/auth/pagination.schema";
 import { PaginatedLocker } from "../schemas/locker/locker.schema";
 
@@ -19,7 +19,7 @@ export const search = async (
     .from(lockers)
     .offset(offset)
     .limit(limit)
-    .where(eq(lockers.lockerCode, input.p));
+    .where(like(lockers.lockerCode, `%${input.p}%`));
 
   const total = await db.$count(lockers);
 

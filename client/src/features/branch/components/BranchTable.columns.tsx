@@ -4,6 +4,8 @@ import { IconDots, IconEdit, IconTrash } from "@tabler/icons-react";
 import type { DataTableColumn } from "mantine-datatable";
 import { format } from "date-fns";
 import { Link } from "react-router";
+import { useBranchContext } from "../contexts/BranchContext";
+import type React from "react";
 
 export const COLUMNS: DataTableColumn<Branch>[] = [
 	{ accessor: "id" },
@@ -35,11 +37,30 @@ export const COLUMNS: DataTableColumn<Branch>[] = [
 					>
 						Edit
 					</Menu.Item>
-					<Menu.Item leftSection={<IconTrash size={14} />} color="red">
-						Delete
-					</Menu.Item>
+					<DeleteItem id={id} />
 				</Menu.Dropdown>
 			</Menu>
 		),
 	},
 ];
+
+const DeleteItem = ({ id }: { id: number }) => {
+	const { setIsOpenDeleteModal, setDeleteIds } = useBranchContext();
+
+	const handleClick = (e: React.MouseEvent) => {
+		e.stopPropagation();
+
+		setDeleteIds([id]);
+		setIsOpenDeleteModal(true);
+	};
+
+	return (
+		<Menu.Item
+			leftSection={<IconTrash size={14} />}
+			color="red"
+			onClick={handleClick}
+		>
+			Delete
+		</Menu.Item>
+	);
+};

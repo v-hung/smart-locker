@@ -87,6 +87,21 @@ async function routes(app: FastifyInstance) {
     },
     branchController.deleteBranch
   );
+
+  app.delete(
+    "/delete",
+    {
+      schema: {
+        body: z.object({
+          ids: z.number().array(),
+        }),
+        response: {
+          200: z.boolean(),
+        },
+      },
+    },
+    branchController.deleteBranches
+  );
 }
 
 export default routes;

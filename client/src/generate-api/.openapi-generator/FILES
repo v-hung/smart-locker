@@ -4,6 +4,7 @@ apis/LockerApi.ts
 apis/UserApi.ts
 apis/index.ts
 index.ts
+models/ApiBranchesDeleteDeleteRequest.ts
 models/Branch.ts
 models/BranchInput.ts
 models/BranchInsert.ts

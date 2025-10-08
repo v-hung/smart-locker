@@ -51,3 +51,12 @@ export const deleteBranch = async (
   const { id } = req.params;
   return branchService.remove(id);
 };
+
+export const deleteBranches = async (
+  req: FastifyRequest<{ Body: { ids: number[] } }>,
+  reply: FastifyReply
+) => {
+  const { ids } = req.body;
+
+  return branchService.destroy(ids);
+};

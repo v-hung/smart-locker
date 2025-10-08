@@ -1,6 +1,6 @@
 import db from "../config/db";
 import { users } from "../db/schema/users";
-import { eq } from "drizzle-orm";
+import { eq, like } from "drizzle-orm";
 import { PaginationInput } from "../schemas/auth/pagination.schema";
 import { lockers } from "../db/schema";
 import { PaginatedUser } from "../schemas/user/user.schema";
@@ -20,7 +20,7 @@ export const search = async (
     .from(users)
     .offset(offset)
     .limit(limit)
-    .where(eq(users.email, input.p));
+    .where(like(users.email, `%${input.p}%`));
 
   const total = await db.$count(users);
 

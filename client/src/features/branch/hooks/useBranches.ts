@@ -1,19 +1,40 @@
-import type { Branch, BranchInsertInput } from "@/generate-api";
+import type {
+	Branch,
+	BranchInsertInput,
+	BranchUpdateInput,
+	PaginatedBranch,
+	PaginationQueryInput,
+} from "@/generate-api";
 import { branchApi } from "@/lib/apiClient";
-import { wrapPromise } from "@/utils/promise.utils";
+import { getMessageError, wrapPromise } from "@/utils/promise.utils";
+import { notifications } from "@mantine/notifications";
 import { useState } from "react";
 
 export const useBranches = () => {
 	const [loading, setLoading] = useState(false);
-	const [data, setData] = useState<Branch[]>([]);
-	const [selectedRecords, setSelectedRecords] = useState<any[]>([]);
+	const [dataPaginated, setDataPaginated] = useState<PaginatedBranch>({
+		data: [],
+		meta: {
+			page: 1,
+			pageSize: 15,
+			total: 1,
+			totalPages: 1,
+		},
+	});
+	const [selectedRecords, setSelectedRecords] = useState<Branch[]>([]);
 
-	const search = async () => {
+	const search = async (
+		request: PaginationQueryInput = { page: 1, pageSize: 20 },
+	) => {
 		setLoading(true);
 
-		const items = await wrapPromise(() => branchApi.apiBranchesGet());
+		const data = await wrapPromise(() =>
+			branchApi.apiBranchesSearchPost({ paginationQueryInput: request }),
+		);
 
-		setData(items ?? []);
+		if (data) {
+			setDataPaginated(data);
+		}
 
 		setLoading(false);
 	};
@@ -24,10 +45,82 @@ export const useBranches = () => {
 
 			setLoading(true);
 
-			await wrapPromise(() =>
-				branchApi.apiBranchesPost({ branchInsertInput: values }),
-			);
+			await branchApi.apiBranchesPost({ branchInsertInput: values });
+
+			notifications.show({
+				color: "green",
+				title: "Success",
+				message: "Your request has been processed successfully.",
+			});
 		} catch (error) {
+			const message = await getMessageError(error);
+
+			notifications.show({
+				color: "red",
+				title: "Error",
+				message: message,
+			});
+			throw error;
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	const update = async (id: string, values: BranchUpdateInput) => {
+		try {
+			if (loading) return;
+
+			setLoading(true);
+
+			await branchApi.apiBranchesIdPut({ id: id, branchUpdateInput: values });
+
+			notifications.show({
+				color: "green",
+				title: "Success",
+				message: "Your request has been processed successfully.",
+			});
+		} catch (error) {
+			const message = await getMessageError(error);
+
+			notifications.show({
+				color: "red",
+				title: "Error",
+				message: message,
+			});
+			throw error;
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	// DELETE
+	const [deleteIds, setDeleteIds] = useState<number[]>([]);
+	const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
+
+	const destroy = async (ids: number[]) => {
+		try {
+			if (loading) return;
+
+			setLoading(true);
+
+			await branchApi.apiBranchesDeleteDelete({
+				apiBranchesDeleteDeleteRequest: { ids },
+			});
+
+			notifications.show({
+				color: "green",
+				title: "Success",
+				message: "Your request has been processed successfully.",
+			});
+		} catch (error) {
+			const message = await getMessageError(error);
+
+			notifications.show({
+				color: "red",
+				title: "Error",
+				message: message,
+			});
+			throw error;
 		} finally {
 			setLoading(false);
 		}
@@ -35,10 +128,16 @@ export const useBranches = () => {
 
 	return {
 		loading,
-		data,
+		dataPaginated,
 		search,
 		selectedRecords,
 		setSelectedRecords,
 		create,
+		update,
+		deleteIds,
+		setDeleteIds,
+		isOpenDeleteModal,
+		setIsOpenDeleteModal,
+		destroy,
 	};
 };

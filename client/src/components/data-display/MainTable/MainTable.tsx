@@ -14,7 +14,7 @@ const MainTable = <T,>(props: DataTableProps<T>) => {
 			borderRadius="md"
 			striped
 			highlightOnHover
-			minHeight={records?.length == 0 ? 200 : undefined}
+			minHeight={records?.length == 0 ? 250 : undefined}
 			sortIcons={{
 				sorted: <IconChevronUp size={14} />,
 				unsorted: <IconSelector size={14} />,

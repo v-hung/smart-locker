@@ -14,13 +14,14 @@ import { Link } from "react-router";
 export const loader = wrapProtectedLoader();
 
 export function Component() {
-	const { data, selectedRecords } = useBranchContext();
+	const { dataPaginated, selectedRecords, setDeleteIds, setIsOpenDeleteModal } =
+		useBranchContext();
 
 	return (
 		<MainContent hFull>
 			<MainHeader
 				title="Branches"
-				subTitle={`${data.length} items`}
+				subTitle={`${dataPaginated.data.length} items`}
 				description="Track, manage, and optimize your branches"
 				rightSection={
 					<>
@@ -29,6 +30,10 @@ export function Component() {
 								variant="light"
 								color="red"
 								leftSection={<IconTrash size={24} />}
+								onClick={() => {
+									setDeleteIds(selectedRecords.map((v) => v.id));
+									setIsOpenDeleteModal(true);
+								}}
 							>
 								Delete
 							</Button>

@@ -33,7 +33,7 @@ const BranchForm: ForwardRefRenderFunction<BranchFormRef, BranchFormState> = (
 	const { data } = props;
 	const navigate = useNavigate();
 
-	const { loading, create } = useBranches();
+	const { loading, create, update } = useBranches();
 
 	const form = useForm({
 		mode: "uncontrolled",
@@ -46,8 +46,14 @@ const BranchForm: ForwardRefRenderFunction<BranchFormRef, BranchFormState> = (
 	});
 
 	const handleSubmit = form.onSubmit(async (values) => {
-		await create(values);
-		navigate("/branches");
+		try {
+			if (data) {
+				await update(data.id.toString(), values);
+			} else {
+				await create(values);
+			}
+			navigate("/branches");
+		} catch (error) {}
 	});
 
 	useImperativeHandle(ref, () => ({
