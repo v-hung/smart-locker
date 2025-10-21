@@ -6,7 +6,7 @@ import type {
 	PaginationQueryInput,
 } from "@/generate-api";
 import { branchApi } from "@/lib/apiClient";
-import { getMessageError, wrapPromise } from "@/utils/promise.utils";
+import { getMessageError, minDelay } from "@/utils/promise.utils";
 import { notifications } from "@mantine/notifications";
 import { useState } from "react";
 
@@ -26,17 +26,28 @@ export const useBranches = () => {
 	const search = async (
 		request: PaginationQueryInput = { page: 1, pageSize: 20 },
 	) => {
-		setLoading(true);
+		try {
+			if (loading) return;
 
-		const data = await wrapPromise(() =>
-			branchApi.apiBranchesSearchPost({ paginationQueryInput: request }),
-		);
+			setLoading(true);
 
-		if (data) {
-			setDataPaginated(data);
+			const data = await minDelay(branchApi.apiBranchesSearchPost({ paginationQueryInput: request }))
+
+			if (data) {
+				setDataPaginated(data);
+			}
+		} catch (error) {
+			const message = await getMessageError(error);
+
+			notifications.show({
+				color: "red",
+				title: "Error",
+				message: message,
+			});
+			throw error;
+		} finally {
+			setLoading(false);
 		}
-
-		setLoading(false);
 	};
 
 	const create = async (values: BranchInsertInput) => {

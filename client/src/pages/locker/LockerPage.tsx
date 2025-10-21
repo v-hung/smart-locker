@@ -6,7 +6,6 @@ import MainBody from "@/layouts/components/MainBody";
 import LockerTable from "@/features/locker/components/LockerTable";
 import { IconCirclePlusFilled, IconTrash } from "@tabler/icons-react";
 import {
-	LockerProvider,
 	useLockerContext,
 } from "@/features/locker/contexts/LockerContext";
 import { Link } from "react-router";

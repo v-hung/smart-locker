@@ -4,7 +4,7 @@ import { COLUMNS } from "./BranchTable.columns";
 import { useBranchContext } from "../contexts/BranchContext";
 import { useNavigate } from "react-router";
 
-const PAGE_SIZES = [1, 20, 40, 60];
+const PAGE_SIZES = [10, 20, 40, 60];
 
 const BranchTable = forwardRef((props, ref) => {
 	const { selectedRecords, setSelectedRecords } = useBranchContext();
